@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import localFont from 'next/font/local';
+import localFont from "next/font/local";
+import { ThemeProvider } from "next-themes";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -20,10 +23,24 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ko"
       className={`${pretendard.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-screen transition-colors duration-700 relative overflow-x-hidden flex flex-col">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <Header className="fixed top-0 left-0 right-0 h-16 z-50" />
+          <main className="h-full overflow-y-auto pt-16 pb-16 flex-1">
+            {children}
+          </main>
+          <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -1,39 +1,245 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4E8D0;
-  --surface: #ebdbb8;
-  --ink-primary: #3a2817;
-  --ink-secondary: #6b5340;
-  --wax-seal: #8b2c1e;
-  --aged: #c9a876;
-  --foreground: #171717;
+  color-scheme: light;
+
+  --background: 44 38% 89%;
+  --foreground: 12 24% 18%;
+
+  --surface: 42 34% 92%;
+  --surface-hover: 40 28% 87%;
+  --surface-elevated: 36 30% 95%;
+
+  --card: 38 32% 94%;
+  --card-foreground: 16 22% 18%;
+
+  --border: 32 18% 74%;
+  --border-strong: 28 26% 48%;
+
+  --muted-foreground: 22 12% 42%;
+  --subtle-foreground: 24 10% 56%;
+
+  --primary: 18 42% 24%;
+  --primary-foreground: 40 30% 96%;
+
+  --accent: 38 72% 58%;
+  --accent-foreground: 18 24% 18%;
+
+  --verified: 2 84% 58%;
+  --solved: 150 62% 40%;
+  --classified: 350 82% 56%;
+
+  --shadow-card:
+    0 8px 24px rgb(70 42 18 / 0.08);
+
+  --shadow-paper:
+    0 18px 40px rgb(40 22 10 / 0.12);
+
+  --paper-noise:
+    radial-gradient(
+      rgb(120 92 42 / 0.045) 0.7px,
+      transparent 0.7px
+    );
+
+  --paper-noise-size: 12px 12px;
+
+  --header-background: 44 38% 89% / 0.8;
+  --header-border: 32 18% 74%;
+
+  --header-title: 12 24% 18%;
+  --header-icon: 18 42% 24%;
+
+  --nav-text: 22 12% 42%;
+  --nav-text-hover: 18 42% 24%;
+  --nav-text-active: 18 42% 24%;
+
+  --nav-indicator: 18 42% 24%;
+  --nav-indicator-shadow: none;
+
+  --theme-toggle-background: 40 28% 87%;
+  --theme-toggle-foreground: 12 24% 18%;
+
+  --theme-toggle-hover-background: 40 38% 74%;
+
+  --theme-toggle-shadow:
+    none;
+
+}
+
+html.dark {
+  color-scheme: dark;
+
+  --background: 228 42% 4%;
+  --foreground: 180 100% 92%;
+
+  --surface: 225 32% 7%;
+  --surface-hover: 225 26% 11%;
+  --surface-elevated: 226 22% 10%;
+
+  --card: 225 24% 8%;
+  --card-foreground: 180 92% 88%;
+
+  --muted-foreground: 188 22% 66%;
+  --subtle-foreground: 188 14% 46%;
+
+  --primary: 182 100% 48%;
+  --primary-foreground: 230 40% 6%;
+
+  --accent: 192 100% 62%;
+  --accent-foreground: 228 40% 6%;
+
+  --verified: 350 100% 64%;
+  --solved: 145 92% 48%;
+  --classified: 8 100% 58%;
+
+  --shadow-card:
+    0 0 0 1px rgb(0 255 240 / 0.06),
+    0 0 24px rgb(0 255 240 / 0.08);
+
+  --shadow-glow:
+    0 0 12px rgb(0 255 240 / 0.22),
+    0 0 42px rgb(0 255 240 / 0.12);
+
+    --cyber-grid:
+    linear-gradient(
+      rgb(0 255 240 / 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgb(0 255 240 / 0.04) 1px,
+      transparent 1px
+    );
+
+  --cyber-grid-size: 48px 48px;
+
+  --header-background: 228 42% 4% / 0.8;
+  --header-border: 182 100% 48%;
+
+  --header-title: 180 100% 92%;
+  --header-icon: 182 100% 48%;
+
+  --nav-text: 188 22% 66%;
+  --nav-text-hover: 182 100% 48%;
+  --nav-text-active: 180 100% 92%;
+
+  --nav-indicator: 180 100% 70%;
+  --nav-indicator-shadow:
+    0 0 10px rgb(102 252 241 / 0.9);
+
+  --theme-toggle-background: 225 32% 7%;
+  --theme-toggle-foreground: 180 100% 92%;
+
+  --theme-toggle-hover-background: 182 100% 48% / 0.12;
+
+  --theme-toggle-shadow:
+    0 0 15px rgb(102 252 241 / 0.8);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-surface: hsl(var(--surface));
+  --color-surface-hover: hsl(var(--surface-hover));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-border-strong: hsl(var(--border-strong));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
   --font-pretendard: var(--font-pretendard);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-paper: var(--shadow-paper);
+
+  --shadow-glow: var(--shadow-glow);
+
+  --transition-theme: 250ms ease;
+
+  --color-header-background: hsl(var(--header-background));
+  --color-header-border: hsl(var(--header-border));
+
+  --color-header-title: hsl(var(--header-title));
+  --color-header-icon: hsl(var(--header-icon));
+
+  --color-nav-text: hsl(var(--nav-text));
+  --color-nav-text-hover: hsl(var(--nav-text-hover));
+  --color-nav-text-active: hsl(var(--nav-text-active));
+
+  --color-nav-indicator: hsl(var(--nav-indicator));
+  --shadow-nav-indicator: var(--nav-indicator-shadow);
+
+  --color-theme-toggle-background: hsl(var(--theme-toggle-background));
+  --color-theme-toggle-foreground: hsl(var(--theme-toggle-foreground));
+
+  --color-theme-toggle-hover-background: hsl(var(--theme-toggle-hover-background));
+
+  --shadow-theme-toggle: var(--theme-toggle-shadow);
 }
 
 @utility font-pretendard {
-  font-family: var(--font-pretendard);
+  font-family: var(--font-pretendard), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1a1410;
-    --surface: #2a1f15;
-    --ink-primary: #d4b896;
-    --ink-secondary: #e8c547;
-    --magic-accent: #7a9b63;
-    --mist: #4a3b2a;
-    --foreground: #ededed;
-  }
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+@utility shadow-paper {
+  box-shadow: var(--shadow-paper);
+}
+
+@utility paper-texture {
+  background-image: var(--paper-noise);
+  background-size: var(--paper-noise-size);
+}
+
+@utility cyber-grid {
+  background-image: var(--cyber-grid);
+  background-size: var(--cyber-grid-size);
+}
+
+@utility shadow-nav-indicator {
+  box-shadow: var(--nav-indicator-shadow);
+}
+
+@utility shadow-theme-toggle {
+  box-shadow: var(--shadow-theme-toggle);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-pretendard), Arial, Helvetica, sans-serif;
+  @apply bg-background text-foreground font-pretendard;
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: -1;
+
+  background-image: var(--paper-noise);
+  background-size: var(--paper-noise-size);
+
+  opacity: 0.7;
+}
+
+html.dark body::before {
+  background-image: var(--cyber-grid);
+  background-size: var(--cyber-grid-size);
+
+  opacity: 0.35;
 }
