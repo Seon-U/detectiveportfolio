@@ -35,7 +35,7 @@ export default function Header({ className: classname }: HeaderProps) {
           "text-nav-text hover:text-nav-text-hover",
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Map className={cn("w-6 h-6 text-header-icon")} />
             <span
@@ -43,7 +43,7 @@ export default function Header({ className: classname }: HeaderProps) {
                 "font-serif font-bold text-xl tracking-wider text-header-title",
               )}
             >
-              {theme === "dark" ? "MARAUDER'S MAP" : "INVESTIGATOR ARCHIVE"}
+              {theme === "dark" ? "SeonuKim's Log" : "SeonuKim's"}
             </span>
           </div>
 

@@ -35,9 +35,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header className="fixed top-0 left-0 right-0 h-16 z-50" />
-          <main className="h-full overflow-y-auto pt-16 pb-16 flex-1">
-            {children}
-          </main>
+          <main className="h-full overflow-y-auto p-16 flex-1">{children}</main>
           <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
         </ThemeProvider>
       </body>

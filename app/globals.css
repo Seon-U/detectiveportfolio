@@ -44,7 +44,6 @@
   --paper-noise-size: 12px 12px;
 
   --header-background: 44 38% 89% / 0.8;
-  --header-border: 32 18% 74%;
 
   --header-title: 12 24% 18%;
   --header-icon: 18 42% 24%;
@@ -114,7 +113,7 @@ html.dark {
   --cyber-grid-size: 48px 48px;
 
   --header-background: 228 42% 4% / 0.8;
-  --header-border: 182 100% 48%;
+  --border: 182 100% 48%;
 
   --header-title: 180 100% 92%;
   --header-icon: 182 100% 48%;
@@ -165,8 +164,6 @@ html.dark {
   --transition-theme: 250ms ease;
 
   --color-header-background: hsl(var(--header-background));
-  --color-header-border: hsl(var(--header-border));
-
   --color-header-title: hsl(var(--header-title));
   --color-header-icon: hsl(var(--header-icon));
 
