@@ -97,7 +97,7 @@ export default function HeroSection() {
                   : "border-[#8b5a2b]/30 text-[#5d4037]",
               )}
             >
-              <span className="font-bold">STATUS:</span> Open Positoin
+              <span className="font-bold">STATUS:</span> Open to Work
             </p>
           </div>
         </div>

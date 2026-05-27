@@ -25,7 +25,7 @@ const techHouses = [
     icon: Server,
     color: "from-green-500 to-emerald-400",
     description: "ERD 구성, API 설계 및 개발환경 설정 가능",
-    techs: ["Node.js", "Spring Boot", "MariaSQL", "AWS", "Docker"],
+    techs: ["Node.js", "Spring Boot", "MariaDB", "AWS", "Docker"],
   },
 ];
 

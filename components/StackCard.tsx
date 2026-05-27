@@ -65,7 +65,7 @@ export default function StackCard({
         >
           {name}
         </h3>
-        <div className="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-300 overflow-hidden">
+        <div>
           <p
             className={cn(
               "text-sm italic mb-4",
