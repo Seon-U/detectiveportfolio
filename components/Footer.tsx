@@ -11,7 +11,7 @@ export default function Footer({ className }: FooterProps) {
     <footer
       className={cn(
         className,
-        "text-center border-t-2 border-border bg-background",
+        "backdrop-blur-md text-center border-t-2 border-border",
       )}
     >
       Seonukim | Contact: seonu.kim.kr@gmail.com | Github: @Seon-U | FullStack

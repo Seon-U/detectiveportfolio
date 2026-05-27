@@ -24,10 +24,10 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${pretendard.variable} h-full antialiased`}
+      className={`${pretendard.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen transition-colors duration-700 relative overflow-x-hidden flex flex-col">
+      <body className="antialiased min-h-screen transition-colors duration-700 relative overflow-x-hidden flex flex-col">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

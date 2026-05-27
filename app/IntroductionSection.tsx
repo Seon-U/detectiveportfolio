@@ -2,10 +2,17 @@
 
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export default function IntroductionSection() {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <section className="max-w-3xl mx-auto relative">
       <div
@@ -64,7 +71,7 @@ export default function IntroductionSection() {
           </div>
         </div>
 
-        {theme !== "dark" && (
+        {mounted && theme !== "dark" && (
           <div className="absolute bottom-6 right-6 font-['Caveat'] text-3xl text-red-700 transform -rotate-12 border-2 border-red-700 p-2 rounded-sm opacity-80">
             VERIFIED
           </div>

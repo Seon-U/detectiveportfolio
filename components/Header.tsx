@@ -12,7 +12,7 @@ type HeaderProps = {
   className: string;
 };
 
-export default function Header({ className: classname }: HeaderProps) {
+export default function Header({ className }: HeaderProps) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
@@ -28,7 +28,7 @@ export default function Header({ className: classname }: HeaderProps) {
   ];
 
   return (
-    <header className={cn(classname)}>
+    <header className={cn(className)}>
       <nav
         className={cn(
           "sticky top-0 z-40 border-b backdrop-blur-md transition-all duration-500",
@@ -44,7 +44,7 @@ export default function Header({ className: classname }: HeaderProps) {
               )}
             >
               SeonuKim's Log
-              {theme === "dark" && "of Wonder"}
+              {mounted && theme === "dark" && "of Wonder"}
             </span>
           </div>
 
@@ -94,7 +94,7 @@ export default function Header({ className: classname }: HeaderProps) {
                 )}
                 aria-label="Toggle theme"
               >
-                {theme === "dark" ? (
+                {mounted && theme === "dark" ? (
                   <Sun className="w-5 h-5" />
                 ) : (
                   <Moon className="w-5 h-5" />

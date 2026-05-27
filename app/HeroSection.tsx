@@ -33,7 +33,9 @@ export default function HeroSection() {
             )}
           >
             FullStack Dev | UX | Web | Mobile |
-            {theme === "dark" && " fluent in Korean"}
+            <span className={cn(theme !== "dark" && "hidden")}>
+              fluent in Korean
+            </span>
           </p>
         </motion.div>
       </div>

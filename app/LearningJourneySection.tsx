@@ -1,31 +1,25 @@
 import { Note } from "@/components/Note";
+import SectionHeader from "@/components/SectionHeader";
 import { cn } from "@/lib/utils";
 import styles from "./learningJourney.module.css";
 
-export default function LearningJourney() {
+export default function LearningJourneySection() {
   return (
     <section
       id="intro"
       data-screen-label="02 Intro"
       className={cn(styles.intro, "relative z-5 px-[6vw] pt-[10vh] pb-[8vh]")}
     >
-      <div className="mx-auto mb-15 max-w-190 text-center">
-        <div className="flex items-center gap-4">
-          <span className="h-px flex-1 bg-(--cork-rule)" />
-          <span className="text-xs tracking-[0.3em] text-(--cork-accent)">
-            ✦ ✦ ✦
-          </span>
-          <span className="h-px flex-1 bg-(--cork-rule)" />
-        </div>
-        <h2 className={cn(styles.eyebrow, "mt-6 mb-4")}>
-          Field Notes &nbsp;·&nbsp; Vol. I
-        </h2>
-        <p className={styles.title}>
-          Love to explore new way to
-          <br />
-          <em>connect</em> people and tech
-        </p>
-      </div>
+      <SectionHeader
+        sectionTitle={<>Field Notes &nbsp;·&nbsp; Vol. I"</>}
+        title={
+          <>
+            Love to explore new way to
+            <br />
+            <em>connect</em> people and tech
+          </>
+        }
+      />
 
       <div className="relative mx-auto h-180 max-w-7xl max-[1100px]:grid max-[1100px]:h-auto max-[1100px]:grid-cols-2 max-[1100px]:gap-7 max-[700px]:grid-cols-1">
         {/* RED STRING — decorative, hidden once the board collapses */}
@@ -189,17 +183,16 @@ export default function LearningJourney() {
                 "whitespace-nowrap",
               )}
             >
-              Managing Experience
+              Project Experience
             </span>
             <span className={cn(styles.caseLabel, "whitespace-nowrap")}>
               No. 04
             </span>
           </div>
           <p>
-            다양한 프로젝트 기획 경험:{" "}
+            다양한 프로젝트 경험:{" "}
             <span className={styles.handNote}>
-              국립국어원 웹 페이지 데이터 정제, 핀테크 프로젝트 2건 기획, 앱 2번
-              배포
+              핀테크 프로젝트 2건 기획, 앱 2건 배포
             </span>
             <br />
             국립국어원 인턴하면서 내부 웹 페이지 개발 과정 간접 경험, 현직
@@ -207,7 +200,7 @@ export default function LearningJourney() {
           </p>
           <p className={cn(styles.handNote, styles.handNoteSmall, "mt-2")}>
             <span className={styles.lore}>
-              (지금까지 진행한 모든 프로젝트에서 기획 참여)
+              (지금까지 진행한 모든 프로젝트에서 기획도 동시 참여)
             </span>
           </p>
         </Note>

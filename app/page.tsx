@@ -1,14 +1,15 @@
 import HeroSection from "./HeroSection";
 import IntroductionSection from "./IntroductionSection";
-import LearningJourney from "./LearningJourney";
+import LearningJourneySection from "./LearningJourneySection";
+import TechStackSection from "./TechStackSection";
 
 export default function Home() {
   return (
     <div className="space-y-32 pb-20">
       <HeroSection />
       <IntroductionSection />
-      <LearningJourney />
-      <section>Tech Stack</section>
+      <LearningJourneySection />
+      <TechStackSection />
       <section>Recent Project</section>
     </div>
   );
