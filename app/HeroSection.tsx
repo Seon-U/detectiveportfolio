@@ -18,7 +18,7 @@ export default function HeroSection() {
         >
           <h1
             className={cn(
-              "text-6xl md:text-8xl lg:text-9xl font-serif font-black tracking-tighter uppercase",
+              "text-6xl md:text-8xl lg:text-9xl font-serif font-black tracking-tighter uppercase text-center",
               theme === "dark"
                 ? "text-transparent bg-clip-text bg-linear-to-r from-[#66fcf1] to-[#45a29e]"
                 : "text-[#3e2723]",
@@ -59,6 +59,7 @@ export default function HeroSection() {
           )}
         >
           <Image
+            loading="lazy"
             src={"/profile.png"}
             alt="Profile"
             width={100}

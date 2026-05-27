@@ -1,0 +1,235 @@
+/*
+ * LearningJourney — visual layer only.
+ * Layout (positioning, flex, grid, sizing, responsive) lives in JSX via Tailwind.
+ * Colors/fonts derive from the global theme tokens so the section follows the
+ * project's light(paper) / dark(cyber) duality automatically.
+ */
+
+.intro {
+  --cork-paper: hsl(var(--card));
+  --cork-ink: hsl(var(--foreground));
+  --cork-ink-soft: hsl(var(--muted-foreground));
+  --cork-rule: hsl(var(--border));
+  --cork-accent: hsl(var(--accent));
+  --cork-accent-2: hsl(var(--classified));
+  --cork-teal: hsl(var(--solved));
+  --cork-gold: hsl(var(--accent));
+  --cork-string: hsl(var(--verified));
+
+  --cork-font-display: font-serif, Georgia, "Times New Roman", serif;
+  --cork-font-hand: var(--font-pretendard), "Segoe Script", cursive;
+  --cork-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---- header ---- */
+.eyebrow {
+  font-family: var(--cork-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--cork-ink-soft);
+}
+.title {
+  font-family: var(--cork-font-display);
+  font-style: italic;
+  font-size: clamp(28px, 4.2vw, 56px);
+  line-height: 1.12;
+  font-weight: 500;
+  color: var(--cork-ink);
+}
+.title em {
+  color: var(--cork-accent);
+  font-style: italic;
+}
+
+/* ---- paper + pin (rendered by <Note />) ---- */
+.paper {
+  position: relative;
+  padding: 18px 20px;
+  background: var(--cork-paper);
+  border: 1px solid var(--cork-rule);
+  box-shadow: var(--shadow-paper);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--cork-ink);
+}
+
+.pin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f04a30 0%, #8a1409 75%);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.4),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.4),
+    inset 3px 3px 4px rgba(255, 255, 255, 0.4);
+  z-index: 3;
+}
+.topleft {
+  left: 18px;
+  transform: none;
+}
+.topright {
+  left: auto;
+  right: 18px;
+  transform: none;
+}
+
+/* ---- note content ---- */
+.stamp {
+  display: inline-block;
+  font-family: var(--cork-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border: 1px solid var(--cork-accent);
+  border-radius: 2px;
+  color: var(--cork-accent);
+}
+.stampTeal {
+  border-color: var(--cork-teal);
+  color: var(--cork-teal);
+}
+.stampGold {
+  border-color: var(--cork-gold);
+  color: var(--cork-gold);
+}
+.stampAccent2 {
+  border-color: var(--cork-accent-2);
+  color: var(--cork-accent-2);
+}
+.caseLabel {
+  font-family: var(--cork-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--cork-ink-soft);
+}
+
+.strike {
+  text-decoration: line-through;
+  color: var(--cork-ink-soft);
+}
+.handNote {
+  font-family: var(--cork-font-hand);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--cork-accent);
+}
+.handNoteSmall {
+  font-size: 17px;
+  color: var(--cork-ink-soft);
+}
+.mono {
+  font-family: var(--cork-font-mono);
+}
+.lore {
+  font-style: italic;
+  color: var(--cork-ink-soft);
+}
+
+.ledger {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ledger li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 6px;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--cork-rule);
+  font-size: 13px;
+  color: var(--cork-ink);
+}
+.ledger li:last-child {
+  border: 0;
+}
+.bullet {
+  color: var(--cork-accent);
+}
+
+.dossierTbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  color: var(--cork-ink);
+}
+.dossierTbl td {
+  padding: 5px 4px;
+  border-bottom: 1px dotted var(--cork-rule);
+}
+.dossierTbl td:first-child {
+  width: 40%;
+  font-family: var(--cork-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cork-ink-soft);
+}
+
+.closing {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--cork-ink);
+}
+.linkInk {
+  font-family: var(--cork-font-mono);
+  color: var(--cork-accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--cork-accent);
+}
+.linkInk:hover {
+  background: var(--cork-accent);
+  color: var(--cork-paper);
+}
+
+/* ---- polaroid (note E) ---- */
+/* applied alongside .paper; declared after it so it wins on padding/background */
+.polaroidPaper {
+  padding: 12px 12px 26px;
+  background: var(--color-theme-toggle-hover-background);
+}
+.polaroidImg {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-background) 0%, #2b1f12 100%);
+}
+.polaroidStripe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 243, 210, 0.08) 0 8px,
+    transparent 8px 16px
+  );
+}
+.polaroidStripe:nth-of-type(1) {
+  top: 20%;
+}
+.polaroidStripe:nth-of-type(2) {
+  top: 50%;
+}
+.polaroidStripe:nth-of-type(3) {
+  top: 80%;
+}
+.alt {
+  transform: rotate(180deg);
+}
+.polaroidCaption {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-align: center;
+  color: rgba(255, 243, 210, 0.7);
+}

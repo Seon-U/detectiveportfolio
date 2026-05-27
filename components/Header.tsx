@@ -43,7 +43,8 @@ export default function Header({ className: classname }: HeaderProps) {
                 "font-serif font-bold text-xl tracking-wider text-header-title",
               )}
             >
-              {theme === "dark" ? "SeonuKim's Log" : "SeonuKim's"}
+              SeonuKim's Log
+              {theme === "dark" && "of Wonder"}
             </span>
           </div>
 
