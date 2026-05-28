@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Case } from "@/lib/cases/data";
 import { cn } from "@/lib/utils";
 
@@ -11,8 +10,7 @@ type Props = {
 };
 
 export default function CaseCarousel({ cases }: Props) {
-  const { theme } = useTheme();
-  const [selectedCase, setSelectedCase] = useState<Case | null>(null);
+  const router = useRouter();
 
   return (
     <div className="flex overflow-x-auto gap-8 pb-10 snap-x hide-scrollbar">
@@ -21,45 +19,21 @@ export default function CaseCarousel({ cases }: Props) {
           layoutId={`case-${c.id}`}
           key={c.id}
           whileHover={{ scale: 1.02 }}
-          onClick={() => setSelectedCase(c)}
+          onClick={() => router.push(`/cases/${c.id}`)}
           className="min-w-[300px] md:min-w-[400px] snap-center shrink-0 cursor-pointer group"
         >
-          <div
-            className={cn(
-              "h-[300px] p-6 rounded relative overflow-hidden transition-all duration-500",
-              theme === "dark"
-                ? "bg-[#111] border-2 border-[#1f2833] hover:border-[#45a29e]"
-                : "bg-[#e5d9b7] border-2 border-[#c2b28c] shadow-lg",
-            )}
-          >
+          <div className="h-[300px] p-6 rounded relative overflow-hidden transition-all duration-500 bg-card border-2 border-border hover:border-primary shadow-card">
             {/* Folder Tab */}
-            <div
-              className={cn(
-                "absolute top-0 right-10 px-4 py-1 text-xs font-mono rounded-b",
-                theme === "dark"
-                  ? "bg-[#1f2833] text-[#c5c6c7]"
-                  : "bg-[#c2b28c] text-[#3e2723]",
-              )}
-            >
+            <div className="absolute top-0 right-10 px-4 py-1 text-xs font-mono rounded-b bg-surface text-muted-foreground">
               FILE: {c.id}
             </div>
 
             <div className="mt-8 flex flex-col h-full">
               <div className="flex-1">
-                <h3
-                  className={cn(
-                    "text-2xl font-serif font-black uppercase mb-2",
-                    theme === "dark" ? "text-white" : "text-[#3e2723]",
-                  )}
-                >
+                <h3 className="text-2xl font-serif font-black uppercase mb-2 text-card-foreground">
                   {c.title}
                 </h3>
-                <p
-                  className={cn(
-                    "font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300",
-                    theme === "dark" ? "text-[#c5c6c7]" : "text-[#5d4037]",
-                  )}
-                >
+                <p className="font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-muted-foreground">
                   {c.summary}
                 </p>
               </div>
@@ -69,12 +43,8 @@ export default function CaseCarousel({ cases }: Props) {
                   className={cn(
                     "text-xs font-bold px-2 py-1 border-2 uppercase",
                     c.status === "SOLVED"
-                      ? theme === "dark"
-                        ? "text-green-400 border-green-400"
-                        : "text-green-700 border-green-700 bg-green-100"
-                      : theme === "dark"
-                        ? "text-red-400 border-red-400"
-                        : "text-red-700 border-red-700 bg-red-100",
+                      ? "text-[hsl(var(--solved))] border-[hsl(var(--solved))]"
+                      : "text-[hsl(var(--verified))] border-[hsl(var(--verified))]",
                   )}
                 >
                   {c.status}
@@ -84,9 +54,7 @@ export default function CaseCarousel({ cases }: Props) {
 
             {/* Cover Image inside folder */}
             <div
-              className={cn(
-                "absolute inset-0 z-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-cover bg-center mix-blend-overlay",
-              )}
+              className="absolute inset-0 z-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-cover bg-center mix-blend-overlay"
               style={{ backgroundImage: `url(${c.image})` }}
             />
           </div>

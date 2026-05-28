@@ -1,12 +1,16 @@
+"use client";
+
 import { AnimatePresence, motion } from "framer-motion";
 import { Code2, Database, ExternalLink, Shield, X } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import type { Case } from "@/lib/cases/data";
 import { cn } from "@/lib/utils";
 
 interface CaseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  caseData: any;
+  caseData: Case;
 }
 
 export default function CaseModal({
@@ -15,8 +19,15 @@ export default function CaseModal({
   caseData,
 }: CaseModalProps) {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen || !caseData) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen) return null;
+
+  const isDark = mounted && theme === "dark";
 
   return (
     <AnimatePresence>
@@ -33,16 +44,17 @@ export default function CaseModal({
           layoutId={`case-${caseData.id}`}
           className={cn(
             "relative w-full max-w-5xl h-full max-h-[85vh] rounded-lg shadow-2xl flex flex-col md:flex-row overflow-hidden pointer-events-auto",
-            theme === "dark"
+            isDark
               ? "bg-[#111] border border-[#45a29e]"
               : "bg-[#f4ebd0] border-2 border-[#d4c39f]",
           )}
         >
           <button
+            type="button"
             onClick={onClose}
             className={cn(
               "absolute top-4 right-4 z-50 p-2 rounded-full transition-colors",
-              theme === "dark"
+              isDark
                 ? "bg-[#1f2833] text-[#66fcf1] hover:bg-[#45a29e]/30"
                 : "bg-[#e2d5b8] text-[#5d4037] hover:bg-[#d4c39f]",
             )}
@@ -54,13 +66,12 @@ export default function CaseModal({
           <div
             className={cn(
               "md:w-1/3 p-6 flex flex-col justify-between relative overflow-hidden",
-              theme === "dark"
+              isDark
                 ? "bg-[#1a1a1a] border-r border-[#1f2833]"
                 : "bg-[#e5d9b7] border-r border-[#d4c39f]",
             )}
           >
-            {/* Red string logic */}
-            {theme !== "dark" && (
+            {!isDark && (
               <div className="absolute top-1/4 left-0 w-full h-1 bg-red-600/50 transform rotate-12 origin-left z-0 mix-blend-multiply" />
             )}
 
@@ -68,7 +79,7 @@ export default function CaseModal({
               <span
                 className={cn(
                   "font-mono text-sm border-b pb-1 inline-block mb-6",
-                  theme === "dark"
+                  isDark
                     ? "text-[#45a29e] border-[#45a29e]"
                     : "text-[#8b5a2b] border-[#8b5a2b]",
                 )}
@@ -82,12 +93,10 @@ export default function CaseModal({
                 transition={{ delay: 0.2 }}
                 className={cn(
                   "p-2 bg-white shadow-lg border relative",
-                  theme === "dark"
-                    ? "border-transparent opacity-80"
-                    : "border-gray-300",
+                  isDark ? "border-transparent opacity-80" : "border-gray-300",
                 )}
               >
-                {theme !== "dark" && (
+                {!isDark && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-800 shadow-sm" />
                 )}
                 <img
@@ -102,7 +111,7 @@ export default function CaseModal({
               <h4
                 className={cn(
                   "font-serif font-bold uppercase",
-                  theme === "dark" ? "text-[#66fcf1]" : "text-[#3e2723]",
+                  isDark ? "text-[#66fcf1]" : "text-[#3e2723]",
                 )}
               >
                 Tech Implicated:
@@ -110,7 +119,7 @@ export default function CaseModal({
               <ul
                 className={cn(
                   "font-mono text-sm space-y-2",
-                  theme === "dark" ? "text-[#c5c6c7]" : "text-[#5d4037]",
+                  isDark ? "text-[#c5c6c7]" : "text-[#5d4037]",
                 )}
               >
                 <li className="flex items-center gap-2">
@@ -128,14 +137,14 @@ export default function CaseModal({
 
           {/* Case Document (Right Side) */}
           <div className="md:w-2/3 p-8 md:p-12 overflow-y-auto hide-scrollbar relative">
-            {theme !== "dark" && (
+            {!isDark && (
               <div
                 className="absolute inset-0 opacity-30 mix-blend-multiply pointer-events-none"
                 style={{
                   backgroundImage:
                     "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
                 }}
-              ></div>
+              />
             )}
 
             <div className="relative z-10 max-w-2xl mx-auto space-y-8">
@@ -148,7 +157,7 @@ export default function CaseModal({
                   <h2
                     className={cn(
                       "text-4xl md:text-5xl font-serif font-black uppercase",
-                      theme === "dark" ? "text-white" : "text-[#3e2723]",
+                      isDark ? "text-white" : "text-[#3e2723]",
                     )}
                   >
                     {caseData.title}
@@ -157,10 +166,10 @@ export default function CaseModal({
                     className={cn(
                       "text-xs font-bold px-3 py-1 border-2 uppercase transform rotate-6",
                       caseData.status === "SOLVED"
-                        ? theme === "dark"
+                        ? isDark
                           ? "text-green-400 border-green-400"
                           : "text-green-700 border-green-700 bg-green-100"
-                        : theme === "dark"
+                        : isDark
                           ? "text-red-400 border-red-400"
                           : "text-red-700 border-red-700 bg-red-100",
                     )}
@@ -172,7 +181,7 @@ export default function CaseModal({
                 <div
                   className={cn(
                     "p-6 rounded-sm my-8 border-l-4",
-                    theme === "dark"
+                    isDark
                       ? "bg-[#1f2833] border-[#45a29e] text-[#c5c6c7]"
                       : "bg-white/50 border-[#8b5a2b] text-[#5d4037]",
                   )}
@@ -180,23 +189,19 @@ export default function CaseModal({
                   <h4
                     className={cn(
                       "font-bold mb-2 uppercase tracking-widest",
-                      theme === "dark" ? "text-[#66fcf1]" : "text-[#3e2723]",
+                      isDark ? "text-[#66fcf1]" : "text-[#3e2723]",
                     )}
                   >
                     The Incident:
                   </h4>
-                  <p className="font-mono leading-relaxed">
-                    {caseData.summary} Client reported severe discrepancies in
-                    data synchronization and frequent memory timeouts leading to
-                    total application blackout.
-                  </p>
+                  <p className="font-mono leading-relaxed">{caseData.summary}</p>
                 </div>
 
                 <div className="space-y-4">
                   <h4
                     className={cn(
                       "font-serif font-bold text-xl",
-                      theme === "dark" ? "text-white" : "text-[#3e2723]",
+                      isDark ? "text-white" : "text-[#3e2723]",
                     )}
                   >
                     Investigation Notes
@@ -204,36 +209,42 @@ export default function CaseModal({
                   <p
                     className={cn(
                       "font-mono leading-relaxed",
-                      theme === "dark" ? "text-[#c5c6c7]" : "text-[#5d4037]",
+                      isDark ? "text-[#c5c6c7]" : "text-[#5d4037]",
                     )}
                   >
-                    Upon initial inspection, the DOM tree was littered with
-                    unnecessary re-renders. A rogue `useEffect` was caught
-                    red-handed dispatching state updates without proper
-                    dependency arrays, causing an infinite loop.
-                  </p>
-                  <p
-                    className={cn(
-                      "font-mono leading-relaxed",
-                      theme === "dark" ? "text-[#c5c6c7]" : "text-[#5d4037]",
-                    )}
-                  >
-                    The culprit tried to hide within a deeply nested Context
-                    provider, but performance profiling exposed the timeline.
+                    {caseData.description}
                   </p>
                 </div>
 
-                <div className="mt-12">
-                  <button
-                    className={cn(
-                      "flex items-center gap-2 px-6 py-3 font-bold uppercase tracking-wider transition-all",
-                      theme === "dark"
-                        ? "bg-[#45a29e]/20 text-[#66fcf1] border border-[#66fcf1] hover:bg-[#45a29e]/40"
-                        : "bg-[#3e2723] text-white hover:bg-[#5d4037]",
-                    )}
-                  >
-                    View Full Report <ExternalLink className="w-4 h-4" />
-                  </button>
+                <div className="mt-12 flex items-center gap-4 flex-wrap">
+                  {caseData.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={cn(
+                        "px-2 py-1 text-xs font-mono border",
+                        isDark
+                          ? "border-[#45a29e]/40 text-[#c5c6c7]"
+                          : "border-[#8b5a2b]/30 text-[#5d4037]",
+                      )}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  {caseData.projectUrl && (
+                    <a
+                      href={caseData.projectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "flex items-center gap-2 px-6 py-3 font-bold uppercase tracking-wider transition-all ml-auto",
+                        isDark
+                          ? "bg-[#45a29e]/20 text-[#66fcf1] border border-[#66fcf1] hover:bg-[#45a29e]/40"
+                          : "bg-[#3e2723] text-white hover:bg-[#5d4037]",
+                      )}
+                    >
+                      View Full Report <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
                 </div>
               </motion.div>
             </div>

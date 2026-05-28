@@ -18,8 +18,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html
@@ -36,6 +38,7 @@ export default function RootLayout({
         >
           <Header className="fixed top-0 left-0 right-0 h-16 z-50" />
           <main className="h-full overflow-y-auto p-16 flex-1">{children}</main>
+          {modal}
           <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
         </ThemeProvider>
       </body>
