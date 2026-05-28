@@ -115,7 +115,7 @@ export default function Header({ className }: HeaderProps) {
                   )}
                   aria-label="Toggle theme"
                 >
-                  {theme === "dark" ? (
+                  {mounted && theme === "dark" ? (
                     <Sun className="h-5 w-5" />
                   ) : (
                     <Moon className="h-5 w-5" />
@@ -134,7 +134,7 @@ export default function Header({ className }: HeaderProps) {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="overflow-hidden border-t md:hidden"
+              className="overflow-hidden md:hidden"
             >
               <div className="flex flex-wrap gap-3 px-4 py-4">
                 {navItems.map((item) => {

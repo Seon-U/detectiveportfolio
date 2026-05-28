@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import styles from "@/app/learningJourney.module.css";
 import { cn } from "@/lib/utils";
+import styles from "./HomeSections/learningJourney.module.css";
 
 type NoteProps = {
   children: ReactNode;

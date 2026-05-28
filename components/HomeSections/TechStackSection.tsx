@@ -1,7 +1,6 @@
 "use client";
 
 import { Code, Monitor, Server } from "lucide-react";
-import { useTheme } from "next-themes";
 import SectionHeader from "@/components/SectionHeader";
 import StackCard from "@/components/StackCard";
 
@@ -30,12 +29,9 @@ const techHouses = [
 ];
 
 export default function TechStackSection() {
-  const { theme } = useTheme();
-
   return (
     <section>
       <SectionHeader sectionTitle={"Tech Stack"} title={"What I can do"} />
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {techHouses.map((house, index) => (
           <StackCard key={house.name} index={index} {...house} />

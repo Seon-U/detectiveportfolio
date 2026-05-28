@@ -11,7 +11,7 @@ export default function LearningJourneySection() {
       className={cn(styles.intro, "relative z-5 px-[6vw] pt-[10vh] pb-[8vh]")}
     >
       <SectionHeader
-        sectionTitle={<>Field Notes &nbsp;·&nbsp; Vol. I</>}
+        sectionTitle={"Learning Journey"}
         title={
           <>
             Love to explore new way to

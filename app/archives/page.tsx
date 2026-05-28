@@ -1,5 +1,3 @@
-export default function FieldNote() {
-  return <>
-    FieldNote
-  </>
+export default function Archive() {
+  return <>Arichive</>;
 }
