@@ -2,24 +2,17 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import {
-  ArrowLeft,
-  Bookmark,
-  Calendar,
-  ExternalLink,
-  FileText,
-} from "lucide-react";
+import { ArrowLeft, Bookmark, Calendar, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import type { Case } from "@/lib/cases/types";
-import { statusStyles } from "@/lib/cases/status-styles";
+import type { Archive } from "@/lib/archives/types";
 import { cn } from "@/lib/utils";
 
 function slugify(text: string) {
   return text.toLowerCase().replace(/\s+/g, "-");
 }
 
-export default function CaseDetail({ caseData }: { caseData: Case }) {
+export default function ArchiveDetail({ archive }: { archive: Archive }) {
   const router = useRouter();
   const [activeSection, setActiveSection] = useState<string>("");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -61,70 +54,44 @@ export default function CaseDetail({ caseData }: { caseData: Case }) {
         Back
       </button>
 
-      {/* ── Hero Header ─────────────────────────────────────── */}
+      {/* Hero header */}
       <header className="mb-12 pb-10 border-b border-border">
         <div className="flex items-center gap-3 mb-5 font-mono text-xs uppercase tracking-widest text-muted-foreground">
           <Bookmark className="w-3.5 h-3.5" />
-          <span>Case File</span>
+          <span>Archive Entry</span>
           <span>·</span>
           <Calendar className="w-3.5 h-3.5" />
-          <span>{caseData.date}</span>
+          <span>{archive.date}</span>
           <span>·</span>
-          <span
-            className={cn(
-              "px-2 py-0.5 border font-bold",
-              statusStyles[caseData.status] ?? "",
-            )}
-          >
-            {caseData.status}
+          <span className="px-2 py-0.5 border border-primary text-primary font-bold">
+            {archive.category}
           </span>
         </div>
 
         <h1 className="text-4xl md:text-6xl font-serif font-black uppercase text-foreground mb-6 leading-tight">
-          {caseData.title}
+          {archive.title}
         </h1>
 
-        <p className="text-lg font-mono text-muted-foreground mb-8 max-w-2xl leading-relaxed">
-          {caseData.description}
+        <p className="text-lg font-mono text-muted-foreground max-w-2xl leading-relaxed">
+          {archive.description}
         </p>
-
-        {/* Meta row */}
-        <div className="flex flex-wrap items-center gap-3">
-          {caseData.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-3 py-1 text-xs font-mono border border-border text-muted-foreground rounded-sm"
-            >
-              {tag}
-            </span>
-          ))}
-
-          {caseData.projectUrl && (
-            <a
-              href={caseData.projectUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-auto flex items-center gap-2 px-5 py-2 font-mono text-sm font-bold uppercase tracking-wider border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              View Project <ExternalLink className="w-4 h-4" />
-            </a>
-          )}
-        </div>
       </header>
 
-      {/* ── Hero Image ──────────────────────────────────────── */}
-      <div className="mb-14 relative overflow-hidden rounded-sm">
-        <Image
-          src={caseData.image}
-          alt={caseData.title}
-          width={1920}
-          height={640}
-          className="w-full h-64 md:h-80 object-cover grayscale-[30%]"
-        />
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
-      </div>
+      {/* Hero image */}
+      {archive.image && (
+        <div className="mb-14 relative overflow-hidden rounded-sm">
+          <Image
+            src={archive.image}
+            alt={archive.title}
+            width={1920}
+            height={640}
+            className="w-full h-64 md:h-80 object-cover grayscale-[30%]"
+          />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
+        </div>
+      )}
 
-      {/* ── Two-column layout ───────────────────────────────── */}
+      {/* Two-column layout */}
       <div className="flex gap-12 items-start">
         {/* TOC — sticky sidebar */}
         <aside className="hidden lg:block w-52 shrink-0 sticky top-24 self-start">
@@ -132,7 +99,7 @@ export default function CaseDetail({ caseData }: { caseData: Case }) {
             Contents
           </p>
           <nav className="space-y-1 border-l border-border pl-4">
-            {caseData.sections.map((section) => {
+            {archive.sections.map((section) => {
               const id = slugify(section.heading);
               return (
                 <button
@@ -159,7 +126,7 @@ export default function CaseDetail({ caseData }: { caseData: Case }) {
 
         {/* Article content */}
         <article className="flex-1 min-w-0 space-y-16 pb-24">
-          {caseData.sections.map((section) => {
+          {archive.sections.map((section) => {
             const id = slugify(section.heading);
             return (
               <section
@@ -201,7 +168,7 @@ export default function CaseDetail({ caseData }: { caseData: Case }) {
           <footer className="pt-8 border-t border-border flex items-center justify-between font-mono text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
               <FileText className="w-4 h-4" />
-              DOCUMENT ID: CASE-{caseData.id.padStart(4, "0")}
+              DOCUMENT ID: ARCHIVE-{archive.id.padStart(4, "0")}
             </div>
             <div>END OF FILE</div>
           </footer>
