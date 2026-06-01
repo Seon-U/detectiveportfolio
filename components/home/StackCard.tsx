@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
 
 type Stack = {
@@ -23,12 +22,7 @@ export default function StackCard({
   description,
   techs,
 }: Stack) {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { isDark } = useMountedTheme();
 
   return (
     <motion.div
@@ -40,7 +34,7 @@ export default function StackCard({
       whileHover={{ y: -10 }}
       className={cn(
         "group relative p-8 rounded-lg overflow-hidden border transition-all duration-300 cursor-crosshair bg-card border-border",
-        mounted && theme === "dark"
+        isDark
           ? "hover:border-primary hover:shadow-[0_0_20px_rgba(102,252,241,0.2)]"
           : "shadow-card hover:shadow-xl",
       )}

@@ -2,17 +2,11 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
 
 export default function HeroSection() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { isDark } = useMountedTheme();
 
   return (
     <section className="relative flex flex-col-reverse md:flex-row items-center justify-center gap-12 md:gap-30 pt-10">
@@ -25,7 +19,7 @@ export default function HeroSection() {
           <h1
             className={cn(
               "text-6xl md:text-8xl lg:text-9xl font-serif font-black tracking-tighter uppercase text-center",
-              mounted && theme === "dark"
+              isDark
                 ? "text-transparent bg-clip-text bg-linear-to-r from-[#66fcf1] to-[#45a29e]"
                 : "text-primary",
             )}

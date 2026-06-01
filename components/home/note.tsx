@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import styles from "./HomeSections/learningJourney.module.css";
+import styles from "./note.module.css";
 
 type NoteProps = {
   children: ReactNode;
@@ -12,7 +12,7 @@ type NoteProps = {
   pin?: "topleft" | "topright";
 };
 
-export function Note({ children, className, paperClassName, pin }: NoteProps) {
+export default function Note({ children, className, paperClassName, pin }: NoteProps) {
   return (
     <div
       className={cn(

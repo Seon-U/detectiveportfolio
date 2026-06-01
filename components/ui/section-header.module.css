@@ -1,0 +1,21 @@
+.eyebrow {
+  font-family: var(--cork-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--cork-ink-soft);
+}
+
+.title {
+  font-family: var(--cork-font-display);
+  font-style: italic;
+  font-size: clamp(28px, 4.2vw, 56px);
+  line-height: 1.12;
+  font-weight: 500;
+  color: var(--cork-ink);
+}
+
+.title em {
+  color: var(--cork-accent);
+  font-style: italic;
+}

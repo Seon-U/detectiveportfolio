@@ -1,5 +1,5 @@
-import { ALLCASES } from "@/lib/cases/data";
-import { CaseModalRoute } from "@/components/CaseModalRoute";
+import CaseModalRoute from "@/components/cases/CaseModalRoute";
+import { getCaseById } from "@/lib/cases/queries";
 
 export default async function CaseModalPage({
   params,
@@ -7,7 +7,7 @@ export default async function CaseModalPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const caseData = ALLCASES.find((c) => c.id === id);
+  const caseData = getCaseById(id);
 
   if (!caseData) return null;
 

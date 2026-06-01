@@ -1,9 +1,9 @@
-import RecentSection from "@/components/HomeSections/RecentSection";
-import { ALLCASES } from "@/lib/cases/data";
-import HeroSection from "../components/HomeSections/HeroSection";
-import IntroductionSection from "../components/HomeSections/IntroductionSection";
-import LearningJourneySection from "../components/HomeSections/LearningJourneySection";
-import TechStackSection from "../components/HomeSections/TechStackSection";
+import HeroSection from "@/components/home/HeroSection";
+import IntroductionSection from "@/components/home/IntroductionSection";
+import LearningJourneySection from "@/components/home/LearningJourneySection";
+import RecentSection from "@/components/home/RecentSection";
+import TechStackSection from "@/components/home/TechStackSection";
+import { getAllCases } from "@/lib/cases/queries";
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
       <IntroductionSection />
       <LearningJourneySection />
       <TechStackSection />
-      <RecentSection cases={ALLCASES} />
+      <RecentSection cases={getAllCases()} />
     </div>
   );
 }

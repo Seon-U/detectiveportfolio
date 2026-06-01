@@ -1,3 +1,3 @@
 export default function Archive() {
-  return <>Arichive</>;
+  return <div>Arichive</div>;
 }

@@ -2,9 +2,9 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Code2, Database, ExternalLink, Shield, X } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import type { Case } from "@/lib/cases/types";
+import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
 
 interface CaseModalProps {
@@ -18,16 +18,9 @@ export default function CaseModal({
   onClose,
   caseData,
 }: CaseModalProps) {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { theme, mounted, isDark } = useMountedTheme();
 
   if (!isOpen) return null;
-
-  const isDark = mounted && theme === "dark";
 
   return (
     <AnimatePresence>
@@ -99,9 +92,11 @@ export default function CaseModal({
                 {!isDark && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-800 shadow-sm" />
                 )}
-                <img
+                <Image
                   src={caseData.image}
                   alt={caseData.title}
+                  width={1080}
+                  height={810}
                   className="w-full aspect-[4/3] object-cover"
                 />
               </motion.div>

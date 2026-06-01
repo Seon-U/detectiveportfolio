@@ -1,14 +1,14 @@
-import { Note } from "@/components/Note";
-import SectionHeader from "@/components/SectionHeader";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/utils";
-import styles from "./learningJourney.module.css";
+import styles from "./learning-journey.module.css";
+import Note from "./Note";
 
 export default function LearningJourneySection() {
   return (
     <section
       id="intro"
       data-screen-label="02 Intro"
-      className={cn(styles.intro, "relative z-5 px-[6vw] pt-[10vh] pb-[8vh]")}
+      className={cn("relative z-5 px-[6vw] pt-[10vh] pb-[8vh]")}
     >
       <SectionHeader
         sectionTitle={"Learning Journey"}

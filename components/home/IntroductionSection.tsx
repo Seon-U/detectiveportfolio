@@ -1,24 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
 
 export default function IntroductionSection() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { isDark } = useMountedTheme();
 
   return (
     <section className="max-w-3xl mx-auto relative">
       <div
         className={cn(
           "p-8 md:p-12 shadow-xl relative bg-card border border-border",
-          mounted && theme === "dark" ? "font-serif" : "",
+          isDark ? "font-serif" : "",
         )}
       >
         <div className="relative z-10">
@@ -37,15 +31,13 @@ export default function IntroductionSection() {
               <span
                 className={cn(
                   "px-1 font-bold",
-                  mounted && theme === "dark"
-                    ? "bg-primary/20 text-primary"
-                    : "bg-yellow-200",
+                  isDark ? "bg-primary/20 text-primary" : "bg-yellow-200",
                 )}
               >
                 관찰하고, 분리하고, 구조화합니다.
               </span>
             </p>
-            {mounted && theme === "dark" && (
+            {isDark && (
               <motion.p
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1, textShadow: "0 0 4px #66fcf1" }}
@@ -59,7 +51,7 @@ export default function IntroductionSection() {
           </div>
         </div>
 
-        {mounted && theme !== "dark" && (
+        {!isDark && (
           <div className="absolute bottom-6 right-6 font-['Caveat'] text-3xl text-red-700 transform -rotate-12 border-2 border-red-700 p-2 rounded-sm opacity-80">
             VERIFIED
           </div>

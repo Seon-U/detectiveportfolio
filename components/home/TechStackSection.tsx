@@ -1,8 +1,8 @@
 "use client";
 
 import { Code, Monitor, Server } from "lucide-react";
-import SectionHeader from "@/components/SectionHeader";
-import StackCard from "@/components/StackCard";
+import SectionHeader from "@/components/ui/SectionHeader";
+import StackCard from "./StackCard";
 
 const techHouses = [
   {

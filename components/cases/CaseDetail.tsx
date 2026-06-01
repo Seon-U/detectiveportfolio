@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   ArrowLeft,
   Bookmark,
@@ -23,7 +24,7 @@ const statusStyles: Record<string, string> = {
   ONGOING: "text-[hsl(var(--classified))] border-[hsl(var(--classified))]",
 };
 
-export function CaseDetailPage({ caseData }: { caseData: Case }) {
+export default function CaseDetail({ caseData }: { caseData: Case }) {
   const router = useRouter();
   const [activeSection, setActiveSection] = useState<string>("");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -118,9 +119,11 @@ export function CaseDetailPage({ caseData }: { caseData: Case }) {
 
       {/* ── Hero Image ──────────────────────────────────────── */}
       <div className="mb-14 relative overflow-hidden rounded-sm">
-        <img
+        <Image
           src={caseData.image}
           alt={caseData.title}
+          width={1920}
+          height={640}
           className="w-full h-64 md:h-80 object-cover grayscale-[30%]"
         />
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
@@ -182,9 +185,11 @@ export function CaseDetailPage({ caseData }: { caseData: Case }) {
                 {section.image && (
                   <figure className="mt-10">
                     <div className="relative overflow-hidden rounded-sm bg-card border border-border">
-                      <img
+                      <Image
                         src={section.image.src}
                         alt={section.image.caption}
+                        width={1920}
+                        height={820}
                         className="w-full h-auto aspect-[21/9] object-cover grayscale-[20%] opacity-90"
                       />
                     </div>

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import styles from "./HomeSections/learningJourney.module.css";
+import styles from "./section-header.module.css";
 
 type Props = {
   sectionTitle: ReactNode;
@@ -9,7 +9,7 @@ type Props = {
 
 export default function SectionHeader({ sectionTitle, title }: Props) {
   return (
-    <div className={cn(styles.intro, "mx-auto mb-15 max-w-190 text-center")}>
+    <div className={cn("mx-auto mb-15 max-w-190 text-center")}>
       <div className="flex items-center gap-4">
         <span className="h-px flex-1 bg-(--cork-rule)" />
         <span className="text-xs tracking-[0.3em] text-(--cork-accent)">
