@@ -113,13 +113,13 @@ export default function CaseDetail({ caseData }: { caseData: Case }) {
       </header>
 
       {/* ── Hero Image ──────────────────────────────────────── */}
-      <div className="mb-14 relative overflow-hidden rounded-sm">
+      <div className="mb-14 relative overflow-hidden rounded-sm aspect-[16/9] max-h-[60vh]">
         <Image
           src={caseData.image}
           alt={caseData.title}
-          width={1920}
-          height={640}
-          className="w-full h-64 md:h-80 object-cover grayscale-[30%]"
+          fill
+          sizes="(min-width: 1024px) 1024px, 100vw"
+          className="object-cover grayscale-[30%]"
         />
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </div>
@@ -179,13 +179,18 @@ export default function CaseDetail({ caseData }: { caseData: Case }) {
 
                 {section.image && (
                   <figure className="mt-10">
-                    <div className="relative overflow-hidden rounded-sm bg-card border border-border">
+                    <div
+                      className="relative overflow-hidden rounded-sm bg-card border border-border mx-auto max-h-[80vh]"
+                      style={{
+                        aspectRatio: `${section.image.width} / ${section.image.height}`,
+                      }}
+                    >
                       <Image
                         src={section.image.src}
                         alt={section.image.caption}
-                        width={1920}
-                        height={820}
-                        className="w-full h-auto aspect-[21/9] object-cover grayscale-[20%] opacity-90"
+                        fill
+                        sizes="(min-width: 1024px) 768px, 100vw"
+                        className="object-contain grayscale-[20%] opacity-90"
                       />
                     </div>
                     <figcaption className="mt-3 text-center font-mono text-xs text-muted-foreground">

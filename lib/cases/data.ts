@@ -23,9 +23,9 @@ export const ALLCASES: Case[] = [
       "/MGK_1.jpg",
 
     images: [
-      "/MGK_1.jpg",
-      "/MGK_2.jpg",
-      "/MGK_3.jpg",
+      { src: "/MGK_1.jpg", width: 1920, height: 1080 },
+      { src: "/MGK_2.jpg", width: 1920, height: 1080 },
+      { src: "/MGK_3.jpg", width: 1920, height: 1080 },
     ],
 
     description:
@@ -54,6 +54,8 @@ export const ALLCASES: Case[] = [
 
         image: {
           src: "/MGK_2.jpg",
+          width: 1920,
+          height: 1080,
           caption:
             "Fig 1: Reverse Proxy 기반으로 재구성된 최종 인증 아키텍처.",
         },
@@ -71,6 +73,8 @@ export const ALLCASES: Case[] = [
           "빈출 오인식 단어를 명시적으로 수집하여 normalize correction map을 구성했다. 또한 '끼'와 '기'처럼 한국어 경음 발음을 동일 패턴으로 처리하도록 보정 로직을 추가하여 입력 정확도를 개선했다.",
         image: {
           src: "/MGK_3.jpg",
+          width: 1920,
+          height: 1080,
           caption:
             "Fig 2: normalize code",
         },
@@ -101,9 +105,9 @@ export const ALLCASES: Case[] = [
     image:
       "/aiapp_1.jpg",
 
-    images:[
-      "/aiapp_1.jpg",
-      "/aiapp_2.jpg"
+    images: [
+      { src: "/aiapp_1.jpg", width: 1440, height: 809 },
+      { src: "/aiapp_2.jpg", width: 1920, height: 1080 },
     ],
     
     description:
@@ -135,8 +139,10 @@ export const ALLCASES: Case[] = [
         heading: "공통 디자인 시스템 구축",
         body:
           "TailwindCSS v4 기반 컬러 토큰 시스템을 구축하고 global.css 중심 theme 구조를 설계했다. 공통 컴포넌트와 Storybook을 활용하여 협업 환경에서 UI 일관성을 유지할 수 있도록 구성했다.",
-          image: {
+        image: {
           src: "/aiapp_2.jpg",
+          width: 1920,
+          height: 1080,
           caption:
             "Fig 1: 폰트 시스템 코드와 컬러토큰",
         },
@@ -168,10 +174,10 @@ export const ALLCASES: Case[] = [
   image:
     "/personalBlog_1.jpg",
   
-  images:[
-    "/personalBlog_1.jpg",
-    "/personalBlog_2.jpg",
-    "/personalBlog_3.jpg", 
+  images: [
+    { src: "/personalBlog_1.jpg", width: 1920, height: 1080 },
+    { src: "/personalBlog_2.jpg", width: 1920, height: 1080 },
+    { src: "/personalBlog_3.jpg", width: 1920, height: 1080 },
   ],
 
 
@@ -193,6 +199,8 @@ export const ALLCASES: Case[] = [
         "Comment 테이블에 parentId와 depth 구조를 도입하여 무한 대댓글 구조를 설계했다. flat 형태로 저장된 댓글 데이터를 parentId 기준 재귀 트리로 복원하고 depth 기반 들여쓰기를 적용하여 계층 구조를 시각적으로 표현했다.",
       image: {
         src: "/personalBlog_2.jpg",
+        width: 1920,
+        height: 1080,
         caption:
           "Fig 1: 무한 대댓글 ERD 구조",
       },
@@ -208,8 +216,10 @@ export const ALLCASES: Case[] = [
       heading: "재사용 가능한 UI 시스템",
       body:
         "Shadcn UI Select 컴포넌트를 확장하여 폴더 생성 기능이 포함된 SelectWithCreate 컴포넌트를 제작했다. icon, label, defaultValue 등을 props 기반으로 분리하여 다양한 입력 흐름에 재사용 가능하도록 설계했고 Storybook 기반 UI 테스트를 함께 구성했다.",
-       image: {
-        src:"/personalBlog_3.jpg", 
+      image: {
+        src: "/personalBlog_3.jpg",
+        width: 1920,
+        height: 1080,
         caption:
           "Fig 2: StoryBook Select 컴포넌트 활용 예시",
       },
@@ -245,9 +255,9 @@ export const ALLCASES: Case[] = [
     image:
       "/peacefull_1.jpg",
 
-    images:[
-      "/peacefull_1.jpg",
-      "/peacefull_2.png",
+    images: [
+      { src: "/peacefull_1.jpg", width: 8245, height: 4638 },
+      { src: "/peacefull_2.png", width: 1212, height: 1158 },
     ],
 
     description:
@@ -267,6 +277,8 @@ export const ALLCASES: Case[] = [
 
         image: {
           src: "/peacefull_2.png",
+          width: 1212,
+          height: 1158,
           caption:
             "Fig 1: 녹음 및 재생 흐름을 담당하는 Audio Manager 구조.",
         },

@@ -1,8 +1,13 @@
+export type ImageRef = {
+  src: string;
+  width: number;
+  height: number;
+};
+
 export type CaseSection = {
   heading: string;
   body: string;
-  image?: {
-    src: string;
+  image?: ImageRef & {
     caption: string;
   };
 };
@@ -15,7 +20,7 @@ export type Case = {
   status: "ONGOING" | "SOLVED" | "HOLDED";
   date: string;
   image: string;
-  images?: string[];
+  images?: ImageRef[];
   description: string;
   projectUrl?: string;
   sections: CaseSection[];

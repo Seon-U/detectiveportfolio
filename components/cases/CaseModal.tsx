@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Case } from "@/lib/cases/types";
+import type { Case, ImageRef } from "@/lib/cases/types";
 import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +28,7 @@ function CaseModalGallery({
   alt,
   isDark,
 }: {
-  images: string[];
+  images: ImageRef[];
   alt: string;
   isDark: boolean;
 }) {
@@ -63,11 +63,11 @@ function CaseModalGallery({
       <div
         ref={scrollerRef}
         onScroll={handleScroll}
-        className="flex md:flex-col gap-3 md:gap-4 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none hide-scrollbar -mx-1 px-1 md:mx-0 md:px-0"
+        className="flex md:flex-col items-start gap-3 md:gap-4 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none hide-scrollbar -mx-1 px-1 md:mx-0 md:px-0"
       >
-        {images.map((src, i) => (
+        {images.map((img, i) => (
           <motion.div
-            key={src}
+            key={img.src}
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.15 + i * 0.05 }}
@@ -81,11 +81,12 @@ function CaseModalGallery({
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-800 shadow-sm z-10" />
             )}
             <Image
-              src={src}
+              src={img.src}
               alt={`${alt} — ${i + 1}`}
-              width={1080}
-              height={810}
-              className="w-full aspect-[4/3] md:aspect-[16/10] object-cover"
+              width={img.width}
+              height={img.height}
+              sizes="(min-width: 768px) 33vw, 90vw"
+              className="block w-full h-auto"
             />
           </motion.div>
         ))}
@@ -126,9 +127,9 @@ function CaseModalGallery({
             role="tablist"
             aria-label="Image pagination"
           >
-            {images.map((src, i) => (
+            {images.map((img, i) => (
               <button
-                key={`${src}-dot`}
+                key={`${img.src}-dot`}
                 type="button"
                 role="tab"
                 aria-label={`Show image ${i + 1}`}
@@ -167,8 +168,10 @@ export default function CaseModal({ onClose, caseData }: CaseModalProps) {
     };
   }, [onClose]);
 
-  const galleryImages = (
-    caseData.images?.length ? caseData.images : [caseData.image]
+  const galleryImages: ImageRef[] = (
+    caseData.images?.length
+      ? caseData.images
+      : [{ src: caseData.image, width: 16, height: 9 }]
   ).slice(0, MAX_GALLERY);
 
   return (

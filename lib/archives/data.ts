@@ -58,8 +58,11 @@ export const ALL_ARCHIVES: Archive[] = [
     description:
       "2인 협업 프로젝트에서 브랜치 전략과 commit convention이 없을 경우 구조가 빠르게 혼란스러워졌다. 이를 해결하기 위한 최소 협업 규칙을 정리했다.",
 
-    image:
-      "/gitflow.png",
+    image: {
+      src: "/gitflow.png",
+      width: 1218,
+      height: 446,
+    },
 
     sections: [
       {
@@ -97,8 +100,11 @@ export const ALL_ARCHIVES: Archive[] = [
     description:
       "앱 개발보다 더 어렵게 느껴졌던 것은 실제 배포 과정이었다. 인증서, provisioning profile, TestFlight 심사 흐름 등을 직접 정리했다.",
 
-    image:
-      "/IOSdistribute.png",
+    image: {
+      src: "/IOSdistribute.png",
+      width: 498,
+      height: 257,
+    },
 
     sections: [
       {

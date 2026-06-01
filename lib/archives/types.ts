@@ -1,10 +1,15 @@
 export type ArchiveCategory = "Notes" | "Experiments";
 
+export type ImageRef = {
+  src: string;
+  width: number;
+  height: number;
+};
+
 export type ArchiveSection = {
   heading: string;
   body: string;
-  image?: {
-    src: string;
+  image?: ImageRef & {
     caption: string;
   };
 };
@@ -16,7 +21,7 @@ export type Archive = {
   summary: string;
   category: ArchiveCategory;
   description: string;
-  image?: string;
+  image?: ImageRef;
   sections: ArchiveSection[];
   pinnedQuote?: {
     body: string;

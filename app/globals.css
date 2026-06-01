@@ -26,9 +26,9 @@
   --accent: 358 68% 38%;
   --accent-foreground: 40 30% 96%;
 
-  --verified: 2 84% 58%;
-  --solved: 150 62% 40%;
   --classified: 220 65% 40%;
+  --solved: 150 62% 40%;
+  --verified: 2 84% 58%;
 
   --shadow-card: 0 8px 24px rgb(70 42 18 / 0.08);
 
