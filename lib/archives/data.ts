@@ -3,144 +3,120 @@ import type { Archive } from "./types";
 export const ALL_ARCHIVES: Archive[] = [
   {
     id: "001",
-    title: "The Anatomy of a Memory Leak",
-    date: "2024-01-12",
-    summary: "A deep dive into how memory leaks silently accumulate in React applications and the forensic tools to expose them.",
+
+    title: "fetch, axios, ajax — 요청 시스템 비교 기록",
+
+    date: "2024-03-12",
+
+    summary:
+      "브라우저 환경에서 사용되는 비동기 요청 방식들의 구조와 차이를 정리한 조사 기록.",
+
     category: "Notes",
-    description: "Memory leaks in React are often invisible until the application grinds to a halt. This note documents the patterns, symptoms, and diagnostic playbook developed across several cases.",
-    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+
+    description:
+      "fetch API, axios, jquery ajax는 모두 HTTP 요청을 처리하지만 내부 구조와 사용 목적은 상당히 다르다. 실제 동작 흐름과 브라우저 지원 구조를 기준으로 차이를 정리했다.",
+
     pinnedQuote: {
-      body: "The code tells a story. You just have to listen to the variables.",
-      attribution: "AP, 2022",
+      body:
+        "같은 요청이라도 어떤 계층에서 추상화하느냐에 따라 개발 경험은 완전히 달라진다.",
+      attribution: "Field Notes",
     },
+
     sections: [
       {
-        heading: "Symptoms",
-        body: "The application feels sluggish after extended use. Tab memory climbs steadily in DevTools. Animations stutter. Event handlers fire twice. These are the fingerprints of a leak — rarely explosive, always cumulative. In one investigation, a dashboard app consumed 1.4 GB of RAM after 40 minutes of idle use.",
-        image: {
-          src: "https://images.unsplash.com/photo-1633520833019-e34afd4b8fad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 1: Memory consumption graph showing a classic sawtooth leak pattern.",
-        },
+        heading: "초기 조사",
+        body:
+          "초기에는 fetch와 axios의 차이가 단순 문법 수준이라고 생각했다. 하지만 실제로는 Promise 처리 방식, intercept 구조, 기본 에러 처리, 브라우저 지원 전략 등 내부 설계 철학 자체가 달랐다.",
       },
+
       {
-        heading: "The Usual Suspects",
-        body: "Three patterns account for the vast majority of React memory leaks: (1) Event listeners attached in useEffect without cleanup functions. (2) Subscriptions — WebSocket, RxJS, custom pub/sub — that persist after component unmount. (3) Closures that capture stale references to large objects, preventing garbage collection. The third is the most insidious because no obvious code is 'wrong'.",
+        heading: "추상화 계층 분석",
+        body:
+          "fetch는 브라우저 내장 Web API로 최소한의 기능만 제공한다. 반면 axios는 interceptors, 자동 JSON 변환, timeout 처리 등 애플리케이션 레벨 기능을 포함한다. jquery ajax는 DOM 중심 시대의 브라우저 호환성 문제를 해결하기 위한 구조에 가까웠다.",
       },
+
       {
-        heading: "The Autopsy",
-        body: "Chrome DevTools Heap Snapshot is the scalpel of choice. Take a baseline snapshot, perform the suspected action, force a garbage collection, take a second snapshot. Filter the diff by 'Objects allocated between snapshots'. The retained objects will point directly to the offending closure or forgotten listener. Once located, the fix is almost always a cleanup function in useEffect's return value.",
-        image: {
-          src: "https://images.unsplash.com/photo-1595232208179-d8cf4ca455fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 2: DevTools heap snapshot diff revealing the retained event listener chain.",
-        },
+        heading: "결론",
+        body:
+          "중요한 것은 어떤 라이브러리가 더 좋으냐가 아니라 현재 프로젝트에서 어떤 수준의 추상화가 필요한가였다. 작은 서비스에서는 fetch만으로 충분하지만 인증 흐름이나 공통 에러 처리 구조가 복잡해질수록 axios의 장점이 커진다는 점을 확인했다.",
       },
     ],
   },
+
   {
     id: "002",
-    title: "React Context vs Redux: A Bloody History",
-    date: "2024-02-03",
-    summary: "An opinionated account of when React Context became 'good enough' and when Redux still has a case for its existence.",
-    category: "Notes",
-    description: "The state management wars have been fought on countless blog posts and conference stages. This note cuts through the noise with concrete usage thresholds derived from real projects.",
-    image: "https://images.unsplash.com/photo-1725023860191-74206dfd4982?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+
+    title: "2인 협업 Git Convention 구축",
+
+    date: "2024-08-11",
+
+    summary:
+      "소규모 협업 환경에서 충돌을 줄이기 위한 Git Flow와 Convention 설계 기록.",
+
+    category: "Experiments",
+
+    description:
+      "2인 협업 프로젝트에서 브랜치 전략과 commit convention이 없을 경우 구조가 빠르게 혼란스러워졌다. 이를 해결하기 위한 최소 협업 규칙을 정리했다.",
+
+    image:
+      "/gitflow.png",
+
     sections: [
       {
-        heading: "The Old War",
-        body: "Redux arrived in 2015 with a promise: predictable state, time-travel debugging, and a single source of truth. It delivered. But it also delivered boilerplate, indirection, and a learning curve steep enough to deter many. React Context arrived as the supposed successor — built-in, simpler, no extra dependencies. The argument has raged since.",
+        heading: "문제 발생",
+        body:
+          "초기 프로젝트에서는 브랜치 전략 없이 main 브랜치에 직접 commit을 올리는 방식으로 개발이 진행되었다. 기능 충돌과 merge conflict가 반복되며 작업 흐름 추적이 어려워졌다.",
       },
+
       {
-        heading: "A Study in Contrast",
-        body: "Context is synchronous and re-renders every consumer on every value change. For small, infrequently updated state — theme, locale, auth user — this is perfectly fine. For high-frequency updates like a real-time data feed, or for state shared across dozens of components with complex update logic, Context's re-render cost becomes measurable. Redux (or Zustand, Jotai) provides selective subscriptions that Context cannot.",
-        image: {
-          src: "https://images.unsplash.com/photo-1551029506-0807df4e2031?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 1: Render profiler comparing Context vs Zustand on a 200-item live list.",
-        },
+        heading: "Convention 설계",
+        body:
+          "feature 브랜치 기반 작업 흐름과 commit prefix 규칙을 도입했다. 기능 단위로 작업을 분리하고 commit 로그만 보더라도 변경 목적을 추적할 수 있도록 구성했다.",
       },
+
       {
-        heading: "Verdict",
-        body: "The answer is not ideological. Use Context for low-frequency, app-wide state. Reach for Zustand or Redux Toolkit when you need selective subscriptions, middleware, or devtools-grade state inspection. The mistake is picking a side permanently — the best codebases use both, each for what it does well.",
+        heading: "결과",
+        body:
+          "단순한 규칙 추가만으로 merge conflict 빈도가 감소했고 작업 흐름과 책임 범위를 명확하게 추적할 수 있었다. Git은 단순 버전 관리가 아니라 협업 기록 시스템이라는 점을 체감하게 되었다.",
       },
     ],
   },
+
   {
     id: "003",
-    title: "Why your useEffect is infinite looping",
-    date: "2024-03-15",
-    summary: "A field guide to the three most common useEffect infinite loop causes and their diagnostic signatures.",
-    category: "Notes",
-    description: "An infinite render loop from a misbehaving useEffect is one of the most disorienting bugs in React. The browser freezes, the console floods, and the cause is rarely where you expect it.",
-    image: "https://images.unsplash.com/photo-1633520833019-e34afd4b8fad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    sections: [
-      {
-        heading: "The Crime Scene",
-        body: "The React DevTools Profiler shows a component rendering hundreds of times per second. The console floods with log messages. The browser tab becomes unresponsive. This is an infinite render loop, almost always triggered by a useEffect that sets state which in turn triggers the effect again.",
-      },
-      {
-        heading: "Common Culprits",
-        body: "Three patterns are responsible for nearly every case. First: an object or array created inline in the component body is listed as a dependency — a new reference is created on every render, making the dependency check always fail. Second: a function is called inside useEffect and also listed as a dependency, but the function is redeclared on every render. Third: state is set unconditionally inside useEffect with no dependency array, creating an infinite cycle. The ESLint react-hooks plugin catches the third but misses the first two.",
-        image: {
-          src: "https://images.unsplash.com/photo-1595232208179-d8cf4ca455fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 1: Flamegraph showing component re-rendering every 2ms in an infinite loop.",
-        },
-      },
-      {
-        heading: "The Fix",
-        body: "For inline objects and arrays: move the value outside the component or use useMemo. For functions: wrap in useCallback, or move the function inside the effect if it doesn't need to be shared. For unconditional state updates: add a conditional check inside the effect before calling setState. In every case, the goal is stable references in the dependency array — values that don't change identity between renders unless their logical content changes.",
-      },
-    ],
-  },
-  {
-    id: "004",
-    title: "WebGL Shader Magic",
-    date: "2024-04-22",
-    summary: "First contact with GLSL fragment shaders — building a procedural noise background that reacts to mouse position.",
+
+    title: "앱스토어 배포 절차 기록",
+
+    date: "2024-11-04",
+
+    summary:
+      "TestFlight부터 App Store 배포까지 iOS 앱 배포 흐름을 정리한 운영 기록.",
+
     category: "Experiments",
-    description: "An experiment in writing raw WebGL shaders from scratch, without three.js or similar abstractions. The goal: a living, mouse-reactive noise background for a portfolio landing page.",
-    image: "https://images.unsplash.com/photo-1551029506-0807df4e2031?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+
+    description:
+      "앱 개발보다 더 어렵게 느껴졌던 것은 실제 배포 과정이었다. 인증서, provisioning profile, TestFlight 심사 흐름 등을 직접 정리했다.",
+
+    image:
+      "/IOSdistribute.png",
+
     sections: [
       {
-        heading: "First Contact with GLSL",
-        body: "GLSL is a C-like language executed on the GPU per pixel, every frame. The mental model shift from JavaScript is significant: there are no loops over pixels, no DOM, no callbacks. Instead, a fragment shader is a pure function that receives UV coordinates and outputs a color. Everything — noise, gradients, animation — must be derived from those coordinates and a time uniform.",
+        heading: "첫 배포 시도",
+        body:
+          "초기에는 단순히 앱을 빌드하면 바로 업로드할 수 있을 것이라 생각했다. 하지만 Apple Developer 계정 구조, 인증서 발급, provisioning profile 설정 등 예상보다 복잡한 운영 절차가 존재했다.",
       },
+
       {
-        heading: "The Experiment",
-        body: "The implementation used a canvas element with a WebGL2 context, two triangles filling the viewport, and a fragment shader implementing Simplex noise. A mouse position uniform was passed each frame via requestAnimationFrame. The noise field was distorted by the mouse distance — closer proximity increased turbulence. The entire shader compiled to 47 lines of GLSL.",
-        image: {
-          src: "https://images.unsplash.com/photo-1725023860191-74206dfd4982?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 1: The noise field reacting to cursor position — turbulence increases near the cursor.",
-        },
+        heading: "배포 흐름 정리",
+        body:
+          "Git Tag 기반 버전 관리와 TestFlight 테스트 흐름을 기준으로 배포 절차를 재구성했다. 버전별 변경 이력을 추적하고 심사 단계별 상태를 기록할 수 있도록 구조화했다.",
       },
+
       {
-        heading: "Findings",
-        body: "GPU execution is dramatically faster than equivalent Canvas 2D code — 60fps sustained with no measurable CPU overhead. The main difficulty was debugging: shader compilation errors are cryptic strings with line numbers offset from the actual source. Tooling (GLSL Lint VS Code extension) helps significantly. The experiment proved viable for production use as a low-cost ambient background effect.",
-      },
-    ],
-  },
-  {
-    id: "005",
-    title: "Custom Hooks for DOM Manipulation",
-    date: "2024-05-10",
-    summary: "Building useResizeObserver, useDragToScroll, and useClickOutside as standalone hooks — and where the abstraction breaks down.",
-    category: "Experiments",
-    description: "Three common DOM interaction patterns extracted into custom hooks, tested across different component architectures. Includes notes on where the hooks fail to generalize.",
-    image: "https://images.unsplash.com/photo-1595232208179-d8cf4ca455fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    sections: [
-      {
-        heading: "The Hypothesis",
-        body: "Custom hooks should encapsulate imperative DOM logic and expose a clean declarative interface. The hypothesis: three commonly duplicated DOM patterns — element resize observation, drag-to-scroll on touch and mouse, and outside click detection — could be abstracted into hooks general enough to be dropped into any project without modification.",
-      },
-      {
-        heading: "Implementation",
-        body: "useResizeObserver wraps ResizeObserver in a ref callback pattern, exposing width and height as reactive values. useDragToScroll attaches pointerdown, pointermove, and pointerup listeners, using setPointerCapture for reliable cross-device behavior. useClickOutside uses a document-level mousedown listener with a ref comparison. Each hook returns cleanup automatically via useEffect's return function.",
-        image: {
-          src: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 1: Hook dependency graph — all three are single-responsibility with no shared state.",
-        },
-      },
-      {
-        heading: "Results",
-        body: "useResizeObserver and useClickOutside generalized cleanly. useDragToScroll failed in one case: when the scroll container was inside a CSS transform context, pointer coordinates were off by the transform offset. The fix required passing the transform matrix as a parameter, which broke the 'drop in and go' goal. Conclusion: DOM hooks generalize well for simple interactions but accumulate escape hatches proportional to layout complexity.",
+        heading: "운영 관점",
+        body:
+          "앱 개발은 코드 작성에서 끝나는 것이 아니라 실제 사용자 환경까지 안전하게 전달되는 과정 전체를 포함한다는 점을 이해하게 되었다.",
       },
     ],
   },

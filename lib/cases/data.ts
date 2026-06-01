@@ -3,103 +3,285 @@ import type { Case } from "./types";
 export const ALLCASES: Case[] = [
   {
     id: "001",
-    title: "Project Chimera",
-    summary: "A complex web platform with heavily tangled state logic.",
-    tags: ["React", "State Management", "Redux"],
-    status: "SOLVED",
-    date: "1994-10-24",
-    image:
-      "https://images.unsplash.com/photo-1633520833019-e34afd4b8fad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvbGQlMjBjbGFzc2lmaWVkJTIwZm9sZGVyfGVufDF8fHx8MTc3OTUzNTExM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-    images: [
-      "https://images.unsplash.com/photo-1633520833019-e34afd4b8fad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-      "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-      "https://images.unsplash.com/photo-1579856703268-d123303cbd57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    title: "시니어 반려동물 통합관리 서비스",
+    summary:
+      "Next.js · Spring Security · Nginx 환경에서 발생한 인증 장애와 배포 구조 문제를 추적한 사례.",
+
+    tags: [
+      "Next.js",
+      "Spring Security",
+      "JWT",
+      "Nginx",
+      "Reverse Proxy",
     ],
+
+    status: "SOLVED",
+
+    date: "2026-04-20",
+
+    image:
+      "/MGK_1.jpg",
+
+    images: [
+      "/MGK_1.jpg",
+      "/MGK_2.jpg",
+      "/MGK_3.jpg",
+    ],
+
     description:
-      "A complex web platform with heavily tangled state logic causing memory leaks and unpredictable render cycles.",
-    projectUrl: "https://github.com",
+      "시니어 반려동물의 지출, 건강 관리, 음성 입력 기능을 통합 관리하는 웹 서비스. 인증 구조 설계와 배포 환경 트러블슈팅을 중심으로 개발을 진행했다.",
+
+    projectUrl: "https://github.com/My-Golden-Kids/MGK",
+
     sections: [
       {
-        heading: "The Incident",
-        body: "The initial premise seemed sound. We had built the architecture according to the blueprints, yet the resulting structure exhibited signs of instability under stress. It started as a whisper — a slight delay in the UI, an anomalous network request — but soon grew into a cascade of uncaught exceptions.",
+        heading: "사건 발생",
+        body:
+          "배포 이후 인증이 필요한 API 요청이 전면 실패했다. 로컬 환경에서는 정상적으로 동작했지만 운영 환경에서는 모든 인증 요청이 차단되었다. 요청은 Next.js Middleware, Spring Security, Nginx 세 레이어를 거쳐 처리되고 있었고 정확한 실패 지점을 특정하기 어려운 상태였다."
+      },
+
+      {
+        heading: "레이어별 추적",
+        body:
+          "초기 로그 분석 결과 405 Method Not Allowed 오류가 Spring이 아닌 Next.js Middleware에서 발생하고 있음을 확인했다. getToken 기반 직접 검증 방식을 auth() 콜백 방식으로 변경하여 첫 번째 문제를 해결했다. 이후 HTTPS 환경에서 HTTP API를 직접 호출하며 mixed content 문제가 추가로 발생했다.",
+      },
+
+      {
+        heading: "Reverse Proxy 구조 재설계",
+        body:
+          "모든 API 요청을 Next.js 내부 proxy 레이어를 통해 전달하도록 구조를 재설계했다. 이를 통해 mixed content 문제를 해결하고 Authorization Header 흐름을 일관되게 통제할 수 있었다. 이후 Nginx 헤더 전달 설정과 Spring 인증 흐름을 재검증하며 운영 환경 인증 구조를 안정화했다.",
+          
+
         image: {
-          src: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 1: Visual representation of the data flow bottleneck.",
+          src: "/MGK_2.jpg",
+          caption:
+            "Fig 1: Reverse Proxy 기반으로 재구성된 최종 인증 아키텍처.",
         },
       },
+
       {
-        heading: "Gathering Evidence",
-        body: "We compiled logs. Thousands of lines of textual evidence pointing to a singular conclusion: the state was mutating unpredictably. A rogue useEffect was caught red-handed dispatching state updates without proper dependency arrays, causing an infinite render loop. The culprit tried to hide within a deeply nested Context provider, but performance profiling exposed the timeline.",
+        heading: "음성 인식 이상 현상",
+        body:
+          "STT 기반 음성 입력 기능에서는 한국어 발음 오인식 문제가 발생했다. '밥 두끼'가 '밤토끼'로, '세끼'가 '새끼'로 인식되는 현상이 반복되었고 특정 발음 패턴에서 경음 인식이 불안정하다는 점을 확인했다.",
       },
+
       {
-        heading: "Resolution",
-        body: "The fix wasn't a new library or architectural overhaul, but a fundamental restructuring of dependency arrays and strict memoization. By isolating the offending closure and rewriting the subscription logic, render count dropped from 847 to a stable 3 per interaction. Case closed.",
+        heading: "규칙 기반 보정",
+        body:
+          "빈출 오인식 단어를 명시적으로 수집하여 normalize correction map을 구성했다. 또한 '끼'와 '기'처럼 한국어 경음 발음을 동일 패턴으로 처리하도록 보정 로직을 추가하여 입력 정확도를 개선했다.",
         image: {
-          src: "https://images.unsplash.com/photo-1579856703268-d123303cbd57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 2: Final documentation placed in the permanent archives.",
+          src: "/MGK_3.jpg",
+          caption:
+            "Fig 2: normalize code",
         },
       },
     ],
   },
+
   {
     id: "002",
-    title: "The Silent API",
+
+    title: "MZ부모를 위한 증여 관리 웹 서비스",
+
     summary:
-      "Investigating the disappearance of crucial data points in a high-traffic app.",
-    tags: ["Next.js", "API", "Performance"],
-    status: "HOLDED",
-    date: "2010-07-10",
+      "복잡한 금융 관계를 사용자 중심 데이터 구조로 재설계한 증여 관리 서비스.",
+
+    tags: [
+      "Next.js",
+      "PrismaORM",
+      "MySQL",
+      "OpenAI API",
+      "Design System",
+    ],
+
+    status: "SOLVED",
+
+    date: "2026-02-03",
+
     image:
-      "https://images.unsplash.com/photo-1725023860191-74206dfd4982?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWQlMjBzdHJpbmclMjBjb25zcGlyYWN5JTIwYm9hcmR8ZW58MXx8fHwxNzc5NTM1MTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "/aiapp_1.jpg",
+
+    images:[
+      "/aiapp_1.jpg",
+      "/aiapp_2.jpg"
+    ],
+    
     description:
-      "Crucial data points vanish between client and server with no trace in logs. The API responds 200 but delivers silence.",
+      "MZ 부모 세대를 위한 증여 관리 웹 서비스. 금융 관계 중심 데이터 모델링과 디자인 시스템 구축을 중심으로 개발을 진행했다.",
+
+    projectUrl:
+      "https://github.com/Seon-U/foryouhana-mobileweb-ui.git",
+
     sections: [
       {
-        heading: "First Contact",
-        body: "The client reported intermittent data loss. Not a crash — a silence. Endpoints returned 200 status codes yet the response payload arrived empty. The system logs showed nothing unusual. This was the troubling part: no error, no trace, only absence.",
+        heading: "초기 구조 분석",
+        body:
+          "초기 데이터 구조는 관계 흐름이 복잡하고 JOIN 의존도가 높아 유지보수 비용이 큰 상태였다. 특히 계좌(Account)와 거래(Transaction) 관계가 분산되어 있어 사용자 중심 흐름을 추적하기 어려웠다.",
       },
+
       {
-        heading: "The Trail Goes Cold",
-        body: "Network inspection revealed the requests were being intercepted by a middleware layer added three sprints ago. A content-negotiation header mismatch caused the serializer to silently drop the payload under specific load conditions. Reproducible only above 3,000 concurrent users.",
-        image: {
-          src: "https://images.unsplash.com/photo-1551029506-0807df4e2031?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 1: Network trace showing the dropped payload window.",
+        heading: "데이터 모델 재구성",
+        body:
+          "금융 서비스 구조를 기반으로 Account 중심 관계 모델을 재설계했다. parent_id 기반 계층 구조를 도입하고 User 중심 관계로 정리하여 데이터 흐름을 단순화했다.",
+      },
+
+      {
+        heading: "반정규화 전략",
+        body:
+          "조회 성능과 유지보수성을 고려하여 일부 구조에는 반정규화를 적용했다. 반복적인 JOIN 복잡도를 줄이고 데이터 접근 경로를 단순화하여 서비스 구조를 안정화했다.",
+      },
+
+      {
+        heading: "공통 디자인 시스템 구축",
+        body:
+          "TailwindCSS v4 기반 컬러 토큰 시스템을 구축하고 global.css 중심 theme 구조를 설계했다. 공통 컴포넌트와 Storybook을 활용하여 협업 환경에서 UI 일관성을 유지할 수 있도록 구성했다.",
+          image: {
+          src: "/aiapp_2.jpg",
+          caption:
+            "Fig 1: 폰트 시스템 코드와 컬러토큰",
         },
-      },
-      {
-        heading: "Status: On Hold",
-        body: "A temporary patch was deployed to serialize the offending header before it reaches the middleware. The root cause — a race condition in the serializer's thread pool — requires a deeper refactor scheduled for Q3. Investigation is paused pending resource allocation.",
       },
     ],
   },
+
   {
-    id: "003",
-    title: "Enigma Protocol",
-    summary: "Reverse-engineering a legacy authentication system.",
-    tags: ["Authentication", "Security", "OAuth"],
-    status: "ONGOING",
-    date: "2017-09-08",
+  id: "003",
+
+  title: "개인 블로그 개발",
+
+  summary:
+    "폴더형 아카이브 블로그 내부에서 발생한 검색, 댓글 구조, 인증 흐름 문제를 재구성한 기록.",
+
+  tags: [
+    "Next.js",
+    "MySQL",
+    "PrismaORM",
+    "NextAuth.js",
+    "Storybook",
+    "FullText Search",
+  ],
+
+  status: "SOLVED",
+
+  date: "2026-01-06",
+
+  image:
+    "/personalBlog_1.jpg",
+  
+  images:[
+    "/personalBlog_1.jpg",
+    "/personalBlog_2.jpg",
+    "/personalBlog_3.jpg", 
+  ],
+
+
+  description:
+    "GitHub 스타일 활동 그래프와 폴더 구조를 결합한 아카이브형 블로그. 검색 최적화, 계층형 댓글 구조, 인증 및 재사용 가능한 UI 시스템 구축을 중심으로 개발했다.",
+
+  projectUrl: "https://github.com/Seon-U/blogging.git",
+
+  sections: [
+    {
+      heading: "아카이브 구조 설계",
+      body:
+        "폴더 기반 탐색 구조와 GitHub 스타일 활동 그래프를 결합하여 사용자가 기록 흐름 자체를 탐색할 수 있는 아카이브 형태로 재구성했다.",
+    },
+
+    {
+      heading: "계층형 댓글 추적",
+      body:
+        "Comment 테이블에 parentId와 depth 구조를 도입하여 무한 대댓글 구조를 설계했다. flat 형태로 저장된 댓글 데이터를 parentId 기준 재귀 트리로 복원하고 depth 기반 들여쓰기를 적용하여 계층 구조를 시각적으로 표현했다.",
+      image: {
+        src: "/personalBlog_2.jpg",
+        caption:
+          "Fig 1: 무한 대댓글 ERD 구조",
+      },
+    },
+
+    {
+      heading: "검색 인덱스 재구성",
+      body:
+        "Post 테이블의 title과 content 기반 FullText Index를 구성했다. MySQL innodb_ft_user_stopword_table에 한국어 불용어를 등록하여 검색 정확도를 개선했고, 검색 결과와 폴더 목록은 페이지네이션 기반으로 처리하여 데이터 흐름을 최적화했다.",
+    },
+
+    {
+      heading: "재사용 가능한 UI 시스템",
+      body:
+        "Shadcn UI Select 컴포넌트를 확장하여 폴더 생성 기능이 포함된 SelectWithCreate 컴포넌트를 제작했다. icon, label, defaultValue 등을 props 기반으로 분리하여 다양한 입력 흐름에 재사용 가능하도록 설계했고 Storybook 기반 UI 테스트를 함께 구성했다.",
+       image: {
+        src:"/personalBlog_3.jpg", 
+        caption:
+          "Fig 2: StoryBook Select 컴포넌트 활용 예시",
+      },
+    },
+
+    {
+      heading: "인증 및 검증 흐름",
+      body:
+        "NextAuth.js 기반 OAuth 인증 구조를 적용하고 회원가입 및 로그인 과정에는 zod validation 객체를 사용했다. 비밀번호는 bcryptjs 기반 hash 처리 후 저장했으며 compare 검증 흐름으로 로그인 인증을 구성했다.",
+    },
+  ]},
+
+  {
+    id: "004",
+
+    title: "북한이탈주민을 위한 한국어 발음 학습 앱",
+
+    summary:
+      "북한이탈주민을 위한 한국어 발음 학습 앱과 음성 처리 구조 개발.",
+
+    tags: [
+      "SwiftUI",
+      "AVFAudio",
+      "iOS",
+      "App Store",
+      "JSON Storage",
+    ],
+
+    status: "SOLVED",
+
+    date: "2024-12-05",
+
     image:
-      "https://images.unsplash.com/photo-1551029506-0807df4e2031?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWdpY2FsJTIwZ2xvd2luZyUyMHNwZWxsJTIwYm9va3xlbnwxfHx8fDE3Nzk1MzUxMTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "/peacefull_1.jpg",
+
+    images:[
+      "/peacefull_1.jpg",
+      "/peacefull_2.png",
+    ],
+
     description:
-      "A 15-year-old authentication system with no documentation, no original authors, and a codebase that predates modern OAuth standards.",
-    projectUrl: "https://github.com",
+      "북한이탈주민이 남한 발음을 학습하고 녹음 및 비교할 수 있도록 제작한 iOS 학습 앱.",
+
     sections: [
       {
-        heading: "The Brief",
-        body: "The mission: modernize a monolithic auth system without a single day of downtime. No documentation exists. The original engineers have long since departed. The codebase predates OAuth 2.0, relies on proprietary session tokens, and serves 40,000 active users.",
+        heading: "음성 학습 구조 설계",
+        body:
+          "사용자가 아나운서 발음을 듣고 직접 따라 말한 뒤 녹음 결과를 비교할 수 있도록 학습 흐름을 설계했다. SwiftUI 기반 화면 구성과 음성 재생 흐름을 함께 구현했다.",
+      },
+
+      {
+        heading: "AVFAudio 기반 Audio Manager",
+        body:
+          "AVFAudio 기반 Audio Manager를 직접 구현하여 녹음, 재생, 세션 상태 관리 흐름을 통합했다. 앱 상태 변화(scenePhase)에 따라 자동 저장과 재생 상태 동기화가 가능하도록 처리했다.",
+
         image: {
-          src: "https://images.unsplash.com/photo-1633520833019-e34afd4b8fad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-          caption: "Fig 1: The original auth flowchart, recovered from an archived PDF.",
+          src: "/peacefull_2.png",
+          caption:
+            "Fig 1: 녹음 및 재생 흐름을 담당하는 Audio Manager 구조.",
         },
       },
+
       {
-        heading: "Deciphering the Cipher",
-        body: "By mapping all token validation paths via static analysis, we identified three undocumented edge cases in the session renewal logic. These had been silently failing for an estimated 2.3% of users on token refresh — a bug that had existed undetected for over a decade.",
+        heading: "JSON 기반 저장 전략",
+        body:
+          "SwiftData와 같은 프레임워크 의존도를 줄이기 위해 JSON 파일 기반 저장 구조를 선택했다. 앱 번들 버전 변경 시 JSON 데이터를 자동 갱신하도록 설계하여 데이터 관리 비용을 최소화했다.",
       },
+
       {
-        heading: "Active Investigation",
-        body: "The migration to OAuth 2.0 + PKCE is 60% complete. A shadow-mode dual-auth system is running in parallel, validating tokens against both the legacy and new systems before any hard cutover. Expected completion: Q4.",
+        heading: "배포 및 형상 관리",
+        body:
+          "Git Tag 기반 버전 관리를 적용하고 TestFlight 및 App Store 배포 과정을 직접 관리했다. 앱 업데이트 흐름과 배포 이력을 체계적으로 추적할 수 있도록 운영 구조를 구성했다.",
       },
     ],
   },

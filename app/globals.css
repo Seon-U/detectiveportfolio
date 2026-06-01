@@ -19,15 +19,16 @@
   --muted-foreground: 22 12% 42%;
   --subtle-foreground: 24 10% 56%;
 
-  --primary: 18 42% 24%;
+  --primary: 20 42% 24%;
   --primary-foreground: 40 30% 96%;
 
-  --accent: 38 72% 58%;
-  --accent-foreground: 18 24% 18%;
+  /* --accent: 38 80% 55%; */
+  --accent: 358 68% 38%;
+  --accent-foreground: 40 30% 96%;
 
   --verified: 2 84% 58%;
   --solved: 150 62% 40%;
-  --classified: 350 82% 56%;
+  --classified: 220 65% 40%;
 
   --shadow-card: 0 8px 24px rgb(70 42 18 / 0.08);
 
@@ -96,9 +97,9 @@ html.dark {
   --accent: 192 100% 62%;
   --accent-foreground: 228 40% 6%;
 
-  --verified: 350 100% 64%;
+  --classified: 350 100% 64%;
   --solved: 145 92% 48%;
-  --classified: 8 100% 58%;
+  --verified: 8 100% 58%;
 
   --shadow-card:
     0 0 0 1px rgb(0 255 240 / 0.06), 0 0 24px rgb(0 255 240 / 0.08);
