@@ -213,6 +213,15 @@ html.dark {
   box-shadow: var(--shadow-theme-toggle);
 }
 
+@utility hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 body {
   @apply bg-background text-foreground font-pretendard;
   position: relative;

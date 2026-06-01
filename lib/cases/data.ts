@@ -10,6 +10,11 @@ export const ALLCASES: Case[] = [
     date: "1994-10-24",
     image:
       "https://images.unsplash.com/photo-1633520833019-e34afd4b8fad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvbGQlMjBjbGFzc2lmaWVkJTIwZm9sZGVyfGVufDF8fHx8MTc3OTUzNTExM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1633520833019-e34afd4b8fad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      "https://images.unsplash.com/photo-1579856703268-d123303cbd57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    ],
     description:
       "A complex web platform with heavily tangled state logic causing memory leaks and unpredictable render cycles.",
     projectUrl: "https://github.com",

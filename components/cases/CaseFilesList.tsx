@@ -3,11 +3,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, FolderOpen, Search } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState } from "react";
-import type { Case } from "@/lib/cases/types";
 import { statusStyles } from "@/lib/cases/status-styles";
+import type { Case } from "@/lib/cases/types";
 import { cn } from "@/lib/utils";
+
+const MotionLink = motion.create(Link);
 
 type Props = {
   cases: Case[];
@@ -17,7 +19,6 @@ const FILTERS = ["ALL", "SOLVED", "ONGOING", "HOLDED"] as const;
 type Filter = (typeof FILTERS)[number];
 
 export default function CaseFilesList({ cases }: Props) {
-  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilter, setActiveFilter] = useState<Filter>("ALL");
 
@@ -81,15 +82,14 @@ export default function CaseFilesList({ cases }: Props) {
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <AnimatePresence>
           {filteredCases.map((c, i) => (
-            <motion.div
+            <MotionLink
               layout
-              layoutId={`case-${c.id}`}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3, delay: i * 0.05 }}
               key={c.id}
-              onClick={() => router.push(`/cases/${c.id}`)}
+              href={`/cases/${c.id}`}
               className="group relative p-6 md:p-8 flex flex-col sm:flex-row gap-6 items-start overflow-hidden cursor-pointer bg-card border border-border hover:border-primary transition-colors shadow-card"
             >
               {/* Polaroid image */}
@@ -144,7 +144,7 @@ export default function CaseFilesList({ cases }: Props) {
                   <ArrowRight />
                 </div>
               </div>
-            </motion.div>
+            </MotionLink>
           ))}
         </AnimatePresence>
       </motion.div>

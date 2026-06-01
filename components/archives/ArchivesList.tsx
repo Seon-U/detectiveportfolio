@@ -2,10 +2,12 @@
 
 import { motion } from "framer-motion";
 import { BookOpen, ChevronRight, Library, Quote } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { Archive, ArchiveCategory } from "@/lib/archives/types";
 import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
+
+const MotionLink = motion.create(Link);
 
 type Props = {
   grouped: Record<ArchiveCategory, Archive[]>;
@@ -15,7 +17,6 @@ type Props = {
 const CATEGORY_ORDER: ArchiveCategory[] = ["Notes", "Experiments"];
 
 export default function ArchivesList({ grouped, pinned }: Props) {
-  const router = useRouter();
   const { isDark } = useMountedTheme();
 
   return (
@@ -47,14 +48,13 @@ export default function ArchivesList({ grouped, pinned }: Props) {
 
                 <div className="grid gap-4">
                   {items.map((item, iIdx) => (
-                    <motion.div
+                    <MotionLink
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: iIdx * 0.1 }}
-                      layoutId={`archive-${item.id}`}
                       key={item.id}
-                      onClick={() => router.push(`/archives/${item.id}`)}
+                      href={`/archives/${item.id}`}
                       className={cn(
                         "group p-4 flex items-center justify-between cursor-pointer rounded transition-all",
                         "bg-card border border-border hover:border-primary hover:bg-surface-hover",
@@ -69,7 +69,7 @@ export default function ArchivesList({ grouped, pinned }: Props) {
                         </div>
                       </div>
                       <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all transform -translate-x-2 group-hover:translate-x-0 text-primary shrink-0" />
-                    </motion.div>
+                    </MotionLink>
                   ))}
                 </div>
               </div>

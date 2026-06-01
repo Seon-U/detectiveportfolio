@@ -15,6 +15,7 @@ export type Case = {
   status: "ONGOING" | "SOLVED" | "HOLDED";
   date: string;
   image: string;
+  images?: string[];
   description: string;
   projectUrl?: string;
   sections: CaseSection[];
