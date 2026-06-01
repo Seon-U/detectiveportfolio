@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Code2, Database, ExternalLink, Shield, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import type { Case } from "@/lib/cases/data";
+import type { Case } from "@/lib/cases/types";
 import { cn } from "@/lib/utils";
 
 interface CaseModalProps {
@@ -194,7 +194,9 @@ export default function CaseModal({
                   >
                     The Incident:
                   </h4>
-                  <p className="font-mono leading-relaxed">{caseData.summary}</p>
+                  <p className="font-mono leading-relaxed">
+                    {caseData.summary}
+                  </p>
                 </div>
 
                 <div className="space-y-4">

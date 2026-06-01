@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Case } from "@/lib/cases/data";
+import type { Case } from "@/lib/cases/types";
 import CaseCarousel from "../CaseCarousel";
 import SectionHeader from "../SectionHeader";
 

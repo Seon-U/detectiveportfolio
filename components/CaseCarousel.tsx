@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import type { Case } from "@/lib/cases/data";
+import type { Case } from "@/lib/cases/types";
 import { cn } from "@/lib/utils";
 
 type Props = {

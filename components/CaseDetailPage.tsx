@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import type { Case } from "@/lib/cases/data";
+import type { Case } from "@/lib/cases/types";
 import { cn } from "@/lib/utils";
 
 function slugify(text: string) {
@@ -141,7 +141,9 @@ export function CaseDetailPage({ caseData }: { caseData: Case }) {
                   key={id}
                   type="button"
                   onClick={() =>
-                    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+                    document
+                      .getElementById(id)
+                      ?.scrollIntoView({ behavior: "smooth" })
                   }
                   className={cn(
                     "block w-full text-left font-mono text-xs py-1.5 transition-colors",
