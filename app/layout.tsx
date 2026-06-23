@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import { siteConfig } from "@/lib/seo/config";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -12,8 +13,25 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Seonu kim | FullStack",
-  description: "FullStack Portfolio",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.defaultTitle,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  verification: {
+    google: "DIcGirR6-sr2MvZmatLRqpPZ19wEs0XIJUmPhranb-4",
+  },
+  openGraph: {
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    type: "website",
+    images: [{ url: siteConfig.ogImage }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [siteConfig.ogImage],
+  },
 };
 
 export default function RootLayout({
