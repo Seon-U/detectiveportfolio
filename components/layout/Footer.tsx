@@ -11,11 +11,13 @@ export default function Footer({ className }: FooterProps) {
     <footer
       className={cn(
         className,
-        "backdrop-blur-md text-center border-t-2 border-border",
+        "mx-auto px-4 sm:px-6 lg:px-8 backdrop-blur-md text-center border-t-2 border-border",
       )}
     >
-      Seonukim | Contact: seonu.kim.kr@gmail.com | Github: @Seon-U | FullStack
-      Dev
+      <div className="flex h-full justify-between items-center text-sm">
+        <div>&#0169; 2026 Seonu</div>
+        <div className="tracking-widest">Editorial x Engineering</div>
+      </div>
     </footer>
   );
 }

@@ -73,12 +73,7 @@ export default function LearningJourneySection() {
           </div>
           <p>
             언어를 통해 사용자의 마음을 바꿔가는 데 관심이 있어 국어국문학을
-            전공했습니다.
-            <span className={styles.strike}>
-              {" "}
-              (졸업 주 전공은 그러나 문학사였습니다.)
-            </span>
-            언어와 사고의 흐름을 이해하는 것이 좋았습니다.
+            전공했습니다. 언어와 사고의 흐름을 이해하는 것이 좋았습니다.
           </p>
           <p className={cn(styles.handNote, "mt-2")}>
             “Every UI is read before it is used."

@@ -17,7 +17,7 @@ export type Case = {
   title: string;
   summary: string;
   tags: string[];
-  status: "ONGOING" | "SOLVED" | "HOLDED";
+  status: "ONGOING" | "SOLVED" | "PENDING";
   date: string;
   image: string;
   images?: ImageRef[];
