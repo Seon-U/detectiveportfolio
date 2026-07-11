@@ -18,7 +18,7 @@ export const siteConfig = {
   /** OG locale (html lang="ko"와 일치) */
   locale: "ko_KR",
   /** 기본 OG 이미지 폴백 — 전용 1200x630 이미지로 교체 권장 */
-  ogImage: "/profile.png",
+  ogImage: "/profile.webp",
 } as const;
 
 /** meta description 최대 길이(검색결과 잘림 방지) */

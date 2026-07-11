@@ -85,7 +85,7 @@ Next.js는 fetch를 기반으로 캐싱과 데이터 패칭 기능을 확장하�
     description:
       "2인 협업 프로젝트에서 브랜치 전략과 commit convention이 없을 경우 구조가 빠르게 혼란스러워졌다. 이를 해결하기 위한 최소 협업 규칙을 정리했다.",
 
-    image: { src: "/gitflow.png", width: 1218, height: 446 },
+    image: { src: "/gitflow.webp", width: 1218, height: 446 },
 
     sections: [
       {
@@ -118,7 +118,7 @@ Next.js는 fetch를 기반으로 캐싱과 데이터 패칭 기능을 확장하�
       "앱 개발보다 더 어렵게 느껴졌던 것은 실제 배포 과정이었다. 인증서, provisioning profile, TestFlight 심사 흐름 등을 직접 정리했다.",
 
     image: {
-      src: "/IOSdistribute.png",
+      src: "/IOSdistribute.webp",
       width: 498,
       height: 257,
     },

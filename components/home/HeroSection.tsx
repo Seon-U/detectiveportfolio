@@ -42,10 +42,11 @@ export default function HeroSection() {
         <div className="relative w-72 h-96 p-4 rounded-sm shadow-2xl transform transition-transform duration-500 group-hover:-rotate-2 bg-card border-2 border-border">
           <Image
             loading="lazy"
-            src={"/profile.png"}
+            src={"/profile.webp"}
             alt="Profile"
-            width={100}
-            height={100}
+            width={288}
+            height={192}
+            sizes="288px"
             className="w-full h-48 object-cover grayscale sepia-[.3] contrast-125 rounded-sm"
           />
           <div className="mt-6 space-y-2 text-sm">
