@@ -3,7 +3,9 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import JsonLd from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/seo/config";
+import { buildPersonJsonLd } from "@/lib/seo/jsonld";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -46,6 +48,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased min-h-screen transition-colors duration-700 relative overflow-x-hidden flex flex-col">
+        <JsonLd data={buildPersonJsonLd()} />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
