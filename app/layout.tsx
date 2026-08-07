@@ -22,7 +22,10 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   verification: {
-    google: "DIcGirR6-sr2MvZmatLRqpPZ19wEs0XIJUmPhranb-4",
+    google: [
+      "DIcGirR6-sr2MvZmatLRqpPZ19wEs0XIJUmPhranb-4",
+      "fAuVmbog-3nZCpYyyUNhOnfLeLG3mQGUSu9WQiZyWJw",
+    ],
   },
   openGraph: {
     siteName: siteConfig.name,
