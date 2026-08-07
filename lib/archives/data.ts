@@ -73,38 +73,6 @@ Next.js는 fetch를 기반으로 캐싱과 데이터 패칭 기능을 확장하�
 
   {
     id: "002",
-    title: "2인 협업 Git Convention 구축",
-
-    date: "2024-08-11",
-
-    summary:
-      "소규모 협업 환경에서 충돌을 줄이기 위한 Git Flow와 Convention 설계 기록.",
-
-    category: "Experiments",
-
-    description:
-      "2인 협업 프로젝트에서 브랜치 전략과 commit convention이 없을 경우 구조가 빠르게 혼란스러워졌다. 이를 해결하기 위한 최소 협업 규칙을 정리했다.",
-
-    image: { src: "/gitflow.webp", width: 1218, height: 446 },
-
-    sections: [
-      {
-        heading: "문제 발생",
-        body: "초기 프로젝트에서는 브랜치 전략 없이 main 브랜치에 직접 commit을 올리는 방식으로 개발이 진행되었다. 기능 충돌과 merge conflict가 반복되며 작업 흐름 추적이 어려워졌다.",
-      },
-      {
-        heading: "Convention 설계",
-        body: "feature 브랜치 기반 작업 흐름과 commit prefix 규칙을 도입했다. 기능 단위로 작업을 분리하고 commit 로그만 보더라도 변경 목적을 추적할 수 있도록 구성했다.",
-      },
-      {
-        heading: "결과",
-        body: "단순한 규칙 추가만으로 merge conflict 빈도가 감소했고 작업 흐름과 책임 범위를 명확하게 추적할 수 있었다. Git은 단순 버전 관리가 아니라 협업 기록 시스템이라는 점을 체감하게 되었다.",
-      },
-    ],
-  },
-
-  {
-    id: "003",
     title: "앱스토어 배포 절차 기록",
 
     date: "2024-11-04",
@@ -137,5 +105,10 @@ Next.js는 fetch를 기반으로 캐싱과 데이터 패칭 기능을 확장하�
         body: "앱 개발은 코드 작성에서 끝나는 것이 아니라 실제 사용자 환경까지 안전하게 전달되는 과정 전체를 포함한다는 점을 이해하게 되었다.",
       },
     ],
+
+    pinnedQuote: {
+      body: "심사 통과가 개발보다 어려울 때도 있다",
+      attribution: "앱 개발 심사 및 배포 관리",
+    },
   },
 ];
