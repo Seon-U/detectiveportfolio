@@ -11,7 +11,8 @@ export default function Footer({ className }: FooterProps) {
     <footer
       className={cn(
         className,
-        "mx-auto px-4 sm:px-6 lg:px-8 backdrop-blur-md text-center border-t-2 border-border",
+        "mx-auto px-4 sm:px-6 lg:px-8 backdrop-blur-md text-center",
+        "bg-background/70 dark:bg-background/60",
       )}
     >
       <div className="flex h-full justify-between items-center text-sm">

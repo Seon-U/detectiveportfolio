@@ -20,14 +20,14 @@ export default function HeroSection() {
             className={cn(
               "text-6xl md:text-8xl lg:text-9xl font-serif font-black tracking-tighter uppercase text-center",
               isDark
-                ? "text-transparent bg-clip-text bg-linear-to-r from-[#66fcf1] to-[#45a29e]"
-                : "text-primary",
+                ? "text-transparent bg-clip-text bg-linear-to-r from-accent to-primary"
+                : "text-transparent bg-clip-text bg-linear-to-r from-(--orange-400) to-accent",
             )}
           >
             SeonuKim
           </h1>
           <p className="text-xl md:text-2xl mt-4 font-serif italic tracking-wide flex items-center gap-2 text-muted-foreground">
-            FullStack Dev | UX | Web | Mobile | fluent in Korean
+            문제의 원인을 끝까지 추적하고 개선하는 개발자입니다.
           </p>
         </motion.div>
       </div>
