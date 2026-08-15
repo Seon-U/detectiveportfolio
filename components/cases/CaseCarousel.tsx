@@ -48,8 +48,8 @@ export default function CaseCarousel({ cases }: Props) {
                     className={cn(
                       "text-xs font-bold px-2 py-1 border-2 uppercase",
                       c.status === "SOLVED"
-                        ? "text-[hsl(var(--solved))] border-[hsl(var(--solved))]"
-                        : "text-[hsl(var(--verified))] border-[hsl(var(--verified))]",
+                        ? "text-[var(--solved)] border-[var(--solved)]"
+                        : "text-[var(--verified)] border-[var(--verified)]",
                     )}
                   >
                     {c.status}

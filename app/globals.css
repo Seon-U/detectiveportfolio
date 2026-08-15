@@ -1,74 +1,133 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════
+   Color Palette — Yellow / Mint / Orange / Gray
+   Light 값이 :root에, Dark(네온) 값이 html.dark에 정의됩니다.
+   시맨틱 토큰이 팔레트 변수를 참조하므로
+   모드 전환 시 자동으로 값이 바뀝니다.
+   ═══════════════════════════════════════════════════════════════ */
+
 :root {
+  /* ── Yellow ── */
+  --yellow-100: #f9f5e6;
+  --yellow-200: #f8f0d3;
+  --yellow-300: #fae9a8;
+  --yellow-400: #fadb60;
+  --yellow-500: #f9cd25;
+  --yellow-600: #e4b607;
+  --yellow-700: #b2900a;
+  --yellow-800: #836c10;
+  --yellow-900: #554711;
+  --yellow-1000: #2e280f;
+
+  /* ── Mint ── */
+  --mint-100: #eaf6f0;
+  --mint-200: #d9f2e7;
+  --mint-300: #b6ecd4;
+  --mint-400: #7be0b3;
+  --mint-500: #4ad496;
+  --mint-600: #2dbe7d;
+  --mint-700: #289564;
+  --mint-800: #24704e;
+  --mint-900: #1d4935;
+  --mint-1000: #152920;
+
+  /* ── Orange ── */
+  --orange-100: #fcf2e9;
+  --orange-200: #fae8d6;
+  --orange-300: #fad6b2;
+  --orange-400: #f9b876;
+  --orange-500: #fa9e42;
+  --orange-600: #f98715;
+  --orange-700: #d77009;
+  --orange-800: #9e540a;
+  --orange-900: #6f3d0b;
+  --orange-1000: #3d240b;
+
+  /* ── Gray ── */
+  --gray-100: #fbfbfb;
+  --gray-200: #f5f5f5;
+  --gray-300: #e8e8e8;
+  --gray-400: #d4d4d3;
+  --gray-500: #b9b8b7;
+  --gray-600: #9b9997;
+  --gray-700: #7c7a79;
+  --gray-800: #5d5c5a;
+  --gray-900: #3e3d3c;
+  --gray-1000: #1f1f1e;
+
+  /* ═══════════════════════════════════════════════════════════════
+     Semantic Tokens — Light
+     ═══════════════════════════════════════════════════════════════ */
   color-scheme: light;
 
-  --background: 44 38% 89%;
-  --foreground: 12 24% 18%;
+  --background: var(--gray-100);
+  --foreground: var(--gray-1000);
 
-  --surface: 42 34% 92%;
-  --surface-hover: 40 28% 87%;
-  --surface-elevated: 36 30% 95%;
+  --surface: var(--gray-200);
+  --surface-hover: var(--gray-300);
+  --surface-elevated: #ffffff;
 
-  --card: 38 32% 94%;
-  --card-foreground: 16 22% 18%;
+  --card: #ffffff;
+  --card-foreground: var(--gray-900);
 
-  --border: 32 18% 74%;
-  --border-strong: 28 26% 48%;
+  --border: var(--gray-400);
+  --border-strong: var(--gray-600);
 
-  --muted-foreground: 22 12% 42%;
-  --subtle-foreground: 24 10% 56%;
+  --muted-foreground: var(--gray-700);
+  --subtle-foreground: var(--gray-500);
 
-  --primary: 20 42% 24%;
-  --primary-foreground: 40 30% 96%;
+  --primary: var(--gray-900);
+  --primary-foreground: var(--gray-100);
 
-  /* --accent: 38 80% 55%; */
-  --accent: 358 68% 38%;
-  --accent-foreground: 40 30% 96%;
+  /* 포인트 컬러: 라이트 = 오렌지 */
+  --accent: var(--orange-700);
+  --accent-foreground: #ffffff;
 
-  --classified: 220 65% 40%;
-  --solved: 150 62% 40%;
-  --verified: 2 84% 58%;
+  /* 상태 컬러 */
+  --classified: var(--yellow-600);
+  --solved: var(--mint-600);
+  --verified: var(--orange-600);
 
-  --shadow-card: 0 8px 24px rgb(70 42 18 / 0.08);
+  /* ── Shadows ── */
+  --shadow-card: 0 8px 24px rgb(31 31 30 / 0.08);
+  --shadow-paper: 0 18px 40px rgb(31 31 30 / 0.12);
 
-  --shadow-paper: 0 18px 40px rgb(40 22 10 / 0.12);
-
+  /* ── Paper 텍스처 (라이트 테마) ── */
   --paper-noise: radial-gradient(
-    rgb(120 92 42 / 0.045) 0.7px,
+    rgb(128 128 128 / 0.05) 0.7px,
     transparent 0.7px
   );
-
   --paper-noise-size: 12px 12px;
 
-  --header-background: 44 38% 89% / 0.8;
+  /* ── Header / Navigation ── */
+  --header-background: rgba(251, 251, 251, 0.8);
+  --header-title: var(--gray-1000);
+  --header-icon: var(--gray-900);
 
-  --header-title: 12 24% 18%;
-  --header-icon: 18 42% 24%;
+  --nav-text: var(--gray-800);
+  --nav-text-hover: var(--gray-1000);
+  --nav-text-active: var(--accent);
 
-  --nav-text: 22 12% 42%;
-  --nav-text-hover: 18 42% 24%;
-  --nav-text-active: 18 42% 24%;
-
-  --nav-indicator: 18 42% 24%;
+  --nav-indicator: var(--accent);
   --nav-indicator-shadow: none;
 
-  --theme-toggle-background: 40 28% 87%;
-  --theme-toggle-foreground: 12 24% 18%;
-
-  --theme-toggle-hover-background: 40 38% 74%;
-
+  /* ── Theme Toggle ── */
+  --theme-toggle-background: var(--gray-300);
+  --theme-toggle-foreground: var(--gray-1000);
+  --theme-toggle-hover-background: var(--gray-400);
   --theme-toggle-shadow: none;
 
-  --cork-paper: hsl(var(--card));
-  --cork-ink: hsl(var(--foreground));
-  --cork-ink-soft: hsl(var(--muted-foreground));
-  --cork-rule: hsl(var(--border));
-  --cork-accent: hsl(var(--accent));
-  --cork-accent-2: hsl(var(--classified));
-  --cork-teal: hsl(var(--solved));
-  --cork-gold: hsl(var(--accent));
-  --cork-string: hsl(var(--verified));
+  /* ── Cork/Detective 테마 앨리어스 ── */
+  --cork-paper: var(--card);
+  --cork-ink: var(--foreground);
+  --cork-ink-soft: var(--muted-foreground);
+  --cork-rule: var(--border);
+  --cork-accent: var(--accent);
+  --cork-accent-2: var(--classified);
+  --cork-teal: var(--solved);
+  --cork-gold: var(--accent);
+  --cork-string: var(--verified);
 
   --cork-font-display: font-serif, Georgia, "Times New Roman", serif;
   --cork-font-hand: var(--font-pretendard), "Segoe Script", cursive;
@@ -76,81 +135,129 @@
 }
 
 html.dark {
+  /* ── Yellow (네온) ── */
+  --yellow-100: #372e0c;
+  --yellow-200: #5e4c08;
+  --yellow-300: #957704;
+  --yellow-400: #d6aa00;
+  --yellow-500: #ffcc0a;
+  --yellow-600: #fdd12b;
+  --yellow-700: #f8d54f;
+  --yellow-800: #f2dc88;
+  --yellow-900: #f1e6bc;
+  --yellow-1000: #f4eed7;
+
+  /* ── Mint (네온) ── */
+  --mint-100: #0c3723;
+  --mint-200: #085e37;
+  --mint-300: #049554;
+  --mint-400: #00d676;
+  --mint-500: #0aff91;
+  --mint-600: #2bfd9f;
+  --mint-700: #4ff8ac;
+  --mint-800: #88f2c2;
+  --mint-900: #bcf1d9;
+  --mint-1000: #d7f4e7;
+
+  /* ── Orange (네온) ── */
+  --orange-100: #37210c;
+  --orange-200: #5e3308;
+  --orange-300: #954c04;
+  --orange-400: #d66b00;
+  --orange-500: #ff850a;
+  --orange-600: #fd942b;
+  --orange-700: #f8a34f;
+  --orange-800: #f2bd88;
+  --orange-900: #edd6c0;
+  --orange-1000: #f4e6d7;
+
+  /* ── Gray (다크) ── */
+  --gray-100: #171716;
+  --gray-200: #2c2b2a;
+  --gray-300: #464543;
+  --gray-400: #63615f;
+  --gray-500: #7d7a78;
+  --gray-600: #969491;
+  --gray-700: #afadac;
+  --gray-800: #c8c7c6;
+  --gray-900: #e1e0e0;
+  --gray-1000: #f0f0ef;
+
+  /* ═══════════════════════════════════════════════════════════════
+     Semantic Token Overrides — Dark
+     팔레트 변수를 참조하는 토큰은 자동으로 값이 전환됩니다.
+     팔레트 "참조 자체"가 바뀌는 토큰만 여기서 오버라이드합니다.
+     ═══════════════════════════════════════════════════════════════ */
   color-scheme: dark;
 
-  --background: 228 42% 4%;
-  --foreground: 180 100% 92%;
+  --surface-elevated: var(--gray-300);
 
-  --surface: 225 32% 7%;
-  --surface-hover: 225 26% 11%;
-  --surface-elevated: 226 22% 10%;
+  --card: var(--gray-200);
 
-  --card: 225 24% 8%;
-  --card-foreground: 180 92% 88%;
+  --border: var(--gray-400);
 
-  --muted-foreground: 188 22% 66%;
-  --subtle-foreground: 188 14% 46%;
+  /* 포인트 컬러: 다크 = 그린(민트) */
+  --primary: var(--mint-500);
+  --primary-foreground: var(--gray-100);
 
-  --primary: 182 100% 48%;
-  --primary-foreground: 230 40% 6%;
+  --accent: var(--mint-800);
+  --accent-foreground: var(--gray-100);
 
-  --accent: 192 100% 62%;
-  --accent-foreground: 228 40% 6%;
-
-  --classified: 350 100% 64%;
-  --solved: 145 92% 48%;
-  --verified: 8 100% 58%;
-
+  /* ── Shadows (네온 글로우) ── */
   --shadow-card:
-    0 0 0 1px rgb(0 255 240 / 0.06), 0 0 24px rgb(0 255 240 / 0.08);
+    0 0 0 1px rgb(10 255 145 / 0.06), 0 0 24px rgb(10 255 145 / 0.08);
 
-  --shadow-glow: 0 0 12px rgb(0 255 240 / 0.22), 0 0 42px rgb(0 255 240 / 0.12);
+  --shadow-glow:
+    0 0 12px rgb(10 255 145 / 0.22), 0 0 42px rgb(10 255 145 / 0.12);
 
+  /* ── Cyber 그리드 (다크 테마) ── */
   --cyber-grid:
-    linear-gradient(rgb(0 255 240 / 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(0 255 240 / 0.04) 1px, transparent 1px);
+    linear-gradient(rgb(10 255 145 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(10 255 145 / 0.04) 1px, transparent 1px);
 
   --cyber-grid-size: 48px 48px;
 
-  --header-background: 228 42% 4% / 0.8;
-  --border: 182 100% 48%;
+  /* ── Header / Navigation (다크) ── */
+  --header-background: rgba(23, 23, 22, 0.8);
 
-  --header-title: 180 100% 92%;
-  --header-icon: 182 100% 48%;
+  --header-icon: var(--mint-500);
 
-  --nav-text: 188 22% 66%;
-  --nav-text-hover: 182 100% 48%;
-  --nav-text-active: 180 100% 92%;
+  --nav-text-hover: var(--mint-500);
 
-  --nav-indicator: 180 100% 70%;
-  --nav-indicator-shadow: 0 0 10px rgb(102 252 241 / 0.9);
+  --nav-indicator: var(--mint-700);
+  --nav-indicator-shadow: 0 0 10px rgba(10, 255, 145, 0.9);
 
-  --theme-toggle-background: 225 32% 7%;
-  --theme-toggle-foreground: 180 100% 92%;
-
-  --theme-toggle-hover-background: 182 100% 48% / 0.12;
-
-  --theme-toggle-shadow: 0 0 15px rgb(102 252 241 / 0.8);
+  /* ── Theme Toggle (다크) ── */
+  --theme-toggle-hover-background: rgba(10, 255, 145, 0.12);
+  --theme-toggle-shadow: 0 0 15px rgba(10, 255, 145, 0.8);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   Tailwind Theme 등록
+   --color-* 로 등록하면 bg-*, text-*, border-* 유틸리티 사용 가능
+   ═══════════════════════════════════════════════════════════════ */
+
 @theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
-  --color-surface: hsl(var(--surface));
-  --color-surface-hover: hsl(var(--surface-hover));
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
 
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
 
-  --color-border: hsl(var(--border));
-  --color-border-strong: hsl(var(--border-strong));
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
 
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
 
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
 
   --font-pretendard: var(--font-pretendard);
 
@@ -161,26 +268,28 @@ html.dark {
 
   --transition-theme: 250ms ease;
 
-  --color-header-background: hsl(var(--header-background));
-  --color-header-title: hsl(var(--header-title));
-  --color-header-icon: hsl(var(--header-icon));
+  --color-header-background: var(--header-background);
+  --color-header-title: var(--header-title);
+  --color-header-icon: var(--header-icon);
 
-  --color-nav-text: hsl(var(--nav-text));
-  --color-nav-text-hover: hsl(var(--nav-text-hover));
-  --color-nav-text-active: hsl(var(--nav-text-active));
+  --color-nav-text: var(--nav-text);
+  --color-nav-text-hover: var(--nav-text-hover);
+  --color-nav-text-active: var(--nav-text-active);
 
-  --color-nav-indicator: hsl(var(--nav-indicator));
+  --color-nav-indicator: var(--nav-indicator);
   --shadow-nav-indicator: var(--nav-indicator-shadow);
 
-  --color-theme-toggle-background: hsl(var(--theme-toggle-background));
-  --color-theme-toggle-foreground: hsl(var(--theme-toggle-foreground));
+  --color-theme-toggle-background: var(--theme-toggle-background);
+  --color-theme-toggle-foreground: var(--theme-toggle-foreground);
 
-  --color-theme-toggle-hover-background: hsl(
-    var(--theme-toggle-hover-background)
-  );
+  --color-theme-toggle-hover-background: var(--theme-toggle-hover-background);
 
   --shadow-theme-toggle: var(--theme-toggle-shadow);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Utilities
+   ═══════════════════════════════════════════════════════════════ */
 
 @utility font-pretendard {
   font-family:
@@ -211,7 +320,7 @@ html.dark {
 }
 
 @utility shadow-theme-toggle {
-  box-shadow: var(--shadow-theme-toggle);
+  box-shadow: var(--theme-toggle-shadow);
 }
 
 @utility hide-scrollbar {
@@ -222,6 +331,10 @@ html.dark {
     display: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Base Styles
+   ═══════════════════════════════════════════════════════════════ */
 
 body {
   @apply bg-background text-foreground font-pretendard;
@@ -253,9 +366,9 @@ html.dark body::before {
 }
 
 html.dark .polaroidPaper {
-  background: #1c2620;
+  background: var(--gray-300);
 }
 
 html.dark .polaroidImg {
-  background: linear-gradient(135deg, #0e1813 0%, #050807 100%);
+  background: linear-gradient(135deg, var(--gray-100) 0%, #0a0a09 100%);
 }
