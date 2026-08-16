@@ -1,16 +1,31 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
+import HangingCard from "../ui/HangingCard";
 
 export default function HeroSection() {
   const { isDark } = useMountedTheme();
+  const [isDragging, setIsDragging] = useState(false);
+  const [isInitialEntrance, setIsInitialEntrance] = useState(true);
+
+  useEffect(() => {
+    // HangingCard의 출렁거리는 애니메이션 시간에 맞춰 타이머 설정 (예: 1.5초 후)
+    const timer = setTimeout(() => {
+      setIsInitialEntrance(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const isHighZIndex = isInitialEntrance || isDragging;
 
   return (
-    <section className="relative flex flex-col-reverse md:flex-row items-center justify-center gap-12 md:gap-30 pt-10">
-      <div className="space-y-6 z-10">
+    <section className="relative isolate grid place-items-center">
+      {/* 텍스트 — pointer-events-none으로 카드 클릭 투과 */}
+      <div className="[grid-area:1/1] z-10 pointer-events-none self-center md:justify-self-start">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -19,49 +34,24 @@ export default function HeroSection() {
           <h1
             className={cn(
               "text-6xl md:text-8xl lg:text-9xl font-serif font-black tracking-tighter uppercase text-center",
-              isDark
-                ? "text-transparent bg-clip-text bg-linear-to-r from-accent to-primary"
-                : "text-transparent bg-clip-text bg-linear-to-r from-(--orange-400) to-accent",
+              isDark &&
+                "text-transparent bg-clip-text bg-linear-to-r from-accent to-primary",
             )}
           >
-            SeonuKim
+            Trace. Solve. Refine.
           </h1>
-          <p className="text-xl md:text-2xl mt-4 font-serif italic tracking-wide flex items-center gap-2 text-muted-foreground">
-            문제의 원인을 끝까지 추적하고 개선하는 개발자입니다.
-          </p>
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, rotate: -5, scale: 0.9 }}
-        animate={{ opacity: 1, rotate: 2, scale: 1 }}
-        transition={{ duration: 1, type: "spring" }}
-        className="relative group cursor-pointer z-10"
+      {/* 카드 — 드래그 전 z-0(텍스트 뒤), 드래그 시 z-20(텍스트 위) */}
+      <div
+        className={cn(
+          "[grid-area:1/1] self-start md:justify-self-end",
+          isHighZIndex ? "z-20" : "z-0",
+        )}
       >
-        <div className="absolute -inset-1 rounded-sm blur opacity-20 group-hover:opacity-100 transition duration-1000 bg-primary" />
-        <div className="relative w-72 h-96 p-4 rounded-sm shadow-2xl transform transition-transform duration-500 group-hover:-rotate-2 bg-card border-2 border-border">
-          <Image
-            loading="lazy"
-            src={"/profile.webp"}
-            alt="Profile"
-            width={288}
-            height={192}
-            sizes="288px"
-            className="w-full h-48 object-cover grayscale sepia-[.3] contrast-125 rounded-sm"
-          />
-          <div className="mt-6 space-y-2 text-sm">
-            <p className="border-b pb-1 border-border/30 text-primary">
-              <span className="font-bold">SPECIALTY:</span> React Architecture
-            </p>
-            <p className="border-b pb-1 border-border/30 text-muted-foreground">
-              <span className="font-bold">ALIAS:</span> @Seon-U
-            </p>
-            <p className="border-b pb-1 border-border/30 text-muted-foreground">
-              <span className="font-bold">STATUS:</span> Open to Work
-            </p>
-          </div>
-        </div>
-      </motion.div>
+        <HangingCard onDragStateChange={setIsDragging} />
+      </div>
     </section>
   );
 }
