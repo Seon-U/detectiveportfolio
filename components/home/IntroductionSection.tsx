@@ -28,11 +28,11 @@ const DESKTOP_TIMELINE = {
   },
   b: {
     fadeIn: [0.49, 0.53] as [number, number],
-    fadeOut: [0.82, 0.9] as [number, number],
+    fadeOut: [0.92, 0.98] as [number, number],
     cardsAt: 0.54,
     flipAt: 0.64,
   },
-  snapPoints: [0.04, 0.16, 0.3, 0.38, 0.44, 0.48, 0.6, 0.68, 0.74, 0.8],
+  snapPoints: [0.04, 0.16, 0.3, 0.38, 0.44, 0.48, 0.6, 0.68, 0.74, 0.82, 0.92],
 };
 
 /**
