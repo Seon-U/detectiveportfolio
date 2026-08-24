@@ -1,6 +1,11 @@
 import { type MotionValue, motion, useTransform } from "framer-motion";
 import type { CardData } from "@/lib/introduction/cardData";
-import { CARD_GAP, CARD_H, CARD_W } from "@/lib/introduction/constants";
+import {
+  CARD_GAP,
+  CARD_H,
+  CARD_W,
+  MOBILE_CARD_GAP,
+} from "@/lib/introduction/constants";
 import { cn } from "@/lib/utils";
 import FlipCard from "../ui/FlipCard";
 
@@ -35,6 +40,8 @@ export default function CardSection({
 
   const headingY = useTransform(progress, fadeIn, [24, 0]);
 
+  const effectiveGap = isMobile ? MOBILE_CARD_GAP : CARD_GAP;
+
   return (
     <motion.div
       className="absolute inset-0 flex flex-col items-center justify-center"
@@ -56,18 +63,27 @@ export default function CardSection({
 
       {/* 카드 컨테이너 — 기준점(anchor), 카드는 overflow 가능 */}
       <div className="relative" style={{ width: CARD_W, height: CARD_H }}>
-        {cards.map((card, i) => (
-          <FlipCard
-            key={`${heading}-${card.backLabel}`}
-            card={card}
-            progress={progress}
-            appearAt={cardsAt + i * CARD_GAP}
-            flipAt={flipAt + i * flipGap}
-            idx={i}
-            isDark={isDark}
-            isMobile={isMobile}
-          />
-        ))}
+        {cards.map((card, i) => {
+          const cardAppearAt = cardsAt + i * effectiveGap;
+          const hideAt =
+            isMobile && i < cards.length - 1
+              ? cardsAt + (i + 1) * effectiveGap
+              : undefined;
+
+          return (
+            <FlipCard
+              key={`${heading}-${card.backLabel}`}
+              card={card}
+              progress={progress}
+              appearAt={cardAppearAt}
+              flipAt={flipAt + i * flipGap}
+              hideAt={hideAt}
+              idx={i}
+              isDark={isDark}
+              isMobile={isMobile}
+            />
+          );
+        })}
       </div>
     </motion.div>
   );

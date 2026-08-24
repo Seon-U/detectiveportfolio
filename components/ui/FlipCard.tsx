@@ -23,6 +23,7 @@ export default function FlipCard({
   progress,
   appearAt,
   flipAt,
+  hideAt,
   idx,
   isDark,
   isMobile,
@@ -31,16 +32,23 @@ export default function FlipCard({
   progress: MotionValue<number>;
   appearAt: number;
   flipAt: number;
+  hideAt?: number;
   idx: number;
   isDark: boolean;
   isMobile: boolean;
 }) {
-  /* 등장: 페이드 인 */
-  const opacity = useTransform(
-    progress,
-    [appearAt, appearAt + APPEAR_DUR],
-    [0, 1],
-  );
+  /* 등장: 페이드 인 (+ 모바일 순차 릴레이: 페이드 아웃)
+   * 콜백 방식 — 배열 길이 변동 없이 isMobile 전환에 안전 */
+  const opacity = useTransform(progress, (p) => {
+    if (p < appearAt) return 0;
+    if (p < appearAt + APPEAR_DUR)
+      return (p - appearAt) / APPEAR_DUR;
+    if (hideAt == null) return 1;
+    if (p < hideAt) return 1;
+    if (p < hideAt + APPEAR_DUR)
+      return 1 - (p - hideAt) / APPEAR_DUR;
+    return 0;
+  });
 
   /* 수직: 데스크톱은 위에서 떨어짐, 모바일은 아래에서 올라옴 */
   const y = useTransform(

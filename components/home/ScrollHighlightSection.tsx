@@ -45,17 +45,17 @@ const DESKTOP_TIMELINE = {
 const MOBILE_TIMELINE = {
   a: {
     fadeIn: [0.24, 0.28] as [number, number],
-    fadeOut: [0.6, 0.63] as [number, number],
+    fadeOut: [0.56, 0.59] as [number, number],
     cardsAt: 0.29,
     flipAt: 0.4,
   },
   b: {
-    fadeIn: [0.62, 0.65] as [number, number],
+    fadeIn: [0.60, 0.63] as [number, number],
     fadeOut: [0.93, 1.0] as [number, number],
-    cardsAt: 0.66,
+    cardsAt: 0.64,
     flipAt: 0.75,
   },
-  snapPoints: [0.06, 0.22, 0.375, 0.4, 0.45, 0.5, 0.75, 0.8, 0.85],
+  snapPoints: [0.06, 0.22, 0.31, 0.40, 0.49, 0.55, 0.65, 0.74, 0.83, 0.90],
 };
 export default function ScrollHighlightSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -109,7 +109,7 @@ export default function ScrollHighlightSection() {
           fadeOut={[0.22, 0.28]}
           isDark={isDark}
           segments={[
-            "실제 활용가능한 기술 설계를 중요시하여 항상 ",
+            "사용환경을 고려한 기술 설계를 중요시하여 항상 ",
             "\n",
             { text: "사용자를 고려한 설계", range: [0.07, 0.14] },
             "와 ",

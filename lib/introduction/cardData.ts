@@ -45,6 +45,6 @@ export const DEV_CARDS: CardData[] = [
     backLabel: "Refine",
     frontImage: "/FieldRefine.svg",
     frontTitle: "Refine",
-    frontDesc: "테스트 기반 검증",
+    frontDesc: "테스트 기반 안정성 확보",
   },
 ];
