@@ -8,7 +8,7 @@ type IntroductionCardProps = CardData & {
   isDark: boolean;
 };
 
-export default function IntroductionCard({
+export default function RotatableCard({
   backLabel,
   frontImage,
   frontTitle,
@@ -45,26 +45,34 @@ export default function IntroductionCard({
 
         {/* ── 앞면 ── */}
         <div className="absolute inset-0 backface-hidden rotate-y-180">
-          <div className="w-full h-full flex flex-col rounded-xl overflow-hidden border border-border bg-card shadow-card">
-            <div
+          <div className="relative w-full h-full rounded-xl overflow-hidden border border-border shadow-card">
+            {/* 이미지 — 카드 전체 영역 */}
+            <Image
+              src={frontImage}
+              alt={frontTitle}
+              fill
               className={cn(
-                "relative flex-1",
+                "object-cover",
                 isDark ? "bg-(--gray-300)" : "bg-(--gray-200)",
               )}
+            />
+
+            {/* 텍스트 박스 — 하단 오버레이, 고정 높이 */}
+            <div
+              className={cn(
+                "absolute bottom-2.5 left-2.5 right-2.5 rounded-lg bg-(--gray-100)",
+                "h-20 md:h-24 p-3 md:p-4",
+              )}
             >
-              <Image
-                src={frontImage}
-                alt={frontTitle}
-                fill
-                className="object-cover"
-              />
-            </div>
-            {/* 하단 텍스트 */}
-            <div className="p-3 bg-card">
-              <h4 className="text-base font-serif font-bold text-card-foreground">
+              <h4
+                className={cn(
+                  "text-lg md:text-xl font-serif font-bold",
+                  isDark ? "text-(--mint-700)" : "text-(--orange-600)",
+                )}
+              >
                 {frontTitle}
               </h4>
-              <p className="text-xs text-muted-foreground mt-1 leading-snug">
+              <p className="text-sm md:text-base text-(--gray-900) mt-1 leading-snug line-clamp-2">
                 {frontDesc}
               </p>
             </div>

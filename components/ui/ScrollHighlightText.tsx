@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: key doesn't overlap cause it's idx for key to show */
+
 import { type MotionValue, motion, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -40,7 +42,7 @@ function HighlightSpan({
   return (
     <motion.span
       className={cn(
-        "bg-no-repeat bg-left-bottom py-0.5 px-1 -mx-1 rounded-sm",
+        "bg-no-repeat bg-bottom-left py-0.5 px-1 -mx-1 rounded-sm",
         isDark
           ? "bg-[linear-gradient(transparent_40%,rgba(10,255,145,0.3)_40%)]"
           : "bg-[linear-gradient(transparent_40%,rgba(250,219,96,0.5)_40%)]",
@@ -68,22 +70,24 @@ export default function ScrollHighlightText({
 
   return (
     <motion.div
-      className="absolute inset-0 flex items-center justify-center px-8"
+      className="absolute inset-0 flex items-center justify-center px-4 md:px-8"
       style={{ opacity }}
     >
       <p
         className={cn(
-          "text-xl md:text-2xl lg:text-3xl font-bold leading-relaxed text-center max-w-3xl text-foreground",
+          "text-2xl md:text-3xl lg:text-4xl font-bold leading-relaxed text-center max-w-3xl text-foreground break-keep",
           className,
         )}
       >
         {segments.map((seg, i) =>
           typeof seg === "string" ? (
-            // biome-ignore lint/suspicious/noArrayIndexKey: just array of text
-            seg === "\n" ? <br key={i} /> : <span key={i}>{seg}</span>
+            seg === "\n" ? (
+              <br key={i} />
+            ) : (
+              <span key={i}>{seg}</span>
+            )
           ) : (
             <HighlightSpan
-              // biome-ignore lint/suspicious/noArrayIndexKey: never gonna overlap, just array of text
               key={i}
               progress={progress}
               range={seg.range}

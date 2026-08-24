@@ -3,12 +3,12 @@
 <rect width="300" height="472" rx="40" fill="white"/>
 <foreignObject x="-17.058" y="-17.1" width="389.158" height="506.2"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(8.55px);clip-path:url(#bgblur_1_35_980_clip_path);height:100%;width:100%"></div></foreignObject><path data-figma-bg-blur-radius="17.1" d="M333.262 0C345.29 0.000157184 355.023 9.75156 355 21.7803L354.173 450.22C354.15 462.249 344.379 472 332.351 472H21.7803C9.75148 472 0.018828 462.249 0.0420336 450.22L0.868205 21.7803C0.891411 9.75147 10.6616 1.49299e-05 22.6905 0H333.262Z" fill="url(#paint0_linear_35_980)" fill-opacity="0.4"/>
 <g filter="url(#filter1_d_35_980)">
-<rect x="9" y="50" width="282" height="282" fill="url(#pattern0_35_980)" shape-rendering="crispEdges"/>
+<rect x="9" y="95" width="282" height="282" fill="url(#pattern0_35_980)" shape-rendering="crispEdges"/>
 </g>
 </g>
 <defs>
 <clipPath id="bgblur_1_35_980_clip_path" transform="translate(17.058 17.1)"><path d="M333.262 0C345.29 0.000157184 355.023 9.75156 355 21.7803L354.173 450.22C354.15 462.249 344.379 472 332.351 472H21.7803C9.75148 472 0.018828 462.249 0.0420336 450.22L0.868205 21.7803C0.891411 9.75147 10.6616 1.49299e-05 22.6905 0H333.262Z"/>
-</clipPath><filter id="filter1_d_35_980" x="-7.6" y="50" width="298.6" height="296.6" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+</clipPath><filter id="filter1_d_35_980" x="-7.6" y="95" width="298.6" height="296.6" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dx="-10" dy="8"/>
@@ -22,8 +22,8 @@
 <use xlink:href="#image0_35_980" transform="scale(0.000797448)"/>
 </pattern>
 <linearGradient id="paint0_linear_35_980" x1="261.5" y1="37" x2="45.5" y2="438.5" gradientUnits="userSpaceOnUse">
-<stop offset="0.00961538" stop-color="white"/>
-<stop offset="0.408654" stop-color="#999999"/>
+<stop offset="0.00961538" stop-color="#F98715"/>
+<stop offset="0.740385" stop-color="#00D676"/>
 </linearGradient>
 <clipPath id="clip0_35_980">
 <rect width="300" height="472" rx="40" fill="white"/>

@@ -10,15 +10,15 @@ export type CardData = {
 export const DESIGN_CARDS: CardData[] = [
   {
     backLabel: "Trace",
-    frontImage: "/UserTrace.webp",
+    frontImage: "/UserTrace.svg",
     frontTitle: "Trace",
-    frontDesc: "유저 인터뷰를 통해 사용자의 행동 패턴을 파악",
+    frontDesc: "유저 인터뷰로 사용자 패턴 파악",
   },
   {
     backLabel: "Solve",
     frontImage: "/UserSolve.svg",
     frontTitle: "Solve",
-    frontDesc: "User Journey 기반 Pain Point 발굴",
+    frontDesc: "사용자 여정 기반 Pain Point 발굴",
   },
   {
     backLabel: "Refine",
@@ -39,7 +39,7 @@ export const DEV_CARDS: CardData[] = [
     backLabel: "Solve",
     frontImage: "/FieldSolve.svg",
     frontTitle: "Solve",
-    frontDesc: "접근성을 고려한 플로우 설정, 데이터 무결성 고려 설계",
+    frontDesc: "접근성, 데이터 무결성 고려 설계",
   },
   {
     backLabel: "Refine",
