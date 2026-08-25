@@ -22,9 +22,9 @@ export default function ScrollIndicator({
       transition={{ delay, duration: 0.6 }}
       aria-hidden="true"
     >
-      <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/40 flex justify-center pt-1.5">
+      <div className="w-6 h-10 rounded-full border-2 border-foreground/30 flex justify-center pt-1.5">
         <motion.div
-          className="w-1 h-2 rounded-full bg-muted-foreground/60"
+          className="w-1 h-2 rounded-full bg-foreground/50"
           animate={{ y: [0, 12, 0] }}
           transition={{
             duration: 1.8,
@@ -33,7 +33,7 @@ export default function ScrollIndicator({
           }}
         />
       </div>
-      <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground/50 font-medium">
+      <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/40 font-medium">
         Scroll Down
       </span>
     </motion.div>

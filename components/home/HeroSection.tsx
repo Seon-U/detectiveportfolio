@@ -23,7 +23,7 @@ export default function HeroSection() {
   const isHighZIndex = isInitialEntrance || isDragging;
 
   return (
-    <section className="relative isolate grid place-items-center">
+    <section className="relative isolate grid place-items-center px-4 md:px-8 lg:px-12">
       {/* 텍스트 + 스크롤 인디케이터 */}
       <div className="[grid-area:1/1] z-10 pointer-events-none self-center md:justify-self-start flex flex-col items-center">
         <motion.div

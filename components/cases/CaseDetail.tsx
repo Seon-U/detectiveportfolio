@@ -9,8 +9,8 @@ import {
   ExternalLink,
   FileText,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Case } from "@/lib/cases/types";
 import { statusStyles } from "@/lib/cases/status-styles";
 import { cn } from "@/lib/utils";
@@ -21,8 +21,19 @@ function slugify(text: string) {
 
 export default function CaseDetail({ caseData }: { caseData: Case }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const role = searchParams.get("role") ?? undefined;
   const [activeSection, setActiveSection] = useState<string>("");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  /* 역할 필터링: roles 없는 섹션(공통) + 해당 역할 섹션만 */
+  const filteredSections = useMemo(
+    () =>
+      role
+        ? caseData.sections.filter((s) => !s.roles || s.roles.includes(role))
+        : caseData.sections,
+    [caseData.sections, role],
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -132,7 +143,7 @@ export default function CaseDetail({ caseData }: { caseData: Case }) {
             Contents
           </p>
           <nav className="space-y-1 border-l border-border pl-4">
-            {caseData.sections.map((section) => {
+            {filteredSections.map((section) => {
               const id = slugify(section.heading);
               return (
                 <button
@@ -159,7 +170,7 @@ export default function CaseDetail({ caseData }: { caseData: Case }) {
 
         {/* Article content */}
         <article className="flex-1 min-w-0 space-y-16 pb-24">
-          {caseData.sections.map((section) => {
+          {filteredSections.map((section) => {
             const id = slugify(section.heading);
             return (
               <section

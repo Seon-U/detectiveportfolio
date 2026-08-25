@@ -26,6 +26,21 @@ export const ALLCASES: Case[] = [
 
     projectUrl: "https://github.com/My-Golden-Kids/MGK",
 
+    contributions: [
+      {
+        roleId: "frontend",
+        summary:
+          "인증 구조 설계 및 Reverse Proxy 재설계, STT 보정 로직 구현",
+        team: { total: 4, myRole: "프론트엔드" },
+      },
+      {
+        roleId: "backend",
+        summary:
+          "Spring Security 인증 흐름 검증, Nginx 헤더 전달 설정",
+        team: { total: 4, myRole: "백엔드" },
+      },
+    ],
+
     sections: [
       {
         heading: "사건 발생",
@@ -34,11 +49,13 @@ export const ALLCASES: Case[] = [
 
       {
         heading: "레이어별 추적",
+        roles: ["frontend"],
         body: "초기 로그 분석 결과 405 Method Not Allowed 오류가 Spring이 아닌 Next.js Middleware에서 발생하고 있음을 확인했다. getToken 기반 직접 검증 방식을 auth() 콜백 방식으로 변경하여 첫 번째 문제를 해결했다. 이후 HTTPS 환경에서 HTTP API를 직접 호출하며 mixed content 문제가 추가로 발생했다.",
       },
 
       {
         heading: "Reverse Proxy 구조 재설계",
+        roles: ["frontend", "backend"],
         body: "모든 API 요청을 Next.js 내부 proxy 레이어를 통해 전달하도록 구조를 재설계했다. 이를 통해 mixed content 문제를 해결하고 Authorization Header 흐름을 일관되게 통제할 수 있었다. 이후 Nginx 헤더 전달 설정과 Spring 인증 흐름을 재검증하며 운영 환경 인증 구조를 안정화했다.",
 
         image: {
@@ -51,11 +68,13 @@ export const ALLCASES: Case[] = [
 
       {
         heading: "음성 인식 이상 현상",
+        roles: ["frontend"],
         body: "STT 기반 음성 입력 기능에서는 한국어 발음 오인식 문제가 발생했다. '밥 두끼'가 '밤토끼'로, '세끼'가 '새끼'로 인식되는 현상이 반복되었고 특정 발음 패턴에서 경음 인식이 불안정하다는 점을 확인했다.",
       },
 
       {
         heading: "규칙 기반 보정",
+        roles: ["frontend"],
         body: "빈출 오인식 단어를 명시적으로 수집하여 normalize correction map을 구성했다. 또한 '끼'와 '기'처럼 한국어 경음 발음을 동일 패턴으로 처리하도록 보정 로직을 추가하여 입력 정확도를 개선했다.",
         image: {
           src: "/MGK_3.webp",
@@ -93,6 +112,21 @@ export const ALLCASES: Case[] = [
 
     projectUrl: "https://github.com/Seon-U/foryouhana-mobileweb-ui.git",
 
+    contributions: [
+      {
+        roleId: "frontend",
+        summary:
+          "TailwindCSS v4 기반 디자인 시스템 구축, Storybook 활용 UI 일관성 확보",
+        team: { total: 4, myRole: "프론트엔드" },
+      },
+      {
+        roleId: "backend",
+        summary:
+          "Account 중심 데이터 모델 재설계, 반정규화 전략 적용",
+        team: { total: 4, myRole: "백엔드" },
+      },
+    ],
+
     sections: [
       {
         heading: "초기 구조 분석",
@@ -101,16 +135,19 @@ export const ALLCASES: Case[] = [
 
       {
         heading: "데이터 모델 재구성",
+        roles: ["backend"],
         body: "금융 서비스 구조를 기반으로 Account 중심 관계 모델을 재설계했다. parent_id 기반 계층 구조를 도입하고 User 중심 관계로 정리하여 데이터 흐름을 단순화했다.",
       },
 
       {
         heading: "반정규화 전략",
+        roles: ["backend"],
         body: "조회 성능과 유지보수성을 고려하여 일부 구조에는 반정규화를 적용했다. 반복적인 JOIN 복잡도를 줄이고 데이터 접근 경로를 단순화하여 서비스 구조를 안정화했다.",
       },
 
       {
         heading: "공통 디자인 시스템 구축",
+        roles: ["frontend"],
         body: "TailwindCSS v4 기반 컬러 토큰 시스템을 구축하고 global.css 중심 theme 구조를 설계했다. 공통 컴포넌트와 Storybook을 활용하여 협업 환경에서 UI 일관성을 유지할 수 있도록 구성했다.",
         image: {
           src: "/aiapp_2.webp",
@@ -156,14 +193,31 @@ export const ALLCASES: Case[] = [
 
     projectUrl: "https://github.com/Seon-U/blogging.git",
 
+    contributions: [
+      {
+        roleId: "frontend",
+        summary:
+          "아카이브형 UI 설계, Storybook 기반 재사용 컴포넌트 시스템 구축",
+        team: { total: 1, myRole: "풀스택" },
+      },
+      {
+        roleId: "backend",
+        summary:
+          "계층형 댓글 구조, FullText 검색 인덱스, NextAuth 인증 흐름 구현",
+        team: { total: 1, myRole: "풀스택" },
+      },
+    ],
+
     sections: [
       {
         heading: "아카이브 구조 설계",
+        roles: ["frontend"],
         body: "폴더 기반 탐색 구조와 GitHub 스타일 활동 그래프를 결합하여 사용자가 기록 흐름 자체를 탐색할 수 있는 아카이브 형태로 재구성했다.",
       },
 
       {
         heading: "계층형 댓글 추적",
+        roles: ["backend"],
         body: "Comment 테이블에 parentId와 depth 구조를 도입하여 무한 대댓글 구조를 설계했다. flat 형태로 저장된 댓글 데이터를 parentId 기준 재귀 트리로 복원하고 depth 기반 들여쓰기를 적용하여 계층 구조를 시각적으로 표현했다.",
         image: {
           src: "/personalBlog_2.webp",
@@ -175,11 +229,13 @@ export const ALLCASES: Case[] = [
 
       {
         heading: "검색 인덱스 재구성",
+        roles: ["backend"],
         body: "Post 테이블의 title과 content 기반 FullText Index를 구성했다. MySQL innodb_ft_user_stopword_table에 한국어 불용어를 등록하여 검색 정확도를 개선했고, 검색 결과와 폴더 목록은 페이지네이션 기반으로 처리하여 데이터 흐름을 최적화했다.",
       },
 
       {
         heading: "재사용 가능한 UI 시스템",
+        roles: ["frontend"],
         body: "Shadcn UI Select 컴포넌트를 확장하여 폴더 생성 기능이 포함된 SelectWithCreate 컴포넌트를 제작했다. icon, label, defaultValue 등을 props 기반으로 분리하여 다양한 입력 흐름에 재사용 가능하도록 설계했고 Storybook 기반 UI 테스트를 함께 구성했다.",
         image: {
           src: "/personalBlog_3.webp",
@@ -191,6 +247,7 @@ export const ALLCASES: Case[] = [
 
       {
         heading: "인증 및 검증 흐름",
+        roles: ["backend"],
         body: "NextAuth.js 기반 OAuth 인증 구조를 적용하고 회원가입 및 로그인 과정에는 zod validation 객체를 사용했다. 비밀번호는 bcryptjs 기반 hash 처리 후 저장했으며 compare 검증 흐름으로 로그인 인증을 구성했다.",
       },
     ],
@@ -219,14 +276,31 @@ export const ALLCASES: Case[] = [
     description:
       "북한이탈주민이 남한 발음을 학습하고 녹음 및 비교할 수 있도록 제작한 iOS 학습 앱.",
 
+    contributions: [
+      {
+        roleId: "ios",
+        summary:
+          "SwiftUI 화면 구현, AVFAudio 기반 녹음·재생 관리, App Store 배포",
+        team: { total: 4, myRole: "iOS 개발" },
+      },
+      {
+        roleId: "planner",
+        summary:
+          "북한이탈주민 대상 사용자 인터뷰 기반 학습 흐름 기획",
+        team: { total: 4, myRole: "기획" },
+      },
+    ],
+
     sections: [
       {
         heading: "음성 학습 구조 설계",
+        roles: ["ios", "planner"],
         body: "사용자가 아나운서 발음을 듣고 직접 따라 말한 뒤 녹음 결과를 비교할 수 있도록 학습 흐름을 설계했다. SwiftUI 기반 화면 구성과 음성 재생 흐름을 함께 구현했다.",
       },
 
       {
         heading: "AVFAudio 기반 Audio Manager",
+        roles: ["ios"],
         body: "AVFAudio 기반 Audio Manager를 직접 구현하여 녹음, 재생, 세션 상태 관리 흐름을 통합했다. 앱 상태 변화(scenePhase)에 따라 자동 저장과 재생 상태 동기화가 가능하도록 처리했다.",
 
         image: {
@@ -239,11 +313,13 @@ export const ALLCASES: Case[] = [
 
       {
         heading: "JSON 기반 저장 전략",
+        roles: ["ios"],
         body: "SwiftData와 같은 프레임워크 의존도를 줄이기 위해 JSON 파일 기반 저장 구조를 선택했다. 앱 번들 버전 변경 시 JSON 데이터를 자동 갱신하도록 설계하여 데이터 관리 비용을 최소화했다.",
       },
 
       {
         heading: "배포 및 형상 관리",
+        roles: ["ios"],
         body: "Git Tag 기반 버전 관리를 적용하고 TestFlight 및 App Store 배포 과정을 직접 관리했다. 앱 업데이트 흐름과 배포 이력을 체계적으로 추적할 수 있도록 운영 구조를 구성했다.",
       },
     ],

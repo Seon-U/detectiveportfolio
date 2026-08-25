@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { statusStyles } from "@/lib/cases/status-styles";
 import type { Case } from "@/lib/cases/types";
+import { ROLES } from "@/lib/roles/data";
 import { cn } from "@/lib/utils";
 
 const MotionLink = motion.create(Link);
@@ -15,19 +16,29 @@ type Props = {
   cases: Case[];
 };
 
-const FILTERS = ["ALL", "SOLVED", "ONGOING", "HOLDED"] as const;
-type Filter = (typeof FILTERS)[number];
+const STATUS_FILTERS = ["ALL", "SOLVED", "ONGOING", "HOLDED"] as const;
+type StatusFilter = (typeof STATUS_FILTERS)[number];
+
+const ROLE_OPTIONS = [
+  { id: "all", label: "전체" },
+  ...ROLES.map((r) => ({ id: r.id, label: r.label })),
+];
 
 export default function CaseFilesList({ cases }: Props) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeFilter, setActiveFilter] = useState<Filter>("ALL");
+  const [activeFilter, setActiveFilter] = useState<StatusFilter>("ALL");
+  const [activeRole, setActiveRole] = useState("all");
 
   const filteredCases = cases.filter((c) => {
     const matchesSearch =
       c.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = activeFilter === "ALL" || c.status === activeFilter;
-    return matchesSearch && matchesFilter;
+    const matchesStatus =
+      activeFilter === "ALL" || c.status === activeFilter;
+    const matchesRole =
+      activeRole === "all" ||
+      c.contributions.some((ct) => ct.roleId === activeRole);
+    return matchesSearch && matchesStatus && matchesRole;
   });
 
   return (
@@ -57,23 +68,42 @@ export default function CaseFilesList({ cases }: Props) {
             />
           </div>
 
-          {/* Filter buttons */}
-          <div className="flex gap-2 flex-wrap">
-            {FILTERS.map((f) => (
-              <button
-                key={f}
-                type="button"
-                onClick={() => setActiveFilter(f)}
-                className={cn(
-                  "px-3 py-2 text-xs font-bold rounded-md border transition-colors font-mono",
-                  activeFilter === f
-                    ? "bg-primary/10 border-primary text-primary"
-                    : "border-border text-muted-foreground hover:border-primary",
-                )}
-              >
-                {f}
-              </button>
-            ))}
+          {/* Status + Role filters */}
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2 flex-wrap">
+              {STATUS_FILTERS.map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setActiveFilter(f)}
+                  className={cn(
+                    "px-3 py-2 text-xs font-bold rounded-md border transition-colors font-mono",
+                    activeFilter === f
+                      ? "bg-primary/10 border-primary text-primary"
+                      : "border-border text-muted-foreground hover:border-primary",
+                  )}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {ROLE_OPTIONS.map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  onClick={() => setActiveRole(r.id)}
+                  className={cn(
+                    "px-3 py-2 text-xs font-medium rounded-md border transition-colors",
+                    activeRole === r.id
+                      ? "bg-accent/10 border-accent text-accent"
+                      : "border-border text-muted-foreground hover:border-accent",
+                  )}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

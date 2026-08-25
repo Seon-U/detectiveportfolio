@@ -1,4 +1,6 @@
 import { ALLCASES } from "@/lib/cases/data";
+import { ALL_POSTS } from "@/lib/posts/data";
+import type { BlogPost } from "@/lib/posts/types";
 import type { Role, RoleProject } from "./types";
 
 export const ROLES: Role[] = [
@@ -61,21 +63,35 @@ export const ROLES: Role[] = [
 ];
 
 /**
- * 태그 기반 자동 매핑으로 역할에 해당하는 프로젝트 목록을 반환합니다.
- * 추후 수동 매핑으로 교체할 수 있도록 이 함수만 변경하면 됩니다.
+ * contributions 기반 명시적 매핑으로 역할에 해당하는 프로젝트 목록을 반환합니다.
  */
 export function getProjectsByRole(roleId: string): RoleProject[] {
+  return ALLCASES.filter((c) =>
+    c.contributions.some((ct) => ct.roleId === roleId),
+  ).map((c) => {
+    const ct = c.contributions.find((ct) => ct.roleId === roleId)!;
+    return {
+      caseId: c.id,
+      title: c.title,
+      image: c.image,
+      href: `/cases/${c.id}?role=${roleId}`,
+      summary: ct.summary,
+      date: c.date,
+      team: ct.team,
+    };
+  });
+}
+
+/**
+ * 태그 기반 매핑으로 역할에 해당하는 블로그 포스트를 반환합니다.
+ */
+export function getPostsByRole(roleId: string): BlogPost[] {
   const role = ROLES.find((r) => r.id === roleId);
   if (!role) return [];
 
   const tagSet = new Set(role.matchTags.map((t) => t.toLowerCase()));
 
-  return ALLCASES.filter((c) =>
-    c.tags.some((tag) => tagSet.has(tag.toLowerCase())),
-  ).map((c) => ({
-    caseId: c.id,
-    title: c.title,
-    image: c.image,
-    href: `/cases/${c.id}`,
-  }));
+  return ALL_POSTS.filter((post) =>
+    post.tags.some((tag) => tagSet.has(tag.toLowerCase())),
+  );
 }

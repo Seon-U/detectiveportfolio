@@ -6,7 +6,7 @@ import { ArrowRight, ArrowUp, Mail } from "lucide-react";
 export default function ClosingSection() {
   return (
     <motion.section
-      className="px-6 md:px-8 lg:px-12 py-20 md:py-32 text-center"
+      className="px-4 md:px-8 lg:px-12 py-20 md:py-32 text-center"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -31,7 +31,8 @@ export default function ClosingSection() {
         <a
           href="/cv/resume-ko.pdf"
           download
-          className="inline-flex items-center gap-2 px-6 py-3 lg:px-8 lg:py-3.5 text-sm lg:text-base font-medium rounded-lg bg-accent text-accent-foreground no-underline transition-all duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+          className="inline-flex items-center gap-2 px-6 py-3 lg:px-8 lg:py-3.5 text-sm lg:text-base font-medium rounded-lg text-white no-underline transition-all duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2"
+          style={{ backgroundColor: "var(--cta-bg)" }}
         >
           Get CV
           <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />

@@ -150,6 +150,9 @@
   --timeline-dot-border: var(--orange-200);
   --timeline-period: var(--gray-600);
 
+  /* ── CTA Button ── */
+  --cta-bg: var(--accent);
+
   /* ── Hanging Card ── */
   --strap-color: var(--orange-400);
   --clip-color: var(--orange-300);
@@ -273,6 +276,9 @@ html.dark {
   --timeline-dot: var(--mint-500);
   --timeline-dot-border: var(--mint-100);
   --timeline-period: var(--gray-600);
+
+  /* ── CTA Button (다크) ── */
+  --cta-bg: var(--mint-300);
 
   /* ── Hanging Card (다크) ── */
   --strap-color: var(--mint-300);
