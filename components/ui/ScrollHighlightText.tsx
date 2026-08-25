@@ -28,12 +28,10 @@ type ScrollHighlightTextProps = {
 function HighlightSpan({
   progress,
   range,
-  isDark,
   children,
 }: {
   progress: MotionValue<number>;
   range: [number, number];
-  isDark: boolean;
   children: React.ReactNode;
 }) {
   const hlProgress = useTransform(progress, range, [0, 100]);
@@ -43,9 +41,7 @@ function HighlightSpan({
     <motion.span
       className={cn(
         "bg-no-repeat bg-bottom-left py-0.5 px-1 -mx-1 rounded-sm",
-        isDark
-          ? "bg-[linear-gradient(transparent_40%,rgba(10,255,145,0.3)_40%)]"
-          : "bg-[linear-gradient(transparent_40%,rgba(250,219,96,0.5)_40%)]",
+        "bg-[linear-gradient(transparent_40%,var(--highlight-marker)_40%)]",
       )}
       style={{ backgroundSize: bgSize }}
     >
@@ -58,7 +54,7 @@ export default function ScrollHighlightText({
   progress,
   fadeIn,
   fadeOut,
-  isDark,
+  isDark: _isDark,
   segments,
   className,
 }: ScrollHighlightTextProps) {
@@ -96,7 +92,6 @@ export default function ScrollHighlightText({
               key={i}
               progress={progress}
               range={seg.range}
-              isDark={isDark}
             >
               {seg.text}
             </HighlightSpan>

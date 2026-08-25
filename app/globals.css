@@ -141,6 +141,15 @@
   --accent-tint-glow: none;
   --shadow-dropdown: var(--shadow-card);
 
+  /* ── Highlight Marker (형광펜) ── */
+  --highlight-marker: rgba(250, 219, 96, 0.5);
+
+  /* ── Timeline ── */
+  --timeline-line: var(--gray-300);
+  --timeline-dot: var(--orange-400);
+  --timeline-dot-border: var(--orange-200);
+  --timeline-period: var(--gray-600);
+
   /* ── Hanging Card ── */
   --strap-color: var(--orange-400);
   --clip-color: var(--orange-300);
@@ -255,6 +264,15 @@ html.dark {
   --shadow-dropdown:
     0 0 0 1px rgba(10, 255, 145, 0.08),
     0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* ── Highlight Marker (다크) ── */
+  --highlight-marker: rgba(10, 255, 145, 0.3);
+
+  /* ── Timeline (다크) ── */
+  --timeline-line: var(--gray-400);
+  --timeline-dot: var(--mint-500);
+  --timeline-dot-border: var(--mint-100);
+  --timeline-period: var(--gray-600);
 
   /* ── Hanging Card (다크) ── */
   --strap-color: var(--mint-300);
