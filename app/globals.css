@@ -133,6 +133,14 @@
   --cork-font-hand: var(--font-pretendard), "Segoe Script", cursive;
   --cork-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
+  /* ── Accent Tint (드롭다운 등 강조 배경) ── */
+  --accent-tint: var(--orange-100);
+  --accent-tint-hover: var(--orange-200);
+  --accent-tint-border: var(--orange-300);
+  --accent-tint-border-hover: var(--orange-400);
+  --accent-tint-glow: none;
+  --shadow-dropdown: var(--shadow-card);
+
   /* ── Hanging Card ── */
   --strap-color: var(--orange-400);
   --clip-color: var(--orange-300);
@@ -237,6 +245,16 @@ html.dark {
   /* ── Theme Toggle (다크) ── */
   --theme-toggle-hover-background: rgba(10, 255, 145, 0.12);
   --theme-toggle-shadow: 0 0 15px rgba(10, 255, 145, 0.8);
+
+  /* ── Accent Tint (다크) — 호버 시 배경 유지, 보더만 변경 ── */
+  --accent-tint: var(--mint-100);
+  --accent-tint-hover: var(--mint-100);
+  --accent-tint-border: var(--mint-400);
+  --accent-tint-border-hover: var(--mint-500);
+  --accent-tint-glow: 0 0 6px rgba(10, 255, 145, 0.1);
+  --shadow-dropdown:
+    0 0 0 1px rgba(10, 255, 145, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.4);
 
   /* ── Hanging Card (다크) ── */
   --strap-color: var(--mint-300);

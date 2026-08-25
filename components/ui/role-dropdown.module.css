@@ -1,0 +1,97 @@
+/* ═══════════════════════════════════════════════════════════════
+   RoleDropdown — 드롭다운 전용 스타일
+   globals.css의 --accent-tint-* 시맨틱 토큰을 사용하여
+   라이트/다크 모드 전환을 자동 처리합니다.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Dropdown Trigger ── */
+
+.dropdownTrigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--accent-tint-border);
+  border-radius: 4px;
+  background: var(--accent-tint);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: clamp(24px, 3vw, 36px);
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    border-color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease;
+  white-space: nowrap;
+}
+
+.dropdownTrigger:hover,
+.dropdownTrigger:focus-visible {
+  border-color: var(--accent-tint-border-hover);
+  background: var(--accent-tint-hover);
+  box-shadow: var(--accent-tint-glow);
+}
+
+.dropdownTrigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── Chevron icon ── */
+
+.chevron {
+  width: 1em;
+  height: 1em;
+  transition: transform 250ms ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown Menu ── */
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  min-width: 100%;
+  padding: 4px 0;
+  border: 1px solid var(--accent-tint-border);
+  border-radius: 6px;
+  background: var(--card);
+  box-shadow: var(--shadow-dropdown);
+  list-style: none;
+}
+
+/* ── Dropdown Item (기본) ── */
+
+.dropdownItem {
+  padding: 0.5rem 0.75rem;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: color 150ms ease;
+  white-space: nowrap;
+}
+
+/* 비선택 아이템 hover — 폰트 컬러만 변경, 배경 없음 */
+.dropdownItem:hover,
+.dropdownItem:focus-visible {
+  color: var(--accent);
+}
+
+/* ── 선택된 아이템 — 트리거와 동일한 배경 ── */
+
+.dropdownItemActive {
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-tint);
+}

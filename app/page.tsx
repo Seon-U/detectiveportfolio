@@ -2,6 +2,7 @@ import HeroSection from "@/components/home/HeroSection";
 import IntroductionSection from "@/components/home/IntroductionSection";
 import LearningJourneySection from "@/components/home/LearningJourneySection";
 import RecentSection from "@/components/home/RecentSection";
+import RoleShowcaseSection from "@/components/home/RoleShowcaseSection";
 import { getAllCases } from "@/lib/cases/queries";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -15,8 +16,9 @@ export default function Home() {
     <div className="space-y-32 pb-20">
       <HeroSection />
       <IntroductionSection />
+      <RoleShowcaseSection />
+
       <LearningJourneySection />
-      {/* <RoleShowcaseSection /> */}
       <RecentSection cases={getAllCases()} />
     </div>
   );
