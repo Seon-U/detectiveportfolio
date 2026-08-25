@@ -28,11 +28,10 @@ const DESKTOP_TIMELINE = {
   },
   b: {
     fadeIn: [0.49, 0.53] as [number, number],
-    fadeOut: [0.92, 0.98] as [number, number],
     cardsAt: 0.54,
     flipAt: 0.64,
   },
-  snapPoints: [0.04, 0.16, 0.3, 0.38, 0.44, 0.48, 0.6, 0.68, 0.74, 0.82, 0.92],
+  snapPoints: [0.04, 0.16, 0.3, 0.38, 0.44, 0.48, 0.6, 0.68, 0.74, 0.82],
 };
 
 /**
@@ -51,11 +50,10 @@ const MOBILE_TIMELINE = {
   },
   b: {
     fadeIn: [0.59, 0.62] as [number, number],
-    fadeOut: [0.95, 0.98] as [number, number],
     cardsAt: 0.63,
     flipAt: 0.66,
   },
-  snapPoints: [0.04, 0.16, 0.3, 0.41, 0.52, 0.58, 0.71, 0.82, 0.93],
+  snapPoints: [0.04, 0.16, 0.3, 0.41, 0.52, 0.58, 0.71, 0.82],
 };
 export default function IntroductionSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -120,7 +118,6 @@ export default function IntroductionSection() {
       <div className="sticky top-0 h-screen" aria-hidden="true">
         <ScrollHighlightText
           progress={p}
-          fadeIn={[0, 0.03]}
           fadeOut={[0.16, 0.2]}
           isDark={isDark}
           segments={[
@@ -152,7 +149,6 @@ export default function IntroductionSection() {
           cards={DEV_CARDS}
           heading="현장 제약을 고려한 개발"
           fadeIn={tl.b.fadeIn}
-          fadeOut={tl.b.fadeOut}
           cardsAt={tl.b.cardsAt}
           flipAt={tl.b.flipAt}
           flipGap={flipGap}

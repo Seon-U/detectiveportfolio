@@ -11,10 +11,10 @@ export type HighlightSegment = {
 
 type ScrollHighlightTextProps = {
   progress: MotionValue<number>;
-  /** 컨테이너 fade-in 구간 */
-  fadeIn: [number, number];
-  /** 컨테이너 fade-out 구간 */
-  fadeOut: [number, number];
+  /** 컨테이너 fade-in 구간 — 미지정 시 처음부터 보임 */
+  fadeIn?: [number, number];
+  /** 컨테이너 fade-out 구간 — 미지정 시 계속 보임 */
+  fadeOut?: [number, number];
   isDark: boolean;
   /** 일반 문자열과 형광펜 세그먼트의 혼합 배열 */
   segments: (string | HighlightSegment)[];
@@ -62,11 +62,16 @@ export default function ScrollHighlightText({
   segments,
   className,
 }: ScrollHighlightTextProps) {
-  const opacity = useTransform(
-    progress,
-    [fadeIn[0], fadeIn[1], fadeOut[0], fadeOut[1]],
-    [0, 1, 1, 0],
-  );
+  const opacity = useTransform(progress, (p) => {
+    if (fadeIn) {
+      if (p < fadeIn[0]) return 0;
+      if (p < fadeIn[1]) return (p - fadeIn[0]) / (fadeIn[1] - fadeIn[0]);
+    }
+    if (!fadeOut) return 1;
+    if (p < fadeOut[0]) return 1;
+    if (p < fadeOut[1]) return 1 - (p - fadeOut[0]) / (fadeOut[1] - fadeOut[0]);
+    return 0;
+  });
 
   return (
     <motion.div

@@ -24,7 +24,7 @@ export default function FlipCardSection({
   cards: CardData[];
   heading: string;
   fadeIn: [number, number];
-  fadeOut: [number, number];
+  fadeOut?: [number, number];
   cardsAt: number;
   flipAt: number;
   flipGap: number;
@@ -36,6 +36,8 @@ export default function FlipCardSection({
   const sectionOpacity = useTransform(progress, (p) => {
     if (p < fadeIn[0]) return 0;
     if (p < fadeIn[1]) return (p - fadeIn[0]) / (fadeIn[1] - fadeIn[0]);
+    /* fadeOut 미지정 → 마지막 섹션: sticky 해제 시 자연스럽게 스크롤 아웃 */
+    if (!fadeOut) return 1;
     if (p < fadeOut[0]) return 1;
     if (p < fadeOut[1]) return 1 - (p - fadeOut[0]) / (fadeOut[1] - fadeOut[0]);
     return 0;
