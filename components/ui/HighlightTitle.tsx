@@ -21,14 +21,17 @@ export default function HighlightTitle({
   align = "left",
   className,
 }: HighlightTitleProps) {
+  const alignClass = align === "right" ? "text-right" : "text-left";
+  const baseClass = `text-[clamp(28px,4vw,48px)] font-bold leading-tight tracking-tight text-foreground ${alignClass} ${className ?? ""}`;
+
+  if (!label.includes(highlight)) {
+    return <h3 className={baseClass}>{label}</h3>;
+  }
+
   const parts = label.split(highlight);
 
   return (
-    <h3
-      className={`text-[clamp(28px,4vw,48px)] font-bold leading-tight tracking-tight text-foreground ${
-        align === "right" ? "text-right" : "text-left"
-      } ${className ?? ""}`}
-    >
+    <h3 className={baseClass}>
       {parts[0]}
       <span className="relative inline-block">
         <span className="relative z-10">{highlight}</span>

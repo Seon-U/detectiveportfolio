@@ -12,29 +12,29 @@ export default function TrackSection({
   track: TimelineTrack;
   reversed: boolean;
 }) {
-  const hasImage = !!track.image;
+  const { image, imageAlt } = track;
 
   return (
     <div className="mb-20 md:mb-28 last:mb-0">
       {/* 모바일: 이미지가 타이틀 위에 (가로형) */}
-      {hasImage && track.image && (
+      {image && (
         <div className="lg:hidden mb-8">
-          <TrackImage src={track.image} alt={track.imageAlt ?? ""} mobileOnly />
+          <TrackImage src={image} alt={imageAlt ?? ""} mobileOnly />
         </div>
       )}
 
       <div
-        className={`grid grid-cols-1 ${hasImage ? "lg:grid-cols-5" : ""} gap-8 lg:gap-12 items-start`}
+        className={`grid grid-cols-1 ${image ? "lg:grid-cols-5" : ""} gap-8 lg:gap-12 items-start`}
       >
         {/* reversed면 데스크톱에서 이미지가 왼쪽 */}
-        {reversed && hasImage && track.image && (
+        {reversed && image && (
           <div className="hidden lg:block lg:col-span-2">
-            <TrackImage src={track.image} alt={track.imageAlt ?? ""} sticky />
+            <TrackImage src={image} alt={imageAlt ?? ""} sticky />
           </div>
         )}
 
         {/* 타이틀 + 타임라인 */}
-        <div className={hasImage ? "lg:col-span-3" : ""}>
+        <div className={image ? "lg:col-span-3" : ""}>
           <HighlightTitle
             label={track.label}
             highlight={track.highlight}
@@ -45,9 +45,9 @@ export default function TrackSection({
         </div>
 
         {/* 순방향이면 데스크톱에서 이미지가 오른쪽 */}
-        {!reversed && hasImage && track.image && (
+        {!reversed && image && (
           <div className="hidden lg:block lg:col-span-2">
-            <TrackImage src={track.image} alt={track.imageAlt ?? ""} sticky />
+            <TrackImage src={image} alt={imageAlt ?? ""} sticky />
           </div>
         )}
       </div>

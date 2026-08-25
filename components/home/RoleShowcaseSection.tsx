@@ -130,7 +130,7 @@ export default function RoleShowcaseSection() {
                       >
                         <Link
                           href={project.href}
-                          className="group flex items-center gap-3 py-3 border-b border-border first:border-t text-[clamp(15px,1.5vw,17px)] font-medium text-foreground no-underline transition-all duration-200 hover:text-accent hover:pl-2 focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm dark:hover:text-(--mint-500)"
+                          className="group flex items-center gap-3 py-3 border-b border-border first:border-t text-[clamp(15px,1.5vw,17px)] font-medium text-foreground no-underline transition-all duration-200 hover:text-accent hover:pl-2 focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                           onMouseEnter={() => setHoveredProject(project)}
                           onFocus={() => setHoveredProject(project)}
                           onMouseLeave={() => setHoveredProject(null)}

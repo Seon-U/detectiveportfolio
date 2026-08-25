@@ -63,6 +63,10 @@ export default function IntroductionSection() {
   /**
    * proximity scroll snap — 섹션이 뷰포트에 있을 때만 활성화
    * IntersectionObserver로 범위를 제한해 다른 섹션 스크롤에 영향 없음
+   *
+   * ⚠️ html.style.scrollSnapType을 직접 토글하므로,
+   *    다른 섹션에서도 scroll snap을 쓸 경우 on/off가 충돌할 수 있음.
+   *    복수 섹션이 필요해지면 ref 카운팅 등으로 전환 필요.
    */
   useEffect(() => {
     const el = ref.current;
