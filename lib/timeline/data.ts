@@ -27,6 +27,12 @@ export const TIMELINE_TRACKS: TimelineTrack[] = [
         description: "타입안전성과 캐시를 활용한 Next.js, React 웹 개발",
       },
       {
+        id: "UXStudy",
+        period: "2025.08 - 2025.10",
+        title: "UX해적단 스터디 활동",
+        description: "UX이론 기반 기존 서비스 UI분석, 개선안 디자인",
+      },
+      {
         id: "ADAP",
         period: "2024.03 - 2024.12",
         title: "Apple Developer Academy @Postech 수료",
@@ -48,12 +54,6 @@ export const TIMELINE_TRACKS: TimelineTrack[] = [
         title: "국립국어원 홈페이지 데이터 정제 인턴",
         description:
           "통계 데이터 정제, 오류 케이스 검증 과정 일부 Excel자동화, 업무 가이드라인 작성",
-      },
-      {
-        id: "WomanCall",
-        period: "2024.01 (24hr)",
-        title: "한국여성의 전화 분노의 게이지 자원봉사활동",
-        description: "규칙 기반 뉴스 데이터 분석, 300건 사례 정리",
       },
       {
         id: "NPS",

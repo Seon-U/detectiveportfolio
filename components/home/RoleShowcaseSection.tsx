@@ -1,10 +1,10 @@
 "use client";
 
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getPostsByRole, getProjectsByRole, ROLES } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
 import RoleDropdown from "../ui/RoleDropdown";
@@ -17,8 +17,21 @@ export default function RoleShowcaseSection() {
     null,
   );
 
-  const projectSectionRef = useRef<HTMLDivElement>(null);
-  const isProjectInView = useInView(projectSectionRef);
+  const blogSectionRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const [isBlogEnd, setIsBlogEnd] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      if (!blogSectionRef.current || !imageRef.current) return;
+      const blogBottom = blogSectionRef.current.getBoundingClientRect().bottom;
+      const imageBottom = imageRef.current.getBoundingClientRect().bottom;
+      setIsBlogEnd(blogBottom <= imageBottom);
+    };
+    window.addEventListener("scroll", check, { passive: true });
+    check();
+    return () => window.removeEventListener("scroll", check);
+  }, []);
 
   const selectedRole = ROLES.find((r) => r.id === selectedRoleId) ?? ROLES[0];
   const projects = useMemo(
@@ -35,17 +48,17 @@ export default function RoleShowcaseSection() {
     setHoveredPreview(null);
   }, []);
 
-  /* 이미지 우선순위: hover → 프로젝트 영역이 벗어나면 블로그 OG, 아니면 프로젝트 */
+  /* 이미지 우선순위: hover → 블로그 끝에 닿으면 OG, 아니면 프로젝트 */
   const blogFallback = posts.find((p) => p.ogImage)?.ogImage;
   const projectFallback = selectedRole.defaultImage ?? projects[0]?.image;
   const contextImage =
-    !isProjectInView && blogFallback ? blogFallback : projectFallback;
+    isBlogEnd && blogFallback ? blogFallback : projectFallback;
 
   const previewSrc = hoveredPreview?.src ?? contextImage;
   const previewAlt = hoveredPreview?.alt ?? selectedRole.label;
   const previewKey =
     hoveredPreview?.key ??
-    (!isProjectInView && blogFallback
+    (isBlogEnd && blogFallback
       ? `blog-default-${selectedRoleId}`
       : `default-${selectedRoleId}`);
 
@@ -74,7 +87,7 @@ export default function RoleShowcaseSection() {
         {/* ── Content Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
           {/* Left: Description + Projects + Blog */}
-          <div className="lg:col-span-3 space-y-6 lg:space-y-0">
+          <div className="lg:col-span-3 space-y-6">
             <AnimatePresence mode="wait">
               <motion.p
                 key={selectedRoleId}
@@ -92,8 +105,6 @@ export default function RoleShowcaseSection() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={`projects-${selectedRoleId}`}
-                ref={projectSectionRef}
-                className="lg:min-h-[75vh] lg:pb-16"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -200,11 +211,12 @@ export default function RoleShowcaseSection() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`posts-${selectedRoleId}`}
+                  ref={blogSectionRef}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, delay: 0.1 }}
-                  className="pt-4 lg:min-h-[60vh]"
+                  className="pt-4"
                 >
                   {/* 모바일: 블로그 OG 이미지 */}
                   {blogFallback && (
@@ -292,7 +304,10 @@ export default function RoleShowcaseSection() {
           {/* Right: Image Preview — sticky, 스크롤 따라 컨텍스트 전환 */}
           <div className="hidden lg:block lg:col-span-2 self-stretch">
             <div className="sticky top-24">
-              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-border/60 bg-surface">
+              <div
+                ref={imageRef}
+                className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-border/60 bg-surface"
+              >
                 <AnimatePresence mode="wait">
                   {previewSrc ? (
                     <motion.div
