@@ -1,189 +1,334 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, FolderOpen, Search } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { statusStyles } from "@/lib/cases/status-styles";
-import type { Case } from "@/lib/cases/types";
+import { useMemo, useState } from "react";
+import type { Case, Contribution } from "@/lib/cases/types";
 import { ROLES } from "@/lib/roles/data";
+import type { RoleId } from "@/lib/roles/types";
 import { cn } from "@/lib/utils";
 
-const MotionLink = motion.create(Link);
+type Props = { cases: Case[] };
 
-type Props = {
-  cases: Case[];
+const ROLE_BADGE: Record<string, string> = {
+  frontend: "bg-role-frontend-bg text-role-frontend-text",
+  backend: "bg-role-backend-bg text-role-backend-text",
+  ios: "bg-role-ios-bg text-role-ios-text",
+  planner: "bg-role-planner-bg text-role-planner-text",
 };
 
-const STATUS_FILTERS = ["ALL", "SOLVED", "ONGOING", "HOLDED"] as const;
-type StatusFilter = (typeof STATUS_FILTERS)[number];
-
-const ROLE_OPTIONS = [
-  { id: "all", label: "전체" },
-  ...ROLES.map((r) => ({ id: r.id, label: r.label })),
-];
-
 export default function CaseFilesList({ cases }: Props) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeFilter, setActiveFilter] = useState<StatusFilter>("ALL");
-  const [activeRole, setActiveRole] = useState("all");
+  const [selectedRoles, setSelectedRoles] = useState<Set<RoleId>>(new Set());
+  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+  const [filterOpen, setFilterOpen] = useState(true);
 
-  const filteredCases = cases.filter((c) => {
-    const matchesSearch =
-      c.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      activeFilter === "ALL" || c.status === activeFilter;
-    const matchesRole =
-      activeRole === "all" ||
-      c.contributions.some((ct) => ct.roleId === activeRole);
-    return matchesSearch && matchesStatus && matchesRole;
-  });
+  /* 케이스가 있는 역할만 필터에 표시 */
+  const activeRoles = useMemo(
+    () =>
+      ROLES.filter((r) =>
+        cases.some((c) => c.contributions.some((ct) => ct.roleId === r.id)),
+      ),
+    [cases],
+  );
+
+  /* 역할 필터에 연동되는 태그 풀 */
+  const availableTags = useMemo(() => {
+    const pool =
+      selectedRoles.size === 0
+        ? cases
+        : cases.filter((c) =>
+            c.contributions.some((ct) => selectedRoles.has(ct.roleId)),
+          );
+    return [...new Set(pool.flatMap((c) => c.tags))].sort();
+  }, [cases, selectedRoles]);
+
+  /* 필터 적용: 프로젝트 + 내부 contribution 동시 필터링 */
+  const filteredCases = useMemo(() => {
+    return cases
+      .filter((c) => {
+        const matchesRole =
+          selectedRoles.size === 0 ||
+          c.contributions.some((ct) => selectedRoles.has(ct.roleId));
+        const matchesTag =
+          selectedTags.size === 0 || c.tags.some((t) => selectedTags.has(t));
+        return matchesRole && matchesTag;
+      })
+      .map((c) => ({
+        caseData: c,
+        contributions:
+          selectedRoles.size === 0
+            ? c.contributions
+            : c.contributions.filter((ct) => selectedRoles.has(ct.roleId)),
+      }));
+  }, [cases, selectedRoles, selectedTags]);
+
+  const hasActiveFilters = selectedRoles.size > 0 || selectedTags.size > 0;
+  const activeFilterCount = selectedRoles.size + selectedTags.size;
+
+  const toggleRole = (id: RoleId) => {
+    setSelectedRoles((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) => {
+      const next = new Set(prev);
+      next.has(tag) ? next.delete(tag) : next.add(tag);
+      return next;
+    });
+  };
+
+  const clearFilters = () => {
+    setSelectedRoles(new Set());
+    setSelectedTags(new Set());
+  };
+
+  const getRoleLabel = (roleId: RoleId) =>
+    ROLES.find((r) => r.id === roleId)?.label ?? roleId;
+
+  /* 역할 필터 → detail 페이지에 ?role= 전달 (복수 선택 지원) */
+  const buildHref = (caseId: string, contributions: Contribution[]) => {
+    const base = `/cases/${caseId}`;
+    if (selectedRoles.size === 0) return base;
+    const matching = contributions
+      .map((ct) => ct.roleId)
+      .filter((r) => selectedRoles.has(r));
+    return matching.length > 0
+      ? `${base}?role=${matching.join(",")}`
+      : base;
+  };
 
   return (
-    <div className="space-y-12 pb-20">
-      {/* Page header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-        <div>
-          <h1 className="text-5xl font-serif font-black uppercase tracking-tight flex items-center gap-4 text-foreground">
-            <FolderOpen className="text-primary" size={40} />
-            Case Files
+    <div className="pb-20">
+      {/* ── Title ── */}
+      <div className="px-4 md:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-[clamp(28px,4vw,40px)] font-serif font-bold tracking-tight text-foreground pt-2 pb-6">
+            Projects
           </h1>
-          <p className="mt-4 font-mono text-muted-foreground">
-            Master Archive / Internal Access Only
-          </p>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-          {/* Search input */}
-          <div className="flex items-center px-4 py-2 border rounded-md bg-surface border-border">
-            <Search className="w-4 h-4 mr-2 opacity-50 text-muted-foreground shrink-0" />
-            <input
-              type="text"
-              placeholder="Search ID or Title..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-transparent border-none outline-none text-sm w-full font-mono placeholder:opacity-50 text-foreground"
-            />
-          </div>
-
-          {/* Status + Role filters */}
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-2 flex-wrap">
-              {STATUS_FILTERS.map((f) => (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setActiveFilter(f)}
-                  className={cn(
-                    "px-3 py-2 text-xs font-bold rounded-md border transition-colors font-mono",
-                    activeFilter === f
-                      ? "bg-primary/10 border-primary text-primary"
-                      : "border-border text-muted-foreground hover:border-primary",
-                  )}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              {ROLE_OPTIONS.map((r) => (
-                <button
-                  key={r.id}
-                  type="button"
-                  onClick={() => setActiveRole(r.id)}
-                  className={cn(
-                    "px-3 py-2 text-xs font-medium rounded-md border transition-colors",
-                    activeRole === r.id
-                      ? "bg-accent/10 border-accent text-accent"
-                      : "border-border text-muted-foreground hover:border-accent",
-                  )}
-                >
-                  {r.label}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Case grid */}
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <AnimatePresence>
-          {filteredCases.map((c, i) => (
-            <MotionLink
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3, delay: i * 0.05 }}
-              key={c.id}
-              href={`/cases/${c.id}`}
-              className="group relative p-6 md:p-8 flex flex-col sm:flex-row gap-6 items-start overflow-hidden cursor-pointer bg-card border border-border hover:border-primary transition-colors shadow-card"
+      {/* ── Sticky Filter Bar ── */}
+      <div className="sticky top-16 z-20 bg-background/95 backdrop-blur-sm border-b border-border/30 px-4 md:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto">
+          {/* Toggle row */}
+          <div className="flex items-center gap-3 py-2.5">
+            <button
+              type="button"
+              onClick={() => setFilterOpen((v) => !v)}
+              className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              {/* Polaroid image */}
-              <div className="w-full sm:w-1/3 shrink-0">
-                <div className="aspect-[3/4] rounded overflow-hidden border-4 p-1 transform -rotate-2 group-hover:rotate-0 transition-transform duration-500 border-surface shadow-paper">
-                  <Image
-                    src={c.image}
-                    alt={c.title}
-                    width={400}
-                    height={534}
-                    className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
-                  />
-                </div>
-              </div>
+              <ChevronDown
+                className={cn(
+                  "w-4 h-4 transition-transform duration-200",
+                  !filterOpen && "-rotate-90",
+                )}
+              />
+              Filters
+              {hasActiveFilters && (
+                <span className="ml-0.5 px-1.5 py-0.5 text-[11px] font-semibold rounded-full bg-accent/15 text-accent tabular-nums">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
 
-              {/* Content */}
-              <div className="flex-1 flex flex-col h-full z-10">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="font-mono text-sm font-bold px-2 py-0.5 border-b-2 text-primary border-primary">
-                    CF-{c.id}
-                  </span>
-                  <span
-                    className={cn(
-                      "text-xs font-bold px-2 py-1 uppercase border",
-                      statusStyles[c.status],
-                    )}
-                  >
-                    {c.status}
-                  </span>
-                </div>
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                초기화
+              </button>
+            )}
+          </div>
 
-                <h3 className="text-2xl font-serif font-bold mt-2 mb-3 leading-tight text-foreground group-hover:text-primary transition-colors">
-                  {c.title}
-                </h3>
-
-                <p className="text-sm mb-4 font-mono leading-relaxed text-muted-foreground">
-                  {c.description}
-                </p>
-
-                <div className="mt-auto pt-4 flex flex-wrap gap-2">
-                  {c.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="text-xs px-2 py-1 rounded font-mono bg-surface text-muted-foreground border border-border"
-                    >
-                      {t}
+          {/* Collapsible chips */}
+          <AnimatePresence initial={false}>
+            {filterOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <div className="pb-3 space-y-2.5">
+                  {/* Role chips */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-medium text-muted-foreground tracking-[0.08em] uppercase mr-0.5">
+                      Roles
                     </span>
-                  ))}
-                </div>
+                    {activeRoles.map((r) => (
+                      <button
+                        key={r.id}
+                        type="button"
+                        onClick={() => toggleRole(r.id)}
+                        className={cn(
+                          "px-3 py-1.5 text-sm font-medium rounded-md border transition-colors",
+                          selectedRoles.has(r.id)
+                            ? "bg-accent/10 border-accent text-accent"
+                            : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                        )}
+                      >
+                        {r.label}
+                      </button>
+                    ))}
+                  </div>
 
-                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0 duration-300 text-primary">
-                  <ArrowRight />
+                  {/* Skill / tag chips */}
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-xs font-medium text-muted-foreground tracking-[0.08em] uppercase mr-0.5">
+                      Skills
+                    </span>
+                    {availableTags.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => toggleTag(tag)}
+                        className={cn(
+                          "px-2.5 py-1 text-xs rounded border transition-colors",
+                          selectedTags.has(tag)
+                            ? "bg-accent/10 border-accent text-accent"
+                            : "border-border text-muted-foreground hover:border-foreground/30",
+                        )}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </MotionLink>
-          ))}
-        </AnimatePresence>
-      </motion.div>
-
-      {filteredCases.length === 0 && (
-        <div className="text-center py-20 font-mono text-lg text-muted-foreground opacity-60">
-          No records found matching your criteria.
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      )}
+      </div>
+
+      {/* ── Project List ── */}
+      <div className="px-4 md:px-8 lg:px-12 mt-8">
+        <div className="max-w-7xl mx-auto space-y-10">
+          {filteredCases.length > 0 ? (
+            filteredCases.map(({ caseData, contributions }, index) => (
+              <motion.article
+                key={caseData.id}
+                className="group relative"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.08 }}
+              >
+                {/* Card-level overlay link */}
+                <Link
+                  href={buildHref(caseData.id, contributions)}
+                  className="absolute inset-0 z-0 rounded-lg focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+                  aria-label={`${caseData.title} 상세 보기`}
+                />
+
+                <div className="py-5 lg:py-7 px-1 rounded-lg transition-colors group-hover:bg-surface/50">
+                  {/* Mobile: image top */}
+                  <div className="block lg:hidden mb-4">
+                    <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-surface">
+                      <Image
+                        src={caseData.image}
+                        alt={caseData.title}
+                        fill
+                        sizes="(max-width: 1023px) 92vw, 0px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-6 lg:gap-8">
+                    {/* ── Content ── */}
+                    <div className="flex-1 min-w-0 space-y-2.5">
+                      {/* Project name */}
+                      <h2 className="text-[clamp(18px,2.2vw,24px)] font-semibold text-foreground break-keep group-hover:text-accent transition-colors">
+                        {caseData.title}
+                      </h2>
+
+                      {/* Meta: date | team | github */}
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted-foreground tracking-[0.04em]">
+                        <span className="tabular-nums">
+                          {caseData.date.slice(0, 7).replace("-", ".")}
+                        </span>
+                        <span className="text-border">|</span>
+                        <span>
+                          {caseData.contributions[0]?.team.total ?? "—"}인
+                        </span>
+                        {caseData.projectUrl && (
+                          <>
+                            <span className="text-border">|</span>
+                            <a
+                              href={caseData.projectUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="relative z-10 inline-flex items-center gap-0.5 font-medium text-accent hover:underline"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              GitHub
+                              <ArrowUpRight className="w-3 h-3" />
+                            </a>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-[clamp(13px,1.3vw,15px)] leading-relaxed text-foreground/85 break-keep">
+                        {caseData.description}
+                      </p>
+
+                      {/* Contributions: Role Badge + Summary */}
+                      <div className="space-y-1.5 pt-1">
+                        {contributions.map((ct) => (
+                          <div
+                            key={ct.roleId}
+                            className="flex items-start gap-2.5"
+                          >
+                            <span
+                              className={cn(
+                                "shrink-0 px-2 py-0.5 text-[11px] font-bold rounded mt-0.5 tracking-wide",
+                                ROLE_BADGE[ct.roleId] ??
+                                  "bg-muted text-muted-foreground",
+                              )}
+                            >
+                              {getRoleLabel(ct.roleId)}
+                            </span>
+                            <span className="text-sm text-foreground break-keep">
+                              {ct.summary}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* ── Desktop: image right, spans full content height ── */}
+                    <div className="hidden lg:flex shrink-0 w-52 xl:w-64 2xl:w-72">
+                      <div className="relative w-full rounded-lg overflow-hidden bg-surface">
+                        <Image
+                          src={caseData.image}
+                          alt={caseData.title}
+                          fill
+                          sizes="(min-width: 1536px) 288px, (min-width: 1280px) 256px, (min-width: 1024px) 208px, 0px"
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
+            ))
+          ) : (
+            <p className="py-16 text-center text-muted-foreground text-sm">
+              선택한 조건에 해당하는 프로젝트가 없습니다.
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

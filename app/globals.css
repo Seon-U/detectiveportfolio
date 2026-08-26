@@ -159,6 +159,16 @@
   --id-card-bg: var(--accent);
   --id-card-shadow-color: rgba(0, 0, 0, 0.22);
   --id-card-outline-color: rgba(0, 0, 0, 0.06);
+
+  /* ── Role Badge (라이트) ── */
+  --role-frontend-bg: #dbeafe;
+  --role-frontend-text: #1e40af;
+  --role-backend-bg: #d1fae5;
+  --role-backend-text: #065f46;
+  --role-ios-bg: #ffedd5;
+  --role-ios-text: #9a3412;
+  --role-planner-bg: #ede9fe;
+  --role-planner-text: #5b21b6;
 }
 
 html.dark {
@@ -286,6 +296,16 @@ html.dark {
   --id-card-bg: var(--mint-300);
   --id-card-shadow-color: rgba(0, 0, 0, 0.65);
   --id-card-outline-color: rgba(255, 255, 255, 0.1);
+
+  /* ── Role Badge (다크) ── */
+  --role-frontend-bg: rgba(59, 130, 246, 0.18);
+  --role-frontend-text: #93c5fd;
+  --role-backend-bg: rgba(16, 185, 129, 0.18);
+  --role-backend-text: #6ee7b7;
+  --role-ios-bg: rgba(251, 146, 60, 0.18);
+  --role-ios-text: #fdba74;
+  --role-planner-bg: rgba(167, 139, 250, 0.18);
+  --role-planner-text: #c4b5fd;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -346,6 +366,16 @@ html.dark {
   --color-id-card-bg: var(--id-card-bg);
   --color-id-card-outline: var(--id-card-outline-color);
   --shadow-id-card: 0 20px 40px -12px var(--id-card-shadow-color);
+
+  /* ── Role Badge ── */
+  --color-role-frontend-bg: var(--role-frontend-bg);
+  --color-role-frontend-text: var(--role-frontend-text);
+  --color-role-backend-bg: var(--role-backend-bg);
+  --color-role-backend-text: var(--role-backend-text);
+  --color-role-ios-bg: var(--role-ios-bg);
+  --color-role-ios-text: var(--role-ios-text);
+  --color-role-planner-bg: var(--role-planner-bg);
+  --color-role-planner-text: var(--role-planner-text);
 }
 
 /* ═══════════════════════════════════════════════════════════════
