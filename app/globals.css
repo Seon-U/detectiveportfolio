@@ -148,7 +148,7 @@
   --timeline-line: var(--gray-300);
   --timeline-dot: var(--orange-400);
   --timeline-dot-border: var(--orange-200);
-  --timeline-period: var(--gray-600);
+  --timeline-period: var(--gray-700);
 
   /* ── CTA Button ── */
   --cta-bg: var(--accent);
@@ -275,7 +275,7 @@ html.dark {
   --timeline-line: var(--gray-400);
   --timeline-dot: var(--mint-500);
   --timeline-dot-border: var(--mint-100);
-  --timeline-period: var(--gray-600);
+  --timeline-period: var(--gray-700);
 
   /* ── CTA Button (다크) ── */
   --cta-bg: var(--mint-300);

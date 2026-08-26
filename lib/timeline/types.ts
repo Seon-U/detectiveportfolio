@@ -15,6 +15,8 @@ export type TimelineTrack = {
   label: string;
   /** 타이틀 중 하이라이트 처리할 단어 */
   highlight: string;
+  /** 트랙에 대한 설명*/
+  description: string;
   /** 트랙 이미지 경로 */
   image?: string;
   /** 이미지 alt */

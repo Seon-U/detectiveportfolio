@@ -20,7 +20,7 @@ export default function TrackImage({
   return (
     <div className={sticky ? "sticky top-24" : undefined}>
       <motion.div
-        className={`relative w-full overflow-hidden border border-border bg-surface rounded-xl dark:border-(--gray-400) ${
+        className={`relative w-full overflow-hidden border border-border/60 bg-surface rounded-xl ${
           mobileOnly ? "aspect-[16/10]" : "aspect-[3/4]"
         }`}
         initial={{ opacity: 0, scale: 0.96 }}

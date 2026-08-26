@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { getPostsByRole, getProjectsByRole, ROLES } from "@/lib/roles/data";
+import type { RoleId } from "@/lib/roles/types";
 import RoleDropdown from "../ui/RoleDropdown";
 
 type PreviewImage = { src: string; alt: string; key: string };
@@ -16,8 +17,8 @@ export default function RoleShowcaseSection() {
     null,
   );
 
-  const blogSectionRef = useRef<HTMLDivElement>(null);
-  const isBlogInView = useInView(blogSectionRef, { amount: 0.3 });
+  const projectSectionRef = useRef<HTMLDivElement>(null);
+  const isProjectInView = useInView(projectSectionRef);
 
   const selectedRole = ROLES.find((r) => r.id === selectedRoleId) ?? ROLES[0];
   const projects = useMemo(
@@ -29,22 +30,22 @@ export default function RoleShowcaseSection() {
     [selectedRoleId],
   );
 
-  const handleSelect = useCallback((roleId: string) => {
+  const handleSelect = useCallback((roleId: RoleId) => {
     setSelectedRoleId(roleId);
     setHoveredPreview(null);
   }, []);
 
-  /* 이미지 우선순위: hover → 영역 기본(블로그 in view면 OG, 아니면 프로젝트) */
+  /* 이미지 우선순위: hover → 프로젝트 영역이 벗어나면 블로그 OG, 아니면 프로젝트 */
   const blogFallback = posts.find((p) => p.ogImage)?.ogImage;
   const projectFallback = selectedRole.defaultImage ?? projects[0]?.image;
   const contextImage =
-    isBlogInView && blogFallback ? blogFallback : projectFallback;
+    !isProjectInView && blogFallback ? blogFallback : projectFallback;
 
   const previewSrc = hoveredPreview?.src ?? contextImage;
   const previewAlt = hoveredPreview?.alt ?? selectedRole.label;
   const previewKey =
     hoveredPreview?.key ??
-    (isBlogInView && blogFallback
+    (!isProjectInView && blogFallback
       ? `blog-default-${selectedRoleId}`
       : `default-${selectedRoleId}`);
 
@@ -73,11 +74,11 @@ export default function RoleShowcaseSection() {
         {/* ── Content Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
           {/* Left: Description + Projects + Blog */}
-          <div className="lg:col-span-3 space-y-6">
+          <div className="lg:col-span-3 space-y-6 lg:space-y-0">
             <AnimatePresence mode="wait">
               <motion.p
                 key={selectedRoleId}
-                className="text-[clamp(15px,1.6vw,18px)] leading-[1.75] text-muted-foreground max-w-[44ch]"
+                className="text-[clamp(15px,1.6vw,18px)] leading-[1.75] text-foreground/80 max-w-[44ch] break-keep"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
@@ -91,6 +92,8 @@ export default function RoleShowcaseSection() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={`projects-${selectedRoleId}`}
+                ref={projectSectionRef}
+                className="lg:min-h-[75vh] lg:pb-16"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -102,7 +105,7 @@ export default function RoleShowcaseSection() {
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={`mobile-project-${selectedRoleId}`}
-                        className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-border bg-surface"
+                        className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-border/60 bg-surface"
                         initial={{ opacity: 0, scale: 0.97 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.97 }}
@@ -135,7 +138,7 @@ export default function RoleShowcaseSection() {
                 </div>
 
                 {projects.length > 0 ? (
-                  <ul className="flex flex-col">
+                  <ul className="flex flex-col divide-y divide-border border-y border-border">
                     {projects.map((project, index) => (
                       <motion.li
                         key={project.caseId}
@@ -145,7 +148,7 @@ export default function RoleShowcaseSection() {
                       >
                         <Link
                           href={project.href}
-                          className="group block py-3.5 border-b border-border first:border-t no-underline transition-all duration-200 hover:pl-2 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
+                          className="group block py-3.5 no-underline transition-all duration-200 hover:pl-2 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                           onMouseEnter={() =>
                             setHoveredPreview({
                               src: project.image,
@@ -171,7 +174,7 @@ export default function RoleShowcaseSection() {
                             </span>
                           </div>
                           {/* 2순위: 프로젝트명 + 메타 */}
-                          <p className="mt-1 pl-7 text-[13px] text-muted-foreground/70 font-pretendard tracking-[0.08em]">
+                          <p className="mt-1 pl-7 text-[13px] text-muted-foreground font-pretendard tracking-[0.08em]">
                             {project.title}
                             <span className="mx-1.5 text-border">·</span>
                             <span className="tabular-nums">
@@ -197,12 +200,11 @@ export default function RoleShowcaseSection() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`posts-${selectedRoleId}`}
-                  ref={blogSectionRef}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, delay: 0.1 }}
-                  className="pt-4"
+                  className="pt-4 lg:min-h-[60vh]"
                 >
                   {/* 모바일: 블로그 OG 이미지 */}
                   {blogFallback && (
@@ -210,7 +212,7 @@ export default function RoleShowcaseSection() {
                       <AnimatePresence mode="wait">
                         <motion.div
                           key={`mobile-blog-${selectedRoleId}`}
-                          className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-border bg-surface"
+                          className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-border/60 bg-surface"
                           initial={{ opacity: 0, scale: 0.97 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.97 }}
@@ -244,7 +246,7 @@ export default function RoleShowcaseSection() {
                     </a>
                   </div>
 
-                  <ul className="flex flex-col">
+                  <ul className="flex flex-col divide-y divide-border border-y border-border">
                     {posts.map((post, index) => (
                       <motion.li
                         key={post.id}
@@ -256,7 +258,7 @@ export default function RoleShowcaseSection() {
                           href={post.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group flex items-center gap-3 py-3 border-b border-border first:border-t text-[clamp(14px,1.4vw,16px)] font-medium text-foreground no-underline transition-all duration-200 hover:text-accent hover:pl-2 focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
+                          className="group flex items-center gap-3 py-3 text-[clamp(14px,1.4vw,16px)] font-medium text-foreground no-underline transition-all duration-200 hover:text-accent hover:pl-2 focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                           onMouseEnter={() =>
                             post.ogImage &&
                             setHoveredPreview({
@@ -276,11 +278,8 @@ export default function RoleShowcaseSection() {
                           onMouseLeave={() => setHoveredPreview(null)}
                           onBlur={() => setHoveredPreview(null)}
                         >
-                          <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-muted-foreground/60" />
+                          <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-muted-foreground/60 group-hover:text-accent group-focus-visible:text-accent transition-colors" />
                           <span className="break-keep">{post.title}</span>
-                          <span className="ml-auto shrink-0 text-xs text-muted-foreground font-pretendard tabular-nums tracking-[0.08em]">
-                            {post.date.slice(0, 7).replace("-", ".")}
-                          </span>
                         </a>
                       </motion.li>
                     ))}
@@ -291,9 +290,9 @@ export default function RoleShowcaseSection() {
           </div>
 
           {/* Right: Image Preview — sticky, 스크롤 따라 컨텍스트 전환 */}
-          <div className="hidden lg:block lg:col-span-2">
+          <div className="hidden lg:block lg:col-span-2 self-stretch">
             <div className="sticky top-24">
-              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-border bg-surface dark:border-(--gray-400)">
+              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-border/60 bg-surface">
                 <AnimatePresence mode="wait">
                   {previewSrc ? (
                     <motion.div

@@ -16,10 +16,8 @@ export default function Home() {
       <HeroSection />
       <IntroductionSection />
       <RoleShowcaseSection />
-
       <LearningJourneySection />
       <ClosingSection />
-      {/* <RecentSection cases={getAllCases()} /> */}
     </div>
   );
 }

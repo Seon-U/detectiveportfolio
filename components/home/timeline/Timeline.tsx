@@ -60,7 +60,7 @@ export default function Timeline({ items }: { items: TimelineItem[] }) {
               <h4 className="text-lg md:text-xl font-semibold text-foreground leading-snug mb-1">
                 {item.title}
               </h4>
-              <p className="text-sm md:text-[15px] leading-relaxed text-muted-foreground max-w-[48ch]">
+              <p className="text-sm md:text-[15px] leading-relaxed text-foreground/80 max-w-[48ch]">
                 {item.description}
               </p>
             </motion.div>

@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Role } from "@/lib/roles/types";
+import type { Role, RoleId } from "@/lib/roles/types";
 import { cn } from "@/lib/utils";
 import styles from "./role-dropdown.module.css";
 
@@ -13,8 +13,8 @@ export default function RoleDropdown({
   onSelect,
 }: {
   roles: Role[];
-  selectedRoleId: string;
-  onSelect: (roleId: string) => void;
+  selectedRoleId: RoleId;
+  onSelect: (roleId: RoleId) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLSpanElement>(null);
@@ -44,7 +44,7 @@ export default function RoleDropdown({
   }, []);
 
   const handleSelect = useCallback(
-    (roleId: string) => {
+    (roleId: RoleId) => {
       onSelect(roleId);
       setIsOpen(false);
     },

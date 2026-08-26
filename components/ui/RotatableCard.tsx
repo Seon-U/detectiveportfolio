@@ -45,7 +45,10 @@ export default function RotatableCard({
 
         {/* ── 앞면 ── */}
         <div className="absolute inset-0 backface-hidden rotate-y-180">
-          <div className="relative w-full h-full rounded-xl overflow-hidden border border-border shadow-card">
+          <div
+            className="relative w-full h-full rounded-xl overflow-hidden"
+            style={{ boxShadow: "inset 0 0 0 1px var(--border), var(--shadow-card)" }}
+          >
             {/* 이미지 — 카드 전체 영역 */}
             <Image
               src={frontImage}

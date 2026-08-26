@@ -1,15 +1,16 @@
 import type { ContentSection, ImageRef } from "@/lib/content/types";
+import type { RoleId } from "@/lib/roles/types";
 
 /** 기존 import 호환을 위한 re-export */
 export type { ImageRef };
 
 export type CaseSection = ContentSection & {
   /** 이 섹션이 관련된 역할 — 없으면 공통(모든 역할에 노출) */
-  roles?: string[];
+  roles?: RoleId[];
 };
 
 export type Contribution = {
-  roleId: string;
+  roleId: RoleId;
   /** RoleShowcase 리스트에 보여줄 한 줄 요약 */
   summary: string;
   team: { total: number; myRole: string };

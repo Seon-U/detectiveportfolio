@@ -12,6 +12,7 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Case } from "@/lib/cases/types";
+import type { RoleId } from "@/lib/roles/types";
 import { statusStyles } from "@/lib/cases/status-styles";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +23,7 @@ function slugify(text: string) {
 export default function CaseDetail({ caseData }: { caseData: Case }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const role = searchParams.get("role") ?? undefined;
+  const role = (searchParams.get("role") ?? undefined) as RoleId | undefined;
   const [activeSection, setActiveSection] = useState<string>("");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 

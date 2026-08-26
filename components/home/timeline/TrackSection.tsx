@@ -39,8 +39,15 @@ export default function TrackSection({
             label={track.label}
             highlight={track.highlight}
             align={reversed ? "right" : "left"}
-            className="mb-10 md:mb-14"
+            className="mb-4 md:mb-6"
           />
+          {track.description && (
+            <p
+              className={`text-[clamp(14px,1.4vw,16px)] leading-relaxed text-foreground/80 max-w-[48ch] mb-8 md:mb-12 break-keep ${reversed ? "ml-auto text-right" : ""}`}
+            >
+              {track.description}
+            </p>
+          )}
           <Timeline items={track.items} />
         </div>
 

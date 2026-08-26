@@ -1,9 +1,10 @@
+/** 역할 식별자 — 새 역할 추가 시 여기에 리터럴을 추가 */
+export type RoleId = "frontend" | "ios" | "backend" | "planner";
+
 export type Role = {
-  id: string;
+  id: RoleId;
   label: string;
   description: string;
-  /** 블로그 포스트 매칭용 태그 목록 */
-  matchTags: string[];
   /** 데스크톱 미리보기 기본 이미지 — 미지정 시 첫 프로젝트 이미지 사용 */
   defaultImage?: string;
 };
