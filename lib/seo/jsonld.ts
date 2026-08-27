@@ -18,7 +18,7 @@ export function buildPersonJsonLd() {
     name: siteConfig.name,
     url: siteConfig.url,
     image: toAbsoluteUrl(siteConfig.ogImage),
-    jobTitle: "Full-Stack Developer",
+    jobTitle: "Frontend Developer",
     email: "seonu.kim.kr@gmail.com",
   };
 }

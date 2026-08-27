@@ -44,15 +44,8 @@ export default function CaseCarousel({ cases }: Props) {
                 </div>
 
                 <div className="flex justify-between items-center mt-auto">
-                  <span
-                    className={cn(
-                      "text-xs font-bold px-2 py-1 border-2 uppercase",
-                      c.status === "SOLVED"
-                        ? "text-[var(--solved)] border-[var(--solved)]"
-                        : "text-[var(--verified)] border-[var(--verified)]",
-                    )}
-                  >
-                    {c.status}
+                  <span className="text-xs font-mono text-muted-foreground">
+                    {c.date}
                   </span>
                 </div>
               </div>

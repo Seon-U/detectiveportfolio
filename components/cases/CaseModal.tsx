@@ -262,7 +262,7 @@ export default function CaseModal({ onClose, caseData }: CaseModalProps) {
               transition={{ delay: 0.15 }}
             >
               <div className="mb-4">
-                <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="mb-3">
                   <h2
                     className={cn(
                       "text-4xl md:text-5xl font-serif font-black uppercase",
@@ -271,20 +271,6 @@ export default function CaseModal({ onClose, caseData }: CaseModalProps) {
                   >
                     {caseData.title}
                   </h2>
-                  <span
-                    className={cn(
-                      "text-xs font-bold px-3 py-1 border-2 uppercase transform rotate-6 shrink-0",
-                      caseData.status === "SOLVED"
-                        ? isDark
-                          ? "text-green-400 border-green-400"
-                          : "text-green-700 border-green-700 bg-green-100"
-                        : isDark
-                          ? "text-red-400 border-red-400"
-                          : "text-red-700 border-red-700 bg-red-100",
-                    )}
-                  >
-                    {caseData.status}
-                  </span>
                 </div>
 
                 {caseData.projectUrl && (
