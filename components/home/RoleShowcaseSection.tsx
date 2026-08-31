@@ -5,6 +5,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FALLBACK_IMAGES } from "@/lib/roles/constants";
 import { getPostsByRole, getProjectsByRole, ROLES } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
 import RoleDropdown from "../ui/RoleDropdown";
@@ -38,10 +39,7 @@ export default function RoleShowcaseSection() {
     () => getProjectsByRole(selectedRoleId),
     [selectedRoleId],
   );
-  const posts = useMemo(
-    () => getPostsByRole(selectedRoleId),
-    [selectedRoleId],
-  );
+  const posts = useMemo(() => getPostsByRole(selectedRoleId), [selectedRoleId]);
 
   const handleSelect = useCallback((roleId: RoleId) => {
     setSelectedRoleId(roleId);
@@ -49,8 +47,13 @@ export default function RoleShowcaseSection() {
   }, []);
 
   /* 이미지 우선순위: hover → 블로그 끝에 닿으면 OG, 아니면 프로젝트 */
-  const blogFallback = posts.find((p) => p.ogImage)?.ogImage;
-  const projectFallback = selectedRole.defaultImage ?? projects[0]?.image;
+  const blogFallback =
+    posts.find((p) => p.ogImage)?.ogImage ??
+    (posts.length > 0 ? FALLBACK_IMAGES.blog : undefined);
+  const projectFallback =
+    selectedRole.defaultImage ??
+    projects[0]?.image ??
+    (projects.length > 0 ? FALLBACK_IMAGES.project : undefined);
   const contextImage =
     isBlogEnd && blogFallback ? blogFallback : projectFallback;
 
@@ -70,7 +73,7 @@ export default function RoleShowcaseSection() {
       <div className="max-w-7xl mx-auto">
         {/* ── Headline ── */}
         <div className="mb-8">
-          <div className="text-[clamp(24px,3vw,36px)] font-semibold leading-[1.4] tracking-[0.05em] text-foreground">
+          <div className="text-[clamp(24px,3vw,36px)] font-semibold leading-[1.4] tracking-wider text-foreground">
             <span className="whitespace-nowrap">
               <RoleDropdown
                 roles={ROLES}
@@ -116,7 +119,7 @@ export default function RoleShowcaseSection() {
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={`mobile-project-${selectedRoleId}`}
-                        className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-border/60 bg-surface"
+                        className="relative w-full aspect-video rounded-xl overflow-hidden border border-border/60 bg-surface"
                         initial={{ opacity: 0, scale: 0.97 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.97 }}
@@ -224,7 +227,7 @@ export default function RoleShowcaseSection() {
                       <AnimatePresence mode="wait">
                         <motion.div
                           key={`mobile-blog-${selectedRoleId}`}
-                          className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-border/60 bg-surface"
+                          className="relative w-full aspect-video rounded-xl overflow-hidden border border-border/60 bg-surface"
                           initial={{ opacity: 0, scale: 0.97 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.97 }}
@@ -272,17 +275,15 @@ export default function RoleShowcaseSection() {
                           rel="noopener noreferrer"
                           className="group flex items-center gap-3 py-3 text-[clamp(14px,1.4vw,16px)] font-medium text-foreground no-underline transition-all duration-200 hover:text-accent hover:pl-2 focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                           onMouseEnter={() =>
-                            post.ogImage &&
                             setHoveredPreview({
-                              src: post.ogImage,
+                              src: post.ogImage ?? FALLBACK_IMAGES.blog,
                               alt: post.title,
                               key: post.id,
                             })
                           }
                           onFocus={() =>
-                            post.ogImage &&
                             setHoveredPreview({
-                              src: post.ogImage,
+                              src: post.ogImage ?? FALLBACK_IMAGES.blog,
                               alt: post.title,
                               key: post.id,
                             })
@@ -306,7 +307,7 @@ export default function RoleShowcaseSection() {
             <div className="sticky top-24">
               <div
                 ref={imageRef}
-                className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-border/60 bg-surface"
+                className="relative w-full aspect-16/10 rounded-xl overflow-hidden border border-border/60 bg-surface"
               >
                 <AnimatePresence mode="wait">
                   {previewSrc ? (
@@ -332,7 +333,7 @@ export default function RoleShowcaseSection() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="flex items-center justify-center w-full h-full text-subtle-foreground text-sm tracking-[0.05em]"
+                      className="flex items-center justify-center w-full h-full text-subtle-foreground text-sm tracking-wider"
                     >
                       프로젝트에 마우스를 올려보세요
                     </motion.div>
