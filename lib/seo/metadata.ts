@@ -22,7 +22,7 @@ type BuildMetadataInput = {
   title?: Metadata["title"];
   /** 설명. 생략 시 사이트 기본 description. 항상 truncate 적용 */
   description?: string;
-  /** canonical/OG용 경로. metadataBase로 절대화됨 (예: "/cases/foo") */
+  /** canonical/OG용 경로. metadataBase로 절대화됨 (예: "/projects/001") */
   path: string;
   /** OG 이미지. 절대 URL이면 그대로, 없으면 기본 이미지로 폴백 */
   image?: string;

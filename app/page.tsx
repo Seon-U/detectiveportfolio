@@ -1,14 +1,23 @@
+import ClosingSection from "@/components/home/ClosingSection";
 import HeroSection from "@/components/home/HeroSection";
 import IntroductionSection from "@/components/home/IntroductionSection";
 import LearningJourneySection from "@/components/home/LearningJourneySection";
-import RecentSection from "@/components/home/RecentSection";
-import TechStackSection from "@/components/home/TechStackSection";
-import { getAllCases } from "@/lib/cases/queries";
+import RoleShowcaseSection from "@/components/home/RoleShowcaseSection";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 // title 생략 → 루트 레이아웃 기본 타이틀 상속(템플릿 접미사 중복 방지)
 export const metadata = buildMetadata({
   path: "/",
+  keywords: [
+    "프론트엔드 개발자",
+    "포트폴리오",
+    "김선우",
+    "Next.js",
+    "React",
+    "Spring Boot",
+    "SwiftUI",
+    "웹 개발자",
+  ],
 });
 
 export default function Home() {
@@ -16,9 +25,9 @@ export default function Home() {
     <div className="space-y-32 pb-20">
       <HeroSection />
       <IntroductionSection />
+      <RoleShowcaseSection />
       <LearningJourneySection />
-      <TechStackSection />
-      <RecentSection cases={getAllCases()} />
+      <ClosingSection />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
 import HangingCard from "../ui/HangingCard";
+import ScrollIndicator from "../ui/ScrollIndicator";
 
 export default function HeroSection() {
   const { isDark } = useMountedTheme();
@@ -12,7 +13,6 @@ export default function HeroSection() {
   const [isInitialEntrance, setIsInitialEntrance] = useState(true);
 
   useEffect(() => {
-    // HangingCard의 출렁거리는 애니메이션 시간에 맞춰 타이머 설정 (예: 1.5초 후)
     const timer = setTimeout(() => {
       setIsInitialEntrance(false);
     }, 1500);
@@ -23,9 +23,9 @@ export default function HeroSection() {
   const isHighZIndex = isInitialEntrance || isDragging;
 
   return (
-    <section className="relative isolate grid place-items-center">
-      {/* 텍스트 — pointer-events-none으로 카드 클릭 투과 */}
-      <div className="[grid-area:1/1] z-10 pointer-events-none self-center md:justify-self-start">
+    <section className="relative isolate grid place-items-center px-4 md:px-8 lg:px-12">
+      {/* 텍스트 + 스크롤 인디케이터 */}
+      <div className="[grid-area:1/1] z-10 pointer-events-none self-center md:justify-self-start flex flex-col items-center">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -41,6 +41,8 @@ export default function HeroSection() {
             Trace. Solve. Refine.
           </h1>
         </motion.div>
+
+        <ScrollIndicator delay={2} className="mt-8 md:mt-12" />
       </div>
 
       {/* 카드 — 드래그 전 z-0(텍스트 뒤), 드래그 시 z-20(텍스트 위) */}

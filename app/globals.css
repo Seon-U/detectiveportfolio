@@ -133,12 +133,42 @@
   --cork-font-hand: var(--font-pretendard), "Segoe Script", cursive;
   --cork-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
+  /* ── Accent Tint (드롭다운 등 강조 배경) ── */
+  --accent-tint: var(--orange-100);
+  --accent-tint-hover: var(--orange-200);
+  --accent-tint-border: var(--orange-300);
+  --accent-tint-border-hover: var(--orange-400);
+  --accent-tint-glow: none;
+  --shadow-dropdown: var(--shadow-card);
+
+  /* ── Highlight Marker (형광펜) ── */
+  --highlight-marker: rgba(250, 219, 96, 0.5);
+
+  /* ── Timeline ── */
+  --timeline-line: var(--gray-300);
+  --timeline-dot: var(--orange-400);
+  --timeline-dot-border: var(--orange-200);
+  --timeline-period: var(--gray-700);
+
+  /* ── CTA Button ── */
+  --cta-bg: var(--accent);
+
   /* ── Hanging Card ── */
   --strap-color: var(--orange-400);
   --clip-color: var(--orange-300);
   --id-card-bg: var(--accent);
   --id-card-shadow-color: rgba(0, 0, 0, 0.22);
   --id-card-outline-color: rgba(0, 0, 0, 0.06);
+
+  /* ── Role Badge (라이트) ── */
+  --role-frontend-bg: #dbeafe;
+  --role-frontend-text: #1e40af;
+  --role-backend-bg: #d1fae5;
+  --role-backend-text: #065f46;
+  --role-ios-bg: #ffedd5;
+  --role-ios-text: #9a3412;
+  --role-planner-bg: #ede9fe;
+  --role-planner-text: #5b21b6;
 }
 
 html.dark {
@@ -238,12 +268,44 @@ html.dark {
   --theme-toggle-hover-background: rgba(10, 255, 145, 0.12);
   --theme-toggle-shadow: 0 0 15px rgba(10, 255, 145, 0.8);
 
+  /* ── Accent Tint (다크) — 호버 시 배경 유지, 보더만 변경 ── */
+  --accent-tint: var(--mint-100);
+  --accent-tint-hover: var(--mint-100);
+  --accent-tint-border: var(--mint-400);
+  --accent-tint-border-hover: var(--mint-500);
+  --accent-tint-glow: 0 0 6px rgba(10, 255, 145, 0.1);
+  --shadow-dropdown:
+    0 0 0 1px rgba(10, 255, 145, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* ── Highlight Marker (다크) ── */
+  --highlight-marker: rgba(10, 255, 145, 0.3);
+
+  /* ── Timeline (다크) ── */
+  --timeline-line: var(--gray-400);
+  --timeline-dot: var(--mint-500);
+  --timeline-dot-border: var(--mint-100);
+  --timeline-period: var(--gray-700);
+
+  /* ── CTA Button (다크) ── */
+  --cta-bg: var(--mint-300);
+
   /* ── Hanging Card (다크) ── */
   --strap-color: var(--mint-300);
   --clip-color: var(--accent);
   --id-card-bg: var(--mint-300);
   --id-card-shadow-color: rgba(0, 0, 0, 0.65);
   --id-card-outline-color: rgba(255, 255, 255, 0.1);
+
+  /* ── Role Badge (다크) ── */
+  --role-frontend-bg: rgba(59, 130, 246, 0.18);
+  --role-frontend-text: #93c5fd;
+  --role-backend-bg: rgba(16, 185, 129, 0.18);
+  --role-backend-text: #6ee7b7;
+  --role-ios-bg: rgba(251, 146, 60, 0.18);
+  --role-ios-text: #fdba74;
+  --role-planner-bg: rgba(167, 139, 250, 0.18);
+  --role-planner-text: #c4b5fd;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -304,6 +366,16 @@ html.dark {
   --color-id-card-bg: var(--id-card-bg);
   --color-id-card-outline: var(--id-card-outline-color);
   --shadow-id-card: 0 20px 40px -12px var(--id-card-shadow-color);
+
+  /* ── Role Badge ── */
+  --color-role-frontend-bg: var(--role-frontend-bg);
+  --color-role-frontend-text: var(--role-frontend-text);
+  --color-role-backend-bg: var(--role-backend-bg);
+  --color-role-backend-text: var(--role-backend-text);
+  --color-role-ios-bg: var(--role-ios-bg);
+  --color-role-ios-text: var(--role-ios-text);
+  --color-role-planner-bg: var(--role-planner-bg);
+  --color-role-planner-text: var(--role-planner-text);
 }
 
 /* ═══════════════════════════════════════════════════════════════

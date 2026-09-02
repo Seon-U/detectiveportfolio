@@ -1,5 +1,6 @@
 "use client";
 
+import SocialLinks from "@/components/ui/SocialLinks";
 import { cn } from "@/lib/utils";
 
 type FooterProps = {
@@ -16,8 +17,8 @@ export default function Footer({ className }: FooterProps) {
       )}
     >
       <div className="flex h-full justify-between items-center text-sm">
-        <div>&#0169; 2026 Seonu</div>
-        <div className="tracking-widest">Editorial x Engineering</div>
+        <div className="font-serif font-bold tracking-wider">&#0169; 2026 Seonu</div>
+        <SocialLinks />
       </div>
     </footer>
   );

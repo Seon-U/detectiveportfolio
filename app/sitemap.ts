@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllArchives } from "@/lib/archives/queries";
-import { getAllCases } from "@/lib/cases/queries";
+import { getAllProjects } from "@/lib/projects/queries";
 import { siteConfig } from "@/lib/seo/config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -12,32 +11,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${siteConfig.url}/cases`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteConfig.url}/archives`,
+      url: `${siteConfig.url}/projects`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
   ];
 
-  const caseRoutes: MetadataRoute.Sitemap = getAllCases().map((c) => ({
-    url: `${siteConfig.url}/cases/${c.id}`,
-    lastModified: new Date(c.date),
+  const projectRoutes: MetadataRoute.Sitemap = getAllProjects().map((p) => ({
+    url: `${siteConfig.url}/projects/${p.id}`,
+    lastModified: new Date(p.lastModified),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
 
-  const archiveRoutes: MetadataRoute.Sitemap = getAllArchives().map((a) => ({
-    url: `${siteConfig.url}/archives/${a.id}`,
-    lastModified: new Date(a.date),
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
-
-  return [...staticRoutes, ...caseRoutes, ...archiveRoutes];
+  return [...staticRoutes, ...projectRoutes];
 }
