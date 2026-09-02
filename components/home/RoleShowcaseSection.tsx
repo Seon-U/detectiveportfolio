@@ -143,7 +143,7 @@ export default function RoleShowcaseSection() {
                     Project
                   </span>
                   <Link
-                    href="/cases"
+                    href="/projects"
                     className="inline-flex items-center gap-1 text-xs font-medium text-accent no-underline transition-all duration-200 hover:gap-1.5 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                   >
                     모든 프로젝트 보기
@@ -155,7 +155,7 @@ export default function RoleShowcaseSection() {
                   <ul className="flex flex-col divide-y divide-border border-y border-border">
                     {projects.map((project, index) => (
                       <motion.li
-                        key={project.caseId}
+                        key={project.projectId}
                         initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.06 }}
@@ -167,14 +167,14 @@ export default function RoleShowcaseSection() {
                             setHoveredPreview({
                               src: project.image,
                               alt: project.title,
-                              key: project.caseId,
+                              key: project.projectId,
                             })
                           }
                           onFocus={() =>
                             setHoveredPreview({
                               src: project.image,
                               alt: project.title,
-                              key: project.caseId,
+                              key: project.projectId,
                             })
                           }
                           onMouseLeave={() => setHoveredPreview(null)}
@@ -188,14 +188,14 @@ export default function RoleShowcaseSection() {
                             </span>
                           </div>
                           {/* 2순위: 프로젝트명 + 메타 */}
-                          <p className="mt-1 pl-7 text-[13px] text-muted-foreground font-pretendard tracking-[0.08em]">
+                          <p className="mt-1 pl-7 text-[13px] text-muted-foreground font-pretendard tracking-[0.08em] break-keep">
                             {project.title}
                             <span className="mx-1.5 text-border">·</span>
                             <span className="tabular-nums">
-                              {project.date.slice(0, 7).replace("-", ".")}
+                              {project.period}
                             </span>
                             <span className="mx-1.5 text-border">·</span>
-                            {project.team.total}인
+                            {project.teamSize}인
                           </p>
                         </Link>
                       </motion.li>

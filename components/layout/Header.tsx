@@ -18,7 +18,7 @@ export default function Header({ className }: HeaderProps) {
 
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const isProjects = pathname === "/cases";
+  const isProjects = pathname === "/projects";
 
   useEffect(() => {
     setMounted(true);
@@ -52,7 +52,7 @@ export default function Header({ className }: HeaderProps) {
             <div className="flex items-center gap-5">
               {/* Projects 텍스트 링크 */}
               <Link
-                href="/cases"
+                href="/projects"
                 className={cn(
                   "text-sm font-semibold font-serif tracking-widest transition-colors duration-300",
                   isProjects

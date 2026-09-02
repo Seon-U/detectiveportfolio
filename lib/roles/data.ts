@@ -1,4 +1,4 @@
-import { ALLCASES } from "@/lib/cases/data";
+import { ALL_PROJECTS } from "@/lib/projects/data";
 import { ALL_POSTS } from "@/lib/posts/data";
 import type { BlogPost } from "@/lib/posts/types";
 import type { Role, RoleId, RoleProject } from "./types";
@@ -34,18 +34,18 @@ export const ROLES: Role[] = [
  * contributions 기반 명시적 매핑으로 역할에 해당하는 프로젝트 목록을 반환합니다.
  */
 export function getProjectsByRole(roleId: RoleId): RoleProject[] {
-  return ALLCASES.filter((c) =>
-    c.contributions.some((ct) => ct.roleId === roleId),
-  ).map((c) => {
-    const ct = c.contributions.find((ct) => ct.roleId === roleId)!;
+  return ALL_PROJECTS.filter((p) =>
+    p.contributions.some((ct) => ct.roleId === roleId),
+  ).map((p) => {
+    const ct = p.contributions.find((ct) => ct.roleId === roleId)!;
     return {
-      caseId: c.id,
-      title: c.title,
-      image: c.image,
-      href: `/cases/${c.id}?role=${roleId}`,
+      projectId: p.id,
+      title: p.title,
+      image: p.image,
+      href: `/projects/${p.id}?role=${roleId}`,
       summary: ct.summary,
-      date: c.date,
-      team: ct.team,
+      period: p.period,
+      teamSize: p.teamSize,
     };
   });
 }

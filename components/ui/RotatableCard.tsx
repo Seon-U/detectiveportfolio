@@ -54,6 +54,7 @@ export default function RotatableCard({
               src={frontImage}
               alt={frontTitle}
               fill
+              sizes="(max-width: 768px) 80vw, clamp(200px, 18vw, 300px)"
               className={cn(
                 "object-cover",
                 isDark ? "bg-(--gray-300)" : "bg-(--gray-200)",

@@ -11,12 +11,12 @@ export type Role = {
 
 /** 프로젝트 링크 — RoleShowcase 리스트 + 호버 이미지 프리뷰용 */
 export type RoleProject = {
-  caseId: string;
+  projectId: string;
   title: string;
   image: string;
   href: string;
   /** contributions에서 가져온 역할별 한 줄 요약 */
   summary: string;
-  date: string;
-  team: { total: number; myRole: string };
+  period: string;
+  teamSize: number;
 };

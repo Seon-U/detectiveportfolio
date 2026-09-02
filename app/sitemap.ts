@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllArchives } from "@/lib/archives/queries";
-import { getAllCases } from "@/lib/cases/queries";
+import { getAllProjects } from "@/lib/projects/queries";
 import { siteConfig } from "@/lib/seo/config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${siteConfig.url}/cases`,
+      url: `${siteConfig.url}/projects`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
@@ -25,9 +25,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const caseRoutes: MetadataRoute.Sitemap = getAllCases().map((c) => ({
-    url: `${siteConfig.url}/cases/${c.id}`,
-    lastModified: new Date(c.date),
+  const projectRoutes: MetadataRoute.Sitemap = getAllProjects().map((p) => ({
+    url: `${siteConfig.url}/projects/${p.id}`,
+    lastModified: new Date(p.lastModified),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
@@ -39,5 +39,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...caseRoutes, ...archiveRoutes];
+  return [...staticRoutes, ...projectRoutes, ...archiveRoutes];
 }

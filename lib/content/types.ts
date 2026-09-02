@@ -47,13 +47,27 @@ export type GalleryBlock = {
   images: (ImageRef & { caption?: string })[];
 };
 
+export type FlowStep = {
+  label: string;
+  detail?: string;
+};
+
+export type FlowBlock = {
+  type: "flow";
+  steps: FlowStep[];
+  /** 기본 horizontal — 모바일에서는 항상 vertical로 전환 */
+  direction?: "horizontal" | "vertical";
+  caption?: string;
+};
+
 export type ContentBlock =
   | TextBlock
   | ImageBlock
   | CodeBlock
   | ERDBlock
   | YouTubeBlock
-  | GalleryBlock;
+  | GalleryBlock
+  | FlowBlock;
 
 /* ═══════════════════════════════════════════════════════════════
    Feature — feature 레이아웃 전용 항목

@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import { useEffect } from "react";
 
-const CARD_SRC = "/id-card.svg";
+const CARD_SRC = "/idCard.webp";
 const CARD_WIDTH = 300;
 const CARD_HEIGHT = 472;
 

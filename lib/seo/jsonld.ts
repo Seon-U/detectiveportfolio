@@ -27,7 +27,7 @@ type CreativeWorkJsonLdInput = {
   /** 작품명 (케이스/아카이브 제목) */
   name: string;
   description: string;
-  /** canonical 경로 (예: "/cases/foo") */
+  /** canonical 경로 (예: "/projects/001") */
   path: string;
   image?: string;
   /** ISO 8601 날짜 문자열 */
