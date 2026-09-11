@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import FallbackImage from "../ui/FallbackImage";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FALLBACK_IMAGES } from "@/lib/roles/constants";
 import { getPostsByRole, getProjectsByRole, ROLES } from "@/lib/roles/data";
@@ -233,8 +234,9 @@ export default function RoleShowcaseSection() {
                           exit={{ opacity: 0, scale: 0.97 }}
                           transition={{ duration: 0.25 }}
                         >
-                          <Image
+                          <FallbackImage
                             src={blogFallback}
+                            fallbackSrc={FALLBACK_IMAGES.blog}
                             alt="블로그 대표 이미지"
                             fill
                             sizes="(max-width: 1023px) 92vw, 0px"
@@ -319,8 +321,9 @@ export default function RoleShowcaseSection() {
                       transition={{ duration: 0.3 }}
                       className="absolute inset-0"
                     >
-                      <Image
+                      <FallbackImage
                         src={previewSrc}
+                        fallbackSrc={FALLBACK_IMAGES.blog}
                         alt={previewAlt}
                         fill
                         sizes="(min-width: 1024px) 35vw, 0px"
