@@ -40,9 +40,8 @@ const localeSiteConfig: Record<Locale, LocaleSiteConfig> = {
   en: {
     name: "Seonu Kim",
     defaultTitle: "Seonu Kim | Frontend Developer Portfolio",
-    // TODO(⑧): 영문 번역
     description:
-      "Next.js 기반 프론트엔드 개발자 김선우의 포트폴리오. 백엔드 설계부터 iOS 개발, 기획까지 맡은 역할을 꼼꼼하게 수행한 프로젝트 기록을 담았습니다.",
+      "Portfolio of Seonu Kim, a Next.js frontend developer. Projects spanning backend design, iOS development, and product planning, each done with care.",
     ogLocale: "en_US",
     jobTitle: "Frontend Developer",
   },

@@ -12,19 +12,18 @@ export const localeNames: Record<Locale, string> = {
 export const LOCALE_COOKIE = "NEXT_LOCALE";
 
 /**
- * 데이터 레이어의 다국어 문자열.
- * 번역 전환기 동안 en은 선택값(없으면 ko 폴백). ⑧ 번역 완료 시 Record<Locale, string>으로 강화해
- * 누락된 번역을 컴파일 에러로 찾는다.
+ * 데이터 레이어의 다국어 문자열. 모든 locale 필수 — 번역 누락은 컴파일 에러로 드러난다.
+ * (번역 전환기에는 en을 선택값으로 두었다가 ⑧ 번역 완료 시 강화)
  */
-export type LocalizedString = { ko: string; en?: string };
+export type LocalizedString = Record<Locale, string>;
 
 export function hasLocale(lang: string): lang is Locale {
   return locales.includes(lang as Locale);
 }
 
-/** 데이터에서 현재 locale 텍스트를 꺼내는 헬퍼. 없으면 ko 폴백. */
+/** 데이터에서 현재 locale 텍스트를 꺼내는 헬퍼. 비어 있으면 기본 locale로 폴백. */
 export function t(value: LocalizedString, locale: Locale): string {
-  return value[locale] ?? value.ko;
+  return value[locale] || value[defaultLocale];
 }
 
 /** 사전 템플릿의 `{name}` 자리표시자를 치환한다. 없는 키는 그대로 둔다. */
