@@ -2,6 +2,15 @@ export const locales = ["ko", "en"] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = "ko";
 
+/** 언어 전환 UI 표기 — 각 언어를 해당 언어 자체로 표기(사전 불필요) */
+export const localeNames: Record<Locale, string> = {
+  ko: "한국어",
+  en: "English",
+};
+
+/** 사용자가 명시적으로 고른 locale — proxy가 Accept-Language보다 우선 적용 */
+export const LOCALE_COOKIE = "NEXT_LOCALE";
+
 /**
  * 데이터 레이어의 다국어 문자열.
  * 번역 전환기 동안 en은 선택값(없으면 ko 폴백). ⑧ 번역 완료 시 Record<Locale, string>으로 강화해

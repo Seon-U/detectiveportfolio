@@ -3,12 +3,19 @@ import { NextResponse } from "next/server";
 import {
   defaultLocale,
   hasLocale,
+  LOCALE_COOKIE,
   type Locale,
   locales,
 } from "@/lib/i18n/config";
 
-/** Accept-Language를 q값 순으로 파싱해 지원 locale 중 가장 선호되는 것을 고른다. */
+/**
+ * 리다이렉트 대상 locale 결정.
+ * 1) 언어 전환 UI에서 저장한 쿠키 2) Accept-Language(q값 순) 3) 기본 locale
+ */
 function getLocale(request: NextRequest): Locale {
+  const cookie = request.cookies.get(LOCALE_COOKIE)?.value;
+  if (cookie && hasLocale(cookie)) return cookie;
+
   const header = request.headers.get("accept-language");
   if (!header) return defaultLocale;
 
