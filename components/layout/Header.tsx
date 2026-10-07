@@ -2,24 +2,13 @@
 
 import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
-import {
-  LOCALE_COOKIE,
-  type Locale,
-  localeNames,
-  locales,
-} from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
-
-/** 현재 경로의 첫 세그먼트(locale)만 교체 — "/ko/projects/001" → "/en/projects/001" */
-function switchLocalePath(pathname: string, target: Locale): string {
-  const segments = pathname.split("/");
-  segments[1] = target;
-  return segments.join("/");
-}
+import LocaleSwitcher from "./LocaleSwitcher";
 
 type HeaderProps = {
   className: string;
@@ -32,32 +21,13 @@ export default function Header({ className, lang }: HeaderProps) {
 
   const [mounted, setMounted] = useState(false);
 
-  const router = useRouter();
   const pathname = usePathname();
   const isHome = pathname === `/${lang}`;
   const isProjects = pathname === `/${lang}/projects`;
 
-  const targetLocale = locales.find((l) => l !== lang) ?? lang;
-  const targetPath = switchLocalePath(pathname, targetLocale);
-
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  /*
-   * 쿼리(?role= 등)·해시를 보존해 이동하고, 선택한 locale을 쿠키로 저장한다.
-   * useSearchParams는 정적 페이지에서 CSR bailout을 일으키므로(§10-4) 클릭 시점에 window.location에서 읽는다.
-   */
-  const handleLocaleSwitch = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-    e.preventDefault();
-    const secure = window.location.protocol === "https:" ? "; secure" : "";
-    // biome-ignore lint/suspicious/noDocumentCookie: 단일 locale 쿠키 저장 — Cookie Store API는 Safari 미지원
-    document.cookie = `${LOCALE_COOKIE}=${targetLocale}; path=/; max-age=31536000; samesite=lax${secure}`;
-    router.push(
-      `${targetPath}${window.location.search}${window.location.hash}`,
-    );
-  };
 
   return (
     <header className={cn(className)}>
@@ -98,18 +68,8 @@ export default function Header({ className, lang }: HeaderProps) {
                 {common.projects}
               </Link>
 
-              {/* LANGUAGE SWITCH — 대상 언어를 그 언어로 표기, 크롤러용 hreflang 링크 겸용 */}
-              <Link
-                href={targetPath}
-                hrefLang={targetLocale}
-                lang={targetLocale}
-                onClick={handleLocaleSwitch}
-                // 접근 가능한 이름에 보이는 텍스트("EN")를 포함 — WCAG 2.5.3 Label in Name
-                aria-label={`${localeNames[targetLocale]} (${targetLocale.toUpperCase()})`}
-                className="text-sm font-semibold font-serif tracking-widest uppercase transition-colors duration-300 text-nav-text hover:text-nav-text-hover"
-              >
-                {targetLocale}
-              </Link>
+              {/* LANGUAGE SWITCH — Globe 드롭다운 */}
+              <LocaleSwitcher lang={lang} />
 
               {/* THEME TOGGLE */}
               {mounted && (

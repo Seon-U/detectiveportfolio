@@ -4,6 +4,7 @@
     "projects": "Projects",
     "teamSize": "{count}인",
     "toggleTheme": "Toggle theme",
+    "changeLanguage": "언어 선택",
     "scrollDown": "Scroll Down"
   },
   "metadata": {

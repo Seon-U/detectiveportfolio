@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
-import { ThemeProvider } from "next-themes";
 import { DictionaryProvider } from "@/components/i18n/DictionaryProvider";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import JsonLd from "@/components/seo/JsonLd";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { hasLocale, locales } from "@/lib/i18n/config";
 import { getSiteConfig } from "@/lib/seo/config";
 import { buildPersonJsonLd } from "@/lib/seo/jsonld";
