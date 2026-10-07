@@ -26,9 +26,10 @@ export async function generateMetadata({
   if (!projectData) notFound();
 
   return buildMetadata({
+    locale: lang,
     title: projectData.title,
     description: projectData.description,
-    path: `/${lang}/projects/${projectData.id}`,
+    path: `/projects/${projectData.id}`,
     image: projectData.image,
     type: "article",
     keywords: projectData.tags,
@@ -50,9 +51,10 @@ export default async function ProjectDetailRoute({
     <>
       <JsonLd
         data={buildCreativeWorkJsonLd({
+          locale: lang,
           name: projectData.title,
           description: projectData.description,
-          path: `/${lang}/projects/${projectData.id}`,
+          path: `/projects/${projectData.id}`,
           image: projectData.image,
           datePublished: projectData.lastModified,
           keywords: projectData.tags,

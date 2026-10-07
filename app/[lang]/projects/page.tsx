@@ -13,9 +13,10 @@ export async function generateMetadata({
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang);
   return buildMetadata({
+    locale: lang,
     title: dict.metadata.projects.title,
     description: dict.metadata.projects.description,
-    path: `/${lang}/projects`,
+    path: "/projects",
   });
 }
 
