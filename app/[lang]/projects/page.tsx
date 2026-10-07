@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import ProjectList from "@/components/projects/ProjectList";
 import { hasLocale } from "@/lib/i18n/config";
 import { getAllProjects } from "@/lib/projects/queries";
@@ -9,9 +10,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[lang]/projects">): Promise<Metadata> {
   const { lang } = await params;
+  if (!hasLocale(lang)) notFound();
+  const dict = await getDictionary(lang);
   return buildMetadata({
-    title: "Projects",
-    description: "진행하거나 해결한 프로젝트 모음.",
+    title: dict.metadata.projects.title,
+    description: dict.metadata.projects.description,
     path: `/${lang}/projects`,
   });
 }

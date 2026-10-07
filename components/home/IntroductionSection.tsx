@@ -2,8 +2,10 @@
 
 import { useScroll } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
+import { format } from "@/lib/i18n/config";
 import { DESIGN_CARDS, DEV_CARDS } from "@/lib/introduction/cardData";
 import { CARD_GAP } from "@/lib/introduction/constants";
 import FlipCardSection from "../ui/FlipCardSection";
@@ -55,7 +57,12 @@ const MOBILE_TIMELINE = {
   },
   snapPoints: [0.04, 0.16, 0.3, 0.41, 0.52, 0.58, 0.71, 0.82],
 };
+const DESIGN_RANGE: [number, number] = [0.04, 0.09];
+const DEV_RANGE: [number, number] = [0.1, 0.15];
+
 export default function IntroductionSection() {
+  const dict = useDictionary();
+  const intro = dict.intro;
   const ref = useRef<HTMLDivElement>(null);
   const { isDark } = useMountedTheme();
   const isMobile = useIsMobile();
@@ -92,6 +99,23 @@ export default function IntroductionSection() {
     offset: ["start start", "end end"],
   });
 
+  /* sentence 템플릿 → ScrollHighlightText segments */
+  const segments = intro.sentence
+    .split(/(\n|\{design\}|\{dev\})/)
+    .filter(Boolean)
+    .map((part) => {
+      if (part === "{design}") {
+        return { text: intro.design, range: DESIGN_RANGE };
+      }
+      if (part === "{dev}") return { text: intro.dev, range: DEV_RANGE };
+      return part;
+    });
+  /* sr-only 문장: 줄바꿈을 공백 하나로 정리하고 자리표시자를 치환 */
+  const srSentence = format(intro.sentence.replace(/\s*\n\s*/g, " "), {
+    design: intro.design,
+    dev: intro.dev,
+  });
+
   /* 모바일/데스크톱 타임라인 선택 */
   const tl = isMobile ? MOBILE_TIMELINE : DESKTOP_TIMELINE;
   /* 모바일 flipGap은 미사용 — CardSection에서 per-card 계산 */
@@ -102,7 +126,7 @@ export default function IntroductionSection() {
       ref={ref}
       className="relative"
       style={{ height: "700vh" }}
-      aria-label="자기소개 — 사용자를 고려한 설계와 현장 제약을 고려한 개발"
+      aria-label={intro.ariaLabel}
     >
       {/* 스냅 마커 — 보이지 않는 앵커, 각 카드 상태 완료 지점 */}
       {tl.snapPoints.map((sp) => (
@@ -124,21 +148,13 @@ export default function IntroductionSection() {
           progress={p}
           fadeOut={[0.16, 0.2]}
           isDark={isDark}
-          segments={[
-            "항상 사람을 위한 기술을 위해",
-            "\n",
-            { text: "사용자를 고려한 설계", range: [0.04, 0.09] },
-            "와 ",
-            "\n",
-            { text: "현장 제약을 고려한 개발", range: [0.1, 0.15] },
-            "을 하고 있습니다",
-          ]}
+          segments={segments}
         />
 
         <FlipCardSection
           progress={p}
           cards={DESIGN_CARDS}
-          heading="사용자를 고려한 설계"
+          heading={intro.design}
           fadeIn={tl.a.fadeIn}
           fadeOut={tl.a.fadeOut}
           cardsAt={tl.a.cardsAt}
@@ -151,7 +167,7 @@ export default function IntroductionSection() {
         <FlipCardSection
           progress={p}
           cards={DEV_CARDS}
-          heading="현장 제약을 고려한 개발"
+          heading={intro.dev}
           fadeIn={tl.b.fadeIn}
           cardsAt={tl.b.cardsAt}
           flipAt={tl.b.flipAt}
@@ -163,12 +179,9 @@ export default function IntroductionSection() {
 
       {/* ── 스크린 리더 전용 콘텐츠 ── */}
       <div className="sr-only">
-        <h2>
-          항상 사람을 위한 기술을 위해 사용자를 고려한 설계와 현장 제약을 고려한
-          개발을 하고 있습니다
-        </h2>
+        <h2>{srSentence}</h2>
 
-        <h3>사용자를 고려한 설계</h3>
+        <h3>{intro.design}</h3>
         <ul>
           {DESIGN_CARDS.map((card) => (
             <li key={card.backLabel}>
@@ -177,7 +190,7 @@ export default function IntroductionSection() {
           ))}
         </ul>
 
-        <h3>현장 제약을 고려한 개발</h3>
+        <h3>{intro.dev}</h3>
         <ul>
           {DEV_CARDS.map((card) => (
             <li key={card.backLabel}>

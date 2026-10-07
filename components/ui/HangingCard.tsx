@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import { useEffect } from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 
 const CARD_SRC = "/idCard.webp";
 const CARD_WIDTH = 300;
@@ -36,6 +37,7 @@ interface HangingCardProps {
  * - 카드만 drag 대상. 카드의 x, y 값을 그대로 path 계산에 사용.
  */
 export default function HangingCard({ onDragStateChange }: HangingCardProps) {
+  const { hero } = useDictionary();
   // 초기값을 오른쪽 오프셋으로 설정 → 첫 프레임부터 끈·카드가 오른쪽에 위치
   const x = useMotionValue(SWING_START_X);
   const y = useMotionValue(0);
@@ -116,7 +118,7 @@ export default function HangingCard({ onDragStateChange }: HangingCardProps) {
       <motion.div
         tabIndex={0}
         role="img"
-        aria-label="사원증 카드 — 드래그하여 움직일 수 있습니다"
+        aria-label={hero.cardAriaLabel}
         className="z-10 cursor-grab active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent rounded-[30px]"
         style={{
           marginTop: BASE_STRAP_HEIGHT,
@@ -148,7 +150,7 @@ export default function HangingCard({ onDragStateChange }: HangingCardProps) {
         <div className="h-full w-full overflow-hidden rounded-[30px] bg-id-card-bg shadow-id-card outline outline-id-card-outline">
           <Image
             src={CARD_SRC}
-            alt="사원증"
+            alt={hero.cardAlt}
             width={CARD_WIDTH}
             height={CARD_HEIGHT}
             className="h-full w-full object-cover"

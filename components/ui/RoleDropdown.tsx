@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import type { Role, RoleId } from "@/lib/roles/types";
 import { cn } from "@/lib/utils";
 import styles from "./role-dropdown.module.css";
@@ -16,6 +17,7 @@ export default function RoleDropdown({
   selectedRoleId: RoleId;
   onSelect: (roleId: RoleId) => void;
 }) {
+  const { roleShowcase } = useDictionary();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLSpanElement>(null);
 
@@ -72,7 +74,7 @@ export default function RoleDropdown({
           <motion.ul
             className={styles.dropdownMenu}
             role="listbox"
-            aria-label="직무 선택"
+            aria-label={roleShowcase.dropdownAriaLabel}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}

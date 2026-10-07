@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import type { ERDBlock as ERDBlockData } from "@/lib/content/types";
 
 /** ERD / 다이어그램 블록 — 배경 흰색 고정, 확대 가능 */
@@ -8,6 +11,7 @@ export default function ERDBlock({
   height,
   caption,
 }: ERDBlockData) {
+  const { projectDetail } = useDictionary();
   return (
     <figure>
       <div
@@ -16,7 +20,7 @@ export default function ERDBlock({
       >
         <Image
           src={src}
-          alt={caption ?? "ERD diagram"}
+          alt={caption ?? projectDetail.blocks.erdAlt}
           fill
           sizes="(min-width: 1024px) 768px, 100vw"
           className="object-contain"

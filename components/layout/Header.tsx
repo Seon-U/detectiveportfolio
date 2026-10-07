@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import type { Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,7 @@ type HeaderProps = {
 };
 
 export default function Header({ className, lang }: HeaderProps) {
+  const { common } = useDictionary();
   const { theme, setTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
@@ -62,7 +64,7 @@ export default function Header({ className, lang }: HeaderProps) {
                     : "text-nav-text hover:text-nav-text-hover",
                 )}
               >
-                Projects
+                {common.projects}
               </Link>
 
               {/* THEME TOGGLE */}
@@ -77,7 +79,7 @@ export default function Header({ className, lang }: HeaderProps) {
                     "hover:bg-theme-toggle-hover-background",
                     "hover:shadow-theme-toggle",
                   )}
-                  aria-label="Toggle theme"
+                  aria-label={common.toggleTheme}
                 >
                   {mounted && theme === "dark" ? (
                     <Sun className="h-5 w-5" />

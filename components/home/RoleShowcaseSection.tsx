@@ -4,8 +4,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { Locale } from "@/lib/i18n/config";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { format, type Locale } from "@/lib/i18n/config";
 import { FALLBACK_IMAGES } from "@/lib/roles/constants";
 import { getPostsByRole, getProjectsByRole, ROLES } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
@@ -14,7 +22,25 @@ import RoleDropdown from "../ui/RoleDropdown";
 
 type PreviewImage = { src: string; alt: string; key: string };
 
+/** `{role}` 자리에 드롭다운을 끼워 넣는 한 줄 렌더링 */
+function renderHeadlineLine(
+  line: string,
+  dropdown: React.ReactNode,
+  key: number,
+) {
+  if (!line.includes("{role}")) return <span key={key}>{line}</span>;
+  const [before, after] = line.split("{role}");
+  return (
+    <span key={key} className="whitespace-nowrap">
+      {before}
+      {dropdown}
+      {after}
+    </span>
+  );
+}
+
 export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
+  const { common, roleShowcase } = useDictionary();
   const [selectedRoleId, setSelectedRoleId] = useState(ROLES[0].id);
   const [hoveredPreview, setHoveredPreview] = useState<PreviewImage | null>(
     null,
@@ -70,22 +96,26 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
   return (
     <section
       className="px-4 md:px-8 lg:px-12"
-      aria-label="직무별 프로젝트 및 블로그 소개"
+      aria-label={roleShowcase.ariaLabel}
     >
       <div className="max-w-7xl mx-auto">
         {/* ── Headline ── */}
         <div className="mb-8">
           <div className="text-[clamp(24px,3vw,36px)] font-semibold leading-[1.4] tracking-wider text-foreground">
-            <span className="whitespace-nowrap">
-              <RoleDropdown
-                roles={ROLES}
-                selectedRoleId={selectedRoleId}
-                onSelect={handleSelect}
-              />
-              로서
-            </span>
-            <br />
-            <span>내가 필요한 순간</span>
+            {roleShowcase.headline.split("\n").map((line, i) => (
+              <Fragment key={line}>
+                {i > 0 && <br />}
+                {renderHeadlineLine(
+                  line,
+                  <RoleDropdown
+                    roles={ROLES}
+                    selectedRoleId={selectedRoleId}
+                    onSelect={handleSelect}
+                  />,
+                  i,
+                )}
+              </Fragment>
+            ))}
           </div>
         </div>
 
@@ -142,13 +172,13 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
                 {/* Project 헤더 */}
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-medium tracking-[0.08em] uppercase text-muted-foreground">
-                    Project
+                    {roleShowcase.projectLabel}
                   </span>
                   <Link
                     href={`/${lang}/projects`}
                     className="inline-flex items-center gap-1 text-xs font-medium text-accent no-underline transition-all duration-200 hover:gap-1.5 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                   >
-                    모든 프로젝트 보기
+                    {common.viewAllProjects}
                     <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
@@ -197,7 +227,9 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
                               {project.period}
                             </span>
                             <span className="mx-1.5 text-border">·</span>
-                            {project.teamSize}인
+                            {format(common.teamSize, {
+                              count: project.teamSize,
+                            })}
                           </p>
                         </Link>
                       </motion.li>
@@ -205,7 +237,7 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
                   </ul>
                 ) : (
                   <p className="py-8 text-center text-subtle-foreground text-sm italic">
-                    관련 프로젝트가 준비 중입니다.
+                    {roleShowcase.emptyProjects}
                   </p>
                 )}
               </motion.div>
@@ -238,7 +270,7 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
                           <FallbackImage
                             src={blogFallback}
                             fallbackSrc={FALLBACK_IMAGES.blog}
-                            alt="블로그 대표 이미지"
+                            alt={roleShowcase.blogImageAlt}
                             fill
                             sizes="(max-width: 1023px) 92vw, 0px"
                             className="object-cover"
@@ -251,7 +283,7 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
                   {/* Blog 헤더 */}
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-medium tracking-[0.08em] uppercase text-muted-foreground">
-                      Blog
+                      {roleShowcase.blogLabel}
                     </span>
                     <a
                       href="https://brandofme.tistory.com"
@@ -259,7 +291,7 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-xs font-medium text-accent no-underline transition-all duration-200 hover:gap-1.5 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                     >
-                      블로그 바로가기
+                      {roleShowcase.viewBlog}
                       <ArrowUpRight className="w-3 h-3" />
                     </a>
                   </div>
@@ -339,7 +371,7 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
                       exit={{ opacity: 0 }}
                       className="flex items-center justify-center w-full h-full text-subtle-foreground text-sm tracking-wider"
                     >
-                      프로젝트에 마우스를 올려보세요
+                      {roleShowcase.hoverHint}
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import ProjectHero from "@/components/projects/layout/ProjectHero";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 import JsonLd from "@/components/seo/JsonLd";
@@ -42,6 +43,8 @@ export default async function ProjectDetailRoute({
   const projectData = getProjectById(id);
   if (!projectData) notFound();
 
+  const dict = await getDictionary(lang);
+
   return (
     <>
       <JsonLd
@@ -55,7 +58,14 @@ export default async function ProjectDetailRoute({
         })}
       />
       <div className="max-w-6xl mx-auto px-4">
-        <ProjectHero projectData={projectData} lang={lang} />
+        <ProjectHero
+          projectData={projectData}
+          lang={lang}
+          dict={{
+            viewAllProjects: dict.common.viewAllProjects,
+            teamSize: dict.projectDetail.teamSize,
+          }}
+        />
         <ProjectDetail projectData={projectData} lang={lang} />
       </div>
     </>

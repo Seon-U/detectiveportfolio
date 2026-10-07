@@ -5,7 +5,8 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { Locale } from "@/lib/i18n/config";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { format, type Locale } from "@/lib/i18n/config";
 import type { Contribution, Project } from "@/lib/projects/types";
 import { ROLES } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
@@ -21,6 +22,7 @@ const ROLE_BADGE: Record<string, string> = {
 };
 
 export default function ProjectList({ projects, lang }: Props) {
+  const { common, projectList } = useDictionary();
   const [selectedRoles, setSelectedRoles] = useState<Set<RoleId>>(new Set());
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const [filterOpen, setFilterOpen] = useState(true);
@@ -108,7 +110,7 @@ export default function ProjectList({ projects, lang }: Props) {
       <div className="px-4 md:px-8 lg:px-12">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-[clamp(28px,4vw,40px)] font-serif font-bold tracking-tight text-foreground pt-2 pb-6">
-            Projects
+            {common.projects}
           </h1>
         </div>
       </div>
@@ -129,7 +131,7 @@ export default function ProjectList({ projects, lang }: Props) {
                   !filterOpen && "-rotate-90",
                 )}
               />
-              Filters
+              {projectList.filters}
               {hasActiveFilters && (
                 <span className="ml-0.5 px-1.5 py-0.5 text-[11px] font-semibold rounded-full bg-accent/15 text-accent tabular-nums">
                   {activeFilterCount}
@@ -143,7 +145,7 @@ export default function ProjectList({ projects, lang }: Props) {
                 onClick={clearFilters}
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
-                초기화
+                {projectList.reset}
               </button>
             )}
           </div>
@@ -162,7 +164,7 @@ export default function ProjectList({ projects, lang }: Props) {
                   {/* Role chips */}
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-xs font-medium text-muted-foreground tracking-[0.08em] uppercase mr-0.5">
-                      Roles
+                      {projectList.roles}
                     </span>
                     {activeRoles.map((r) => (
                       <button
@@ -184,7 +186,7 @@ export default function ProjectList({ projects, lang }: Props) {
                   {/* Skill / tag chips */}
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="text-xs font-medium text-muted-foreground tracking-[0.08em] uppercase mr-0.5">
-                      Skills
+                      {projectList.skills}
                     </span>
                     {availableTags.map((tag) => (
                       <button
@@ -225,7 +227,9 @@ export default function ProjectList({ projects, lang }: Props) {
                 <Link
                   href={buildHref(projectData.id, contributions)}
                   className="absolute inset-0 z-0 rounded-lg focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-                  aria-label={`${projectData.title} 상세 보기`}
+                  aria-label={format(projectList.detailAriaLabel, {
+                    title: projectData.title,
+                  })}
                 />
 
                 <div className="py-5 lg:py-7 px-1 rounded-lg transition-colors group-hover:bg-surface/50">
@@ -257,7 +261,11 @@ export default function ProjectList({ projects, lang }: Props) {
                           {projectData.period}
                         </span>
                         <span className="text-border">|</span>
-                        <span>{projectData.teamSize}인</span>
+                        <span>
+                          {format(common.teamSize, {
+                            count: projectData.teamSize,
+                          })}
+                        </span>
                         {projectData.links?.map((link) => (
                           <span key={link.url} className="contents">
                             <span className="text-border">|</span>
@@ -323,7 +331,7 @@ export default function ProjectList({ projects, lang }: Props) {
             ))
           ) : (
             <p className="py-16 text-center text-muted-foreground text-sm">
-              선택한 조건에 해당하는 프로젝트가 없습니다.
+              {projectList.empty}
             </p>
           )}
         </div>

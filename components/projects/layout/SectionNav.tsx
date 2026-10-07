@@ -1,7 +1,8 @@
 "use client";
 
-import type { RoleId } from "@/lib/roles/types";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import { ROLES } from "@/lib/roles/data";
+import type { RoleId } from "@/lib/roles/types";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -27,6 +28,7 @@ export default function SectionNav({
   selectedRole,
   onRoleChange,
 }: Props) {
+  const { projectDetail } = useDictionary();
   return (
     <div className="space-y-0">
       {/* ── Role filter chips ── */}
@@ -42,7 +44,7 @@ export default function SectionNav({
                 : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
             )}
           >
-            전체
+            {projectDetail.sectionNav.all}
           </button>
           {availableRoles.map((roleId) => {
             const role = ROLES.find((r) => r.id === roleId);

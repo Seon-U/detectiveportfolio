@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import ClosingSection from "@/components/home/ClosingSection";
 import HeroSection from "@/components/home/HeroSection";
 import IntroductionSection from "@/components/home/IntroductionSection";
@@ -13,18 +14,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
+  if (!hasLocale(lang)) notFound();
+  const dict = await getDictionary(lang);
   return buildMetadata({
     path: `/${lang}`,
-    keywords: [
-      "프론트엔드 개발자",
-      "포트폴리오",
-      "김선우",
-      "Next.js",
-      "React",
-      "Spring Boot",
-      "SwiftUI",
-      "웹 개발자",
-    ],
+    keywords: dict.metadata.home.keywords,
   });
 }
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { ThemeProvider } from "next-themes";
+import { DictionaryProvider } from "@/components/i18n/DictionaryProvider";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import JsonLd from "@/components/seo/JsonLd";
@@ -9,6 +10,7 @@ import { hasLocale, locales } from "@/lib/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
 import { buildPersonJsonLd } from "@/lib/seo/jsonld";
 import "../globals.css";
+import { getDictionary } from "./dictionaries";
 
 const pretendard = localFont({
   src: "../fonts/PretendardStdVariable.woff2",
@@ -54,6 +56,7 @@ export default async function RootLayout({
 }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
+  const dict = await getDictionary(lang);
 
   return (
     <html
@@ -69,12 +72,14 @@ export default async function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Header
-            lang={lang}
-            className="fixed top-0 left-0 right-0 h-16 z-50"
-          />
-          <main className="pt-16 pb-16 flex-1">{children}</main>
-          <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
+          <DictionaryProvider dict={dict}>
+            <Header
+              lang={lang}
+              className="fixed top-0 left-0 right-0 h-16 z-50"
+            />
+            <main className="pt-16 pb-16 flex-1">{children}</main>
+            <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
+          </DictionaryProvider>
         </ThemeProvider>
       </body>
     </html>

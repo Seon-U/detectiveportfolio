@@ -1,15 +1,16 @@
 import { ArrowLeft, ArrowUpRight, Calendar, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Locale } from "@/lib/i18n/config";
+import { format, type Locale } from "@/lib/i18n/config";
 import type { Project } from "@/lib/projects/types";
 
 type Props = {
   projectData: Project;
   lang: Locale;
+  dict: { viewAllProjects: string; teamSize: string };
 };
 
-export default function ProjectHero({ projectData, lang }: Props) {
+export default function ProjectHero({ projectData, lang, dict }: Props) {
   const links = projectData.links ?? [];
 
   return (
@@ -20,7 +21,7 @@ export default function ProjectHero({ projectData, lang }: Props) {
         className="flex items-center gap-2 mb-8 font-pretendard text-sm text-muted-foreground hover:text-primary transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        모든 프로젝트 보기
+        {dict.viewAllProjects}
       </Link>
 
       {/* ── Header ─────────────────────────────────────── */}
@@ -33,7 +34,7 @@ export default function ProjectHero({ projectData, lang }: Props) {
           </span>
           <span className="flex items-center gap-1.5">
             <Users className="w-3.5 h-3.5" />
-            {projectData.teamSize}인 팀
+            {format(dict.teamSize, { count: projectData.teamSize })}
           </span>
         </div>
 
