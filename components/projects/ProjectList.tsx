@@ -8,7 +8,7 @@ import { useMemo, useState } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import { format, type Locale } from "@/lib/i18n/config";
 import type { Contribution, Project } from "@/lib/projects/types";
-import { ROLES } from "@/lib/roles/data";
+import { getRoles } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +23,7 @@ const ROLE_BADGE: Record<string, string> = {
 
 export default function ProjectList({ projects, lang }: Props) {
   const { common, projectList } = useDictionary();
+  const roles = useMemo(() => getRoles(lang), [lang]);
   const [selectedRoles, setSelectedRoles] = useState<Set<RoleId>>(new Set());
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const [filterOpen, setFilterOpen] = useState(true);
@@ -30,10 +31,10 @@ export default function ProjectList({ projects, lang }: Props) {
   /* 프로젝트가 있는 역할만 필터에 표시 */
   const activeRoles = useMemo(
     () =>
-      ROLES.filter((r) =>
+      roles.filter((r) =>
         projects.some((c) => c.contributions.some((ct) => ct.roleId === r.id)),
       ),
-    [projects],
+    [projects, roles],
   );
 
   /* 역할 필터에 연동되는 태그 풀 */
@@ -92,7 +93,7 @@ export default function ProjectList({ projects, lang }: Props) {
   };
 
   const getRoleLabel = (roleId: RoleId) =>
-    ROLES.find((r) => r.id === roleId)?.label ?? roleId;
+    roles.find((r) => r.id === roleId)?.label ?? roleId;
 
   /* 역할 필터 → detail 페이지에 ?role= 전달 (복수 선택 지원) */
   const buildHref = (projectId: string, contributions: Contribution[]) => {

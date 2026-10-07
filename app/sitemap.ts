@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllProjects } from "@/lib/projects/queries";
+import { ALL_PROJECTS } from "@/lib/projects/data";
 import { siteConfig } from "@/lib/seo/config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const projectRoutes: MetadataRoute.Sitemap = getAllProjects().map((p) => ({
+  const projectRoutes: MetadataRoute.Sitemap = ALL_PROJECTS.map((p) => ({
     url: `${siteConfig.url}/projects/${p.id}`,
     lastModified: new Date(p.lastModified),
     changeFrequency: "monthly",

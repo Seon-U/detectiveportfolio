@@ -15,7 +15,7 @@ import {
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import { format, type Locale } from "@/lib/i18n/config";
 import { FALLBACK_IMAGES } from "@/lib/roles/constants";
-import { getPostsByRole, getProjectsByRole, ROLES } from "@/lib/roles/data";
+import { getPostsByRole, getProjectsByRole, getRoles } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
 import FallbackImage from "../ui/FallbackImage";
 import RoleDropdown from "../ui/RoleDropdown";
@@ -41,7 +41,8 @@ function renderHeadlineLine(
 
 export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
   const { common, roleShowcase } = useDictionary();
-  const [selectedRoleId, setSelectedRoleId] = useState(ROLES[0].id);
+  const roles = useMemo(() => getRoles(lang), [lang]);
+  const [selectedRoleId, setSelectedRoleId] = useState(roles[0].id);
   const [hoveredPreview, setHoveredPreview] = useState<PreviewImage | null>(
     null,
   );
@@ -62,10 +63,10 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
     return () => window.removeEventListener("scroll", check);
   }, []);
 
-  const selectedRole = ROLES.find((r) => r.id === selectedRoleId) ?? ROLES[0];
+  const selectedRole = roles.find((r) => r.id === selectedRoleId) ?? roles[0];
   const projects = useMemo(
-    () => getProjectsByRole(selectedRoleId),
-    [selectedRoleId],
+    () => getProjectsByRole(selectedRoleId, lang),
+    [selectedRoleId, lang],
   );
   const posts = useMemo(() => getPostsByRole(selectedRoleId), [selectedRoleId]);
 
@@ -108,7 +109,7 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
                 {renderHeadlineLine(
                   line,
                   <RoleDropdown
-                    roles={ROLES}
+                    roles={roles}
                     selectedRoleId={selectedRoleId}
                     onSelect={handleSelect}
                   />,

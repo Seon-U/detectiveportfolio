@@ -53,7 +53,7 @@ export default function ProjectDetail({
 
   /* 같은 역할의 다른 프로젝트 (현재 프로젝트 제외) */
   const relatedProjects = useMemo(() => {
-    const allProjects = getAllProjects();
+    const allProjects = getAllProjects(lang);
 
     if (!selectedRole) {
       return allProjects.filter((p) => p.id !== projectData.id);
@@ -64,7 +64,7 @@ export default function ProjectDetail({
         p.id !== projectData.id &&
         p.contributions.some((ct) => ct.roleId === selectedRole),
     );
-  }, [projectData.id, selectedRole]);
+  }, [projectData.id, selectedRole, lang]);
 
   /* IntersectionObserver로 현재 보이는 섹션 추적 */
   useEffect(() => {

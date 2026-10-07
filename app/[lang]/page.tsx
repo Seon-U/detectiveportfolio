@@ -31,7 +31,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <HeroSection />
       <IntroductionSection />
       <RoleShowcaseSection lang={lang} />
-      <LearningJourneySection />
+      <LearningJourneySection lang={lang} />
       <ClosingSection />
     </div>
   );

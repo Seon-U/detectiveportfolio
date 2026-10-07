@@ -25,6 +25,6 @@ export default async function ProjectsPage({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
 
-  const projects = getAllProjects();
+  const projects = getAllProjects(lang);
   return <ProjectList projects={projects} lang={lang} />;
 }

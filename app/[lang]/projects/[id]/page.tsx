@@ -5,7 +5,7 @@ import ProjectHero from "@/components/projects/layout/ProjectHero";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 import JsonLd from "@/components/seo/JsonLd";
 import { hasLocale } from "@/lib/i18n/config";
-import { getAllProjects, getProjectById } from "@/lib/projects/queries";
+import { getProjectById, getProjectIds } from "@/lib/projects/queries";
 import { buildCreativeWorkJsonLd } from "@/lib/seo/jsonld";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -13,14 +13,15 @@ import { buildMetadata } from "@/lib/seo/metadata";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getAllProjects().map((p) => ({ id: p.id }));
+  return getProjectIds().map((id) => ({ id }));
 }
 
 export async function generateMetadata({
   params,
 }: PageProps<"/[lang]/projects/[id]">): Promise<Metadata> {
   const { lang, id } = await params;
-  const projectData = getProjectById(id);
+  if (!hasLocale(lang)) notFound();
+  const projectData = getProjectById(id, lang);
 
   if (!projectData) notFound();
 
@@ -40,7 +41,7 @@ export default async function ProjectDetailRoute({
   const { lang, id } = await params;
   if (!hasLocale(lang)) notFound();
 
-  const projectData = getProjectById(id);
+  const projectData = getProjectById(id, lang);
   if (!projectData) notFound();
 
   const dict = await getDictionary(lang);

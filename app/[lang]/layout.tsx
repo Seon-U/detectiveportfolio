@@ -72,7 +72,7 @@ export default async function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <DictionaryProvider dict={dict}>
+          <DictionaryProvider lang={lang} dict={dict}>
             <Header
               lang={lang}
               className="fixed top-0 left-0 right-0 h-16 z-50"

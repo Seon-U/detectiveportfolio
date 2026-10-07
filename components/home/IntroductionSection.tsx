@@ -1,12 +1,12 @@
 "use client";
 
 import { useScroll } from "framer-motion";
-import { useEffect, useRef } from "react";
-import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { useEffect, useMemo, useRef } from "react";
+import { useDictionary, useLocale } from "@/components/i18n/DictionaryProvider";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { format } from "@/lib/i18n/config";
-import { DESIGN_CARDS, DEV_CARDS } from "@/lib/introduction/cardData";
+import { getDesignCards, getDevCards } from "@/lib/introduction/cardData";
 import { CARD_GAP } from "@/lib/introduction/constants";
 import FlipCardSection from "../ui/FlipCardSection";
 import ScrollHighlightText from "../ui/ScrollHighlightText";
@@ -62,6 +62,9 @@ const DEV_RANGE: [number, number] = [0.1, 0.15];
 
 export default function IntroductionSection() {
   const dict = useDictionary();
+  const locale = useLocale();
+  const designCards = useMemo(() => getDesignCards(locale), [locale]);
+  const devCards = useMemo(() => getDevCards(locale), [locale]);
   const intro = dict.intro;
   const ref = useRef<HTMLDivElement>(null);
   const { isDark } = useMountedTheme();
@@ -153,7 +156,7 @@ export default function IntroductionSection() {
 
         <FlipCardSection
           progress={p}
-          cards={DESIGN_CARDS}
+          cards={designCards}
           heading={intro.design}
           fadeIn={tl.a.fadeIn}
           fadeOut={tl.a.fadeOut}
@@ -166,7 +169,7 @@ export default function IntroductionSection() {
 
         <FlipCardSection
           progress={p}
-          cards={DEV_CARDS}
+          cards={devCards}
           heading={intro.dev}
           fadeIn={tl.b.fadeIn}
           cardsAt={tl.b.cardsAt}
@@ -183,7 +186,7 @@ export default function IntroductionSection() {
 
         <h3>{intro.design}</h3>
         <ul>
-          {DESIGN_CARDS.map((card) => (
+          {designCards.map((card) => (
             <li key={card.backLabel}>
               <strong>{card.frontTitle}</strong>: {card.frontDesc}
             </li>
@@ -192,7 +195,7 @@ export default function IntroductionSection() {
 
         <h3>{intro.dev}</h3>
         <ul>
-          {DEV_CARDS.map((card) => (
+          {devCards.map((card) => (
             <li key={card.backLabel}>
               <strong>{card.frontTitle}</strong>: {card.frontDesc}
             </li>
