@@ -1,9 +1,8 @@
-import { type Locale, t } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
 import { localize } from "@/lib/i18n/localize";
 import { ALL_POSTS } from "@/lib/posts/data";
 import type { BlogPost } from "@/lib/posts/types";
-import { ALL_PROJECTS } from "@/lib/projects/data";
-import type { Role, RoleId, RoleProject, RoleSource } from "./types";
+import type { Role, RoleId, RoleSource } from "./types";
 
 const ROLES: RoleSource[] = [
   {
@@ -40,28 +39,9 @@ export function getRoles(locale: Locale): Role[] {
   return localize(ROLES, locale);
 }
 
-/**
- * contributions 기반 명시적 매핑으로 역할에 해당하는 프로젝트 목록을 반환합니다.
- */
-export function getProjectsByRole(
-  roleId: RoleId,
-  locale: Locale,
-): RoleProject[] {
-  // 필요한 필드만 해석 — 섹션·블록 트리 전체를 순회하지 않도록
-  return ALL_PROJECTS.filter((p) =>
-    p.contributions.some((ct) => ct.roleId === roleId),
-  ).map((p) => {
-    const ct = p.contributions.find((ct) => ct.roleId === roleId)!;
-    return {
-      projectId: p.id,
-      title: t(p.title, locale),
-      image: p.image,
-      href: `/projects/${p.id}?role=${roleId}`,
-      summary: t(ct.summary, locale),
-      period: p.period,
-      teamSize: p.teamSize,
-    };
-  });
+/** URL 등 외부 입력 문자열이 정의된 역할 id인지 검사 */
+export function isRoleId(value: string): value is RoleId {
+  return ROLES.some((r) => r.id === value);
 }
 
 /**

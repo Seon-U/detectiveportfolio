@@ -1,10 +1,13 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
-import { getAllProjects } from "@/lib/projects/queries";
-import type { Project, ProjectSection } from "@/lib/projects/types";
+import type {
+  Project,
+  ProjectSection,
+  RelatedProject,
+} from "@/lib/projects/types";
+import { isRoleId } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
 import RelatedProjects from "./layout/RelatedProjects";
 import SectionNav from "./layout/SectionNav";
@@ -12,22 +15,27 @@ import SectionRenderer from "./layout/SectionRenderer";
 
 export default function ProjectDetail({
   projectData,
+  relatedProjects: otherProjects,
   lang,
 }: {
   projectData: Project;
+  /** 현재 프로젝트를 제외한 다른 프로젝트 — Server에서 해석해 전달 */
+  relatedProjects: RelatedProject[];
   lang: Locale;
 }) {
-  const searchParams = useSearchParams();
-
-  /* ?role= query param → 초기 role 상태 */
-  const initialRole = (searchParams.get("role") ?? undefined) as
-    | RoleId
-    | undefined;
-  const [selectedRole, setSelectedRole] = useState<RoleId | undefined>(
-    initialRole,
-  );
+  const [selectedRole, setSelectedRole] = useState<RoleId | undefined>();
   const [activeSection, setActiveSection] = useState<string>("");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  /*
+   * ?role= query param → 초기 role 상태.
+   * useSearchParams는 정적 프리렌더에서 CSR bailout을 일으켜 본문이 HTML에서 빠지므로
+   * 마운트 후 window.location에서 읽는다(초기 HTML은 전체 섹션).
+   */
+  useEffect(() => {
+    const role = new URLSearchParams(window.location.search).get("role");
+    if (role && isRoleId(role)) setSelectedRole(role);
+  }, []);
 
   /* 이 프로젝트가 가진 고유 역할 목록 */
   const availableRoles = useMemo(() => {
@@ -52,19 +60,13 @@ export default function ProjectDetail({
   );
 
   /* 같은 역할의 다른 프로젝트 (현재 프로젝트 제외) */
-  const relatedProjects = useMemo(() => {
-    const allProjects = getAllProjects(lang);
-
-    if (!selectedRole) {
-      return allProjects.filter((p) => p.id !== projectData.id);
-    }
-
-    return allProjects.filter(
-      (p) =>
-        p.id !== projectData.id &&
-        p.contributions.some((ct) => ct.roleId === selectedRole),
-    );
-  }, [projectData.id, selectedRole, lang]);
+  const relatedProjects = useMemo(
+    () =>
+      selectedRole
+        ? otherProjects.filter((p) => p.roleIds.includes(selectedRole))
+        : otherProjects,
+    [otherProjects, selectedRole],
+  );
 
   /* IntersectionObserver로 현재 보이는 섹션 추적 */
   useEffect(() => {

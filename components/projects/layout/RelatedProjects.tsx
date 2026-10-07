@@ -6,12 +6,12 @@ import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import type { Locale } from "@/lib/i18n/config";
-import type { Project } from "@/lib/projects/types";
+import type { RelatedProject } from "@/lib/projects/types";
 import { cn } from "@/lib/utils";
 
 type Props = {
   lang: Locale;
-  projects: Project[];
+  projects: RelatedProject[];
   /** 현재 선택된 role — 링크에 ?role= 유지 */
   currentRole?: string;
 };

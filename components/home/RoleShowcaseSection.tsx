@@ -15,8 +15,8 @@ import {
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import { format, type Locale } from "@/lib/i18n/config";
 import { FALLBACK_IMAGES } from "@/lib/roles/constants";
-import { getPostsByRole, getProjectsByRole, getRoles } from "@/lib/roles/data";
-import type { RoleId } from "@/lib/roles/types";
+import { getPostsByRole, getRoles } from "@/lib/roles/data";
+import type { RoleId, RoleProject } from "@/lib/roles/types";
 import FallbackImage from "../ui/FallbackImage";
 import RoleDropdown from "../ui/RoleDropdown";
 
@@ -39,7 +39,14 @@ function renderHeadlineLine(
   );
 }
 
-export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
+export default function RoleShowcaseSection({
+  lang,
+  projectsByRole,
+}: {
+  lang: Locale;
+  /** 역할별 프로젝트 목록 — Server에서 해석해 전달 */
+  projectsByRole: Record<RoleId, RoleProject[]>;
+}) {
   const { common, roleShowcase } = useDictionary();
   const roles = useMemo(() => getRoles(lang), [lang]);
   const [selectedRoleId, setSelectedRoleId] = useState(roles[0].id);
@@ -64,10 +71,7 @@ export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
   }, []);
 
   const selectedRole = roles.find((r) => r.id === selectedRoleId) ?? roles[0];
-  const projects = useMemo(
-    () => getProjectsByRole(selectedRoleId, lang),
-    [selectedRoleId, lang],
-  );
+  const projects = projectsByRole[selectedRoleId] ?? [];
   const posts = useMemo(() => getPostsByRole(selectedRoleId), [selectedRoleId]);
 
   const handleSelect = useCallback((roleId: RoleId) => {

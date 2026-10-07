@@ -5,7 +5,11 @@ import ProjectHero from "@/components/projects/layout/ProjectHero";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 import JsonLd from "@/components/seo/JsonLd";
 import { hasLocale } from "@/lib/i18n/config";
-import { getProjectById, getProjectIds } from "@/lib/projects/queries";
+import {
+  getProjectById,
+  getProjectIds,
+  getRelatedProjects,
+} from "@/lib/projects/queries";
 import { buildCreativeWorkJsonLd } from "@/lib/seo/jsonld";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -69,7 +73,11 @@ export default async function ProjectDetailRoute({
             teamSize: dict.projectDetail.teamSize,
           }}
         />
-        <ProjectDetail projectData={projectData} lang={lang} />
+        <ProjectDetail
+          projectData={projectData}
+          relatedProjects={getRelatedProjects(projectData.id, lang)}
+          lang={lang}
+        />
       </div>
     </>
   );

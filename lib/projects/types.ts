@@ -82,3 +82,8 @@ export type ProjectSection = Localized<ProjectSectionSource>;
 export type Contribution = Localized<ContributionSource>;
 export type ProjectLink = Localized<ProjectLinkSource>;
 export type Project = Localized<ProjectSource>;
+
+/** 상세 페이지 "다른 프로젝트" 캐러셀용 경량 타입 — Client로 직렬화되는 필드만 */
+export type RelatedProject = Pick<Project, "id" | "title" | "image"> & {
+  roleIds: RoleId[];
+};
