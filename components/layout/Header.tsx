@@ -5,20 +5,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import type { Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 
 type HeaderProps = {
   className: string;
+  lang: Locale;
 };
 
-export default function Header({ className }: HeaderProps) {
+export default function Header({ className, lang }: HeaderProps) {
   const { theme, setTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
 
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  const isProjects = pathname === "/projects";
+  const isHome = pathname === `/${lang}`;
+  const isProjects = pathname === `/${lang}/projects`;
 
   useEffect(() => {
     setMounted(true);
@@ -37,7 +39,7 @@ export default function Header({ className }: HeaderProps) {
           <div className="flex h-full items-center justify-between">
             {/* LOGO → Home */}
             <Link
-              href="/"
+              href={`/${lang}`}
               className={cn(
                 "flex items-center space-x-2",
                 isHome && "pointer-events-none cursor-default",
@@ -52,7 +54,7 @@ export default function Header({ className }: HeaderProps) {
             <div className="flex items-center gap-5">
               {/* Projects 텍스트 링크 */}
               <Link
-                href="/projects"
+                href={`/${lang}/projects`}
                 className={cn(
                   "text-sm font-semibold font-serif tracking-widest transition-colors duration-300",
                   isProjects

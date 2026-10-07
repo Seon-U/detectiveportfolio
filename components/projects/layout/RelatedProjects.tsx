@@ -4,10 +4,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
+import type { Locale } from "@/lib/i18n/config";
 import type { Project } from "@/lib/projects/types";
 import { cn } from "@/lib/utils";
 
 type Props = {
+  lang: Locale;
   projects: Project[];
   /** 현재 선택된 role — 링크에 ?role= 유지 */
   currentRole?: string;
@@ -17,7 +19,11 @@ type Props = {
  * Webflow "Related articles" 스타일 가로 스크롤 캐러셀.
  * 같은 역할의 다른 프로젝트를 이미지 + 타이틀로 보여줌.
  */
-export default function RelatedProjects({ projects, currentRole }: Props) {
+export default function RelatedProjects({
+  lang,
+  projects,
+  currentRole,
+}: Props) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -87,8 +93,8 @@ export default function RelatedProjects({ projects, currentRole }: Props) {
       >
         {projects.map((project) => {
           const href = currentRole
-            ? `/projects/${project.id}?role=${currentRole}`
-            : `/projects/${project.id}`;
+            ? `/${lang}/projects/${project.id}?role=${currentRole}`
+            : `/${lang}/projects/${project.id}`;
 
           return (
             <Link

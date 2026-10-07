@@ -1,20 +1,22 @@
 import { ArrowLeft, ArrowUpRight, Calendar, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import type { Locale } from "@/lib/i18n/config";
 import type { Project } from "@/lib/projects/types";
 
 type Props = {
   projectData: Project;
+  lang: Locale;
 };
 
-export default function ProjectHero({ projectData }: Props) {
+export default function ProjectHero({ projectData, lang }: Props) {
   const links = projectData.links ?? [];
 
   return (
     <>
       {/* Back button — 항상 /projects로 이동 */}
       <Link
-        href="/projects"
+        href={`/${lang}/projects`}
         className="flex items-center gap-2 mb-8 font-pretendard text-sm text-muted-foreground hover:text-primary transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />

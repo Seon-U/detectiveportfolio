@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import ProjectDetail from "@/components/projects/ProjectDetail";
 import ProjectHero from "@/components/projects/layout/ProjectHero";
+import ProjectDetail from "@/components/projects/ProjectDetail";
 import JsonLd from "@/components/seo/JsonLd";
+import { hasLocale } from "@/lib/i18n/config";
 import { getAllProjects, getProjectById } from "@/lib/projects/queries";
 import { buildCreativeWorkJsonLd } from "@/lib/seo/jsonld";
 import { buildMetadata } from "@/lib/seo/metadata";
@@ -16,10 +17,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}): Promise<Metadata> {
-  const { id } = await params;
+}: PageProps<"/[lang]/projects/[id]">): Promise<Metadata> {
+  const { lang, id } = await params;
   const projectData = getProjectById(id);
 
   if (!projectData) notFound();
@@ -27,7 +26,7 @@ export async function generateMetadata({
   return buildMetadata({
     title: projectData.title,
     description: projectData.description,
-    path: `/projects/${projectData.id}`,
+    path: `/${lang}/projects/${projectData.id}`,
     image: projectData.image,
     type: "article",
     keywords: projectData.tags,
@@ -36,12 +35,11 @@ export async function generateMetadata({
 
 export default async function ProjectDetailRoute({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const projectData = getProjectById(id);
+}: PageProps<"/[lang]/projects/[id]">) {
+  const { lang, id } = await params;
+  if (!hasLocale(lang)) notFound();
 
+  const projectData = getProjectById(id);
   if (!projectData) notFound();
 
   return (
@@ -50,15 +48,15 @@ export default async function ProjectDetailRoute({
         data={buildCreativeWorkJsonLd({
           name: projectData.title,
           description: projectData.description,
-          path: `/projects/${projectData.id}`,
+          path: `/${lang}/projects/${projectData.id}`,
           image: projectData.image,
           datePublished: projectData.lastModified,
           keywords: projectData.tags,
         })}
       />
       <div className="max-w-6xl mx-auto px-4">
-        <ProjectHero projectData={projectData} />
-        <ProjectDetail projectData={projectData} />
+        <ProjectHero projectData={projectData} lang={lang} />
+        <ProjectDetail projectData={projectData} lang={lang} />
       </div>
     </>
   );

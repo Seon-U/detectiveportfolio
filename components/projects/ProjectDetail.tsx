@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { Locale } from "@/lib/i18n/config";
 import { getAllProjects } from "@/lib/projects/queries";
 import type { Project, ProjectSection } from "@/lib/projects/types";
 import type { RoleId } from "@/lib/roles/types";
@@ -11,8 +12,10 @@ import SectionRenderer from "./layout/SectionRenderer";
 
 export default function ProjectDetail({
   projectData,
+  lang,
 }: {
   projectData: Project;
+  lang: Locale;
 }) {
   const searchParams = useSearchParams();
 
@@ -124,7 +127,11 @@ export default function ProjectDetail({
       </article>
 
       {/* ── Related Projects ──────────────────────────── */}
-      <RelatedProjects projects={relatedProjects} currentRole={selectedRole} />
+      <RelatedProjects
+        lang={lang}
+        projects={relatedProjects}
+        currentRole={selectedRole}
+      />
     </div>
   );
 }

@@ -4,16 +4,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import FallbackImage from "../ui/FallbackImage";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { Locale } from "@/lib/i18n/config";
 import { FALLBACK_IMAGES } from "@/lib/roles/constants";
 import { getPostsByRole, getProjectsByRole, ROLES } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
+import FallbackImage from "../ui/FallbackImage";
 import RoleDropdown from "../ui/RoleDropdown";
 
 type PreviewImage = { src: string; alt: string; key: string };
 
-export default function RoleShowcaseSection() {
+export default function RoleShowcaseSection({ lang }: { lang: Locale }) {
   const [selectedRoleId, setSelectedRoleId] = useState(ROLES[0].id);
   const [hoveredPreview, setHoveredPreview] = useState<PreviewImage | null>(
     null,
@@ -144,7 +145,7 @@ export default function RoleShowcaseSection() {
                     Project
                   </span>
                   <Link
-                    href="/projects"
+                    href={`/${lang}/projects`}
                     className="inline-flex items-center gap-1 text-xs font-medium text-accent no-underline transition-all duration-200 hover:gap-1.5 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                   >
                     모든 프로젝트 보기
@@ -162,7 +163,7 @@ export default function RoleShowcaseSection() {
                         transition={{ delay: index * 0.06 }}
                       >
                         <Link
-                          href={project.href}
+                          href={`/${lang}${project.href}`}
                           className="group block py-3.5 no-underline transition-all duration-200 hover:pl-2 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                           onMouseEnter={() =>
                             setHoveredPreview({

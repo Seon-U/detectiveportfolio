@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { notFound } from "next/navigation";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import JsonLd from "@/components/seo/JsonLd";
+import { hasLocale, locales } from "@/lib/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
 import { buildPersonJsonLd } from "@/lib/seo/jsonld";
-import "./globals.css";
+import "../globals.css";
 
 const pretendard = localFont({
-  src: "./fonts/PretendardStdVariable.woff2",
+  src: "../fonts/PretendardStdVariable.woff2",
   variable: "--font-pretendard",
   display: "swap",
 });
@@ -39,14 +41,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+// ko/en만 정적 생성하고, 그 외 lang 세그먼트는 404 처리
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return locales.map((lang) => ({ lang }));
+}
+
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  params,
+}: LayoutProps<"/[lang]">) {
+  const { lang } = await params;
+  if (!hasLocale(lang)) notFound();
+
   return (
     <html
-      lang="ko"
+      lang={lang}
       className={`${pretendard.variable}`}
       suppressHydrationWarning
     >
@@ -58,7 +69,10 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Header className="fixed top-0 left-0 right-0 h-16 z-50" />
+          <Header
+            lang={lang}
+            className="fixed top-0 left-0 right-0 h-16 z-50"
+          />
           <main className="pt-16 pb-16 flex-1">{children}</main>
           <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
         </ThemeProvider>

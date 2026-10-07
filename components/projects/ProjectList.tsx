@@ -5,12 +5,13 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { Project, Contribution } from "@/lib/projects/types";
+import type { Locale } from "@/lib/i18n/config";
+import type { Contribution, Project } from "@/lib/projects/types";
 import { ROLES } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
 import { cn } from "@/lib/utils";
 
-type Props = { projects: Project[] };
+type Props = { projects: Project[]; lang: Locale };
 
 const ROLE_BADGE: Record<string, string> = {
   frontend: "bg-role-frontend-bg text-role-frontend-text",
@@ -19,7 +20,7 @@ const ROLE_BADGE: Record<string, string> = {
   planner: "bg-role-planner-bg text-role-planner-text",
 };
 
-export default function ProjectList({ projects }: Props) {
+export default function ProjectList({ projects, lang }: Props) {
   const [selectedRoles, setSelectedRoles] = useState<Set<RoleId>>(new Set());
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const [filterOpen, setFilterOpen] = useState(true);
@@ -93,14 +94,12 @@ export default function ProjectList({ projects }: Props) {
 
   /* 역할 필터 → detail 페이지에 ?role= 전달 (복수 선택 지원) */
   const buildHref = (projectId: string, contributions: Contribution[]) => {
-    const base = `/projects/${projectId}`;
+    const base = `/${lang}/projects/${projectId}`;
     if (selectedRoles.size === 0) return base;
     const matching = contributions
       .map((ct) => ct.roleId)
       .filter((r) => selectedRoles.has(r));
-    return matching.length > 0
-      ? `${base}?role=${matching.join(",")}`
-      : base;
+    return matching.length > 0 ? `${base}?role=${matching.join(",")}` : base;
   };
 
   return (
