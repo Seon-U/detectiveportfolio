@@ -8,7 +8,7 @@ export const ALL_PROJECTS: ProjectSource[] = [
     id: "001",
     title: {
       ko: "시니어를 위한 반려동물 건강, 금융 통합 관리 웹 서비스",
-      en: "Integrated Pet Health & Finance Management Web Service for Seniors",
+      en: "Pet Health & Finance Management Service for Seniors",
     },
 
     tags: [
@@ -75,7 +75,7 @@ export const ALL_PROJECTS: ProjectSource[] = [
         id: "introduction",
         heading: {
           ko: "시니어 팻코노미 시장의 발견",
-          en: "Discovering the Senior Pet Economy Market",
+          en: "The Senior Pet Market",
         },
         roles: ["planner"],
         layout: "simple",
@@ -93,7 +93,9 @@ export const ALL_PROJECTS: ProjectSource[] = [
             직접 시니어 반려인 20인을 인터뷰한 결과, 의료비가 주요 고려사항인 만큼 반려동물 비용 관리와 의료 관리 통합 수요를 확인할 수 있었습니다.
             반려동물 금융상품의 존재를 잘 모르는 고객들을 대상으로 실제 데이터 기반 이점을 제공한다면 반려동물 보험 등 상품 가입 유인이 가능하고, 일상적 기능으로 지속적인 고객 확보가 가능할 것이라 기대했습니다.
             `,
-              en: "The senior pet market is worth 8 trillion KRW, and a survey by the Ministry of Agriculture, Food and Rural Affairs projects continued growth.\nIn interviews with 20 senior pet owners, medical costs emerged as a key concern, confirming demand for integrated pet expense and health management.\nFor customers unaware of pet financial products, offering benefits based on real data could encourage sign-ups for products such as pet insurance, and everyday features were expected to retain customers over time.",
+              en: `The senior pet market is worth 8 trillion KRW, and a survey by the Ministry of Agriculture, Food and Rural Affairs projects continued growth.\n
+              In interviews with 20 senior pet owners, medical costs emerged as a key concern, confirming demand for integrated pet expense and health management.\n
+              For customers unaware of pet financial products, offering benefits based on real data could encourage sign-ups for products such as pet insurance, and everyday features were expected to retain customers over time.`,
             },
           },
         ],
@@ -185,7 +187,11 @@ export const ALL_PROJECTS: ProjectSource[] = [
             BFF 구조를 활용하여 SSR의 경우 Spring 직접 호출(1홉)으로 빠른 데이터 조회가 가능하도록 하고,
             CSR은 프록시 기반으로 Spring API URL을 은닉했습니다. 
             백엔드는 JWT Stateless 상태를 활용하여 세션 방식과 다르게 DB조회 부하는 낮추고, 302 Redirect를 전송하지 않고 프론트엔드에서 화면 제어를 전담하도록 했습니다.`,
-              en: "I designed the backend to focus on API access control and user data management,\nwhile the frontend handles user access control.\nUsing the BFF structure, SSR calls Spring directly (single hop) for fast data retrieval,\nand CSR is proxied to hide the Spring API URL.\nBy using stateless JWT, the backend reduces DB lookup load compared to sessions, and the frontend handles screen control without the backend sending 302 redirects.",
+              en: `I designed the backend to focus on API access control and user data management,\n
+              while the frontend handles user access control.\n
+              Using the BFF structure, SSR calls Spring directly (single hop) for fast data retrieval,\n
+              and CSR is proxied to hide the Spring API URL.\n
+              By using stateless JWT, the backend reduces DB lookup load compared to sessions, and the frontend handles screen control without the backend sending 302 redirects.`,
             },
             block: {
               type: "flow",
@@ -239,7 +245,8 @@ export const ALL_PROJECTS: ProjectSource[] = [
             description: {
               ko: `ResponseStatusException을 활용하고 GlobalExceptionHandler를 통해 응답 포맷을 통일했습니다. 
               다만 프로젝트 규모가 커질 시 다국어 지원, 상태코드 세분화를 위해 커스텀 에러 클래스로 분리가 필요해질 것이라 생각합니다.`,
-              en: "I used ResponseStatusException and unified the response format through a GlobalExceptionHandler.\nHowever, as the project grows, I expect that splitting into custom error classes will be necessary to support multiple languages and finer-grained status codes.",
+              en: `I used ResponseStatusException and unified the response format through a GlobalExceptionHandler.\n
+              However, as the project grows, I expect that splitting into custom error classes will be necessary to support multiple languages and finer-grained status codes.`,
             },
           },
         ],

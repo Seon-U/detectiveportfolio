@@ -40,7 +40,7 @@ export default function ProjectHero({ projectData, lang, dict }: Props) {
 
         {/* Title + Summary (가로 배치) */}
         <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12 mb-6">
-          <h1 className="text-3xl md:text-5xl font-pretendard font-black text-foreground leading-tight max-w-xl lg:shrink-0 line-clamp-2 break-keep">
+          <h1 className="text-2xl md:text-4xl font-pretendard font-black text-foreground leading-tight max-w-xl lg:shrink-0 line-clamp-3 break-keep">
             {projectData.title}
           </h1>
           <p className="mt-3 lg:mt-2 text-base font-pretendard text-muted-foreground leading-relaxed max-w-lg break-keep">
