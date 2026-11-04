@@ -31,14 +31,14 @@
     "cardAlt": "Employee ID card"
   },
   "intro": {
-    "ariaLabel": "Introduction - user-centered design and development that respects real-world constraints",
+    "ariaLabel": "Introduction - user-centered design and constraint-aware development",
     "design": "user-centered design",
-    "dev": "development that respects real-world constraints",
+    "dev": "constraint-aware development",
     "sentence": "To always build technology for people,\nI practice {design}\nand {dev}."
   },
   "roleShowcase": {
     "ariaLabel": "Projects and blog posts by role",
-    "headline": "{role}\nwhen you need me",
+    "headline": "when you need me as your\n{role}",
     "dropdownAriaLabel": "Select role",
     "projectLabel": "Project",
     "blogLabel": "Blog",
