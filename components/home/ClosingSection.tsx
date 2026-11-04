@@ -2,10 +2,12 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUp, Mail } from "lucide-react";
-import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { useDictionary, useLocale } from "@/components/i18n/DictionaryProvider";
+import { resumePaths } from "@/lib/i18n/config";
 
 export default function ClosingSection() {
   const { closing } = useDictionary();
+  const locale = useLocale();
   return (
     <motion.section
       className="px-4 md:px-8 lg:px-12 py-20 md:py-32 text-center"
@@ -31,7 +33,7 @@ export default function ClosingSection() {
           {closing.contact}
         </a>
         <a
-          href="/cv/resume-ko.pdf"
+          href={resumePaths[locale]}
           download
           className="inline-flex items-center gap-2 px-6 py-3 lg:px-8 lg:py-3.5 text-sm lg:text-base font-medium rounded-lg text-white no-underline transition-all duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2"
           style={{ backgroundColor: "var(--cta-bg)" }}

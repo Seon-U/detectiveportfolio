@@ -11,6 +11,12 @@ export const localeNames: Record<Locale, string> = {
 /** 사용자가 명시적으로 고른 locale — proxy가 Accept-Language보다 우선 적용 */
 export const LOCALE_COOKIE = "NEXT_LOCALE";
 
+/** 언어별 이력서 파일 경로 (public 기준) */
+export const resumePaths: Record<Locale, string> = {
+  ko: "/cv/resume-ko.pdf",
+  en: "/cv/resume-en.pdf",
+};
+
 /**
  * 데이터 레이어의 다국어 문자열. 모든 locale 필수 — 번역 누락은 컴파일 에러로 드러난다.
  * (번역 전환기에는 en을 선택값으로 두었다가 ⑧ 번역 완료 시 강화)

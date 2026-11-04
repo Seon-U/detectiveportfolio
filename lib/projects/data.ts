@@ -24,7 +24,7 @@ export const ALL_PROJECTS: ProjectSource[] = [
     ],
 
     period: "2026.03 - 2026.04",
-    lastModified: "2026-08-31",
+    lastModified: "2026-11-04",
 
     image: "/mgkHero.webp",
 
@@ -90,11 +90,11 @@ export const ALL_PROJECTS: ProjectSource[] = [
             type: "text",
             body: {
               ko: `시니어 반려동물 시장 규모는 8조에 달하고 농림축산식품부 조사에 따르면 지속적으로 성장할 것으로 예측되고 있습니다.
-            직접 시니어 반려인 20인을 인터뷰한 결과, 의료비가 주요 고려사항인 만큼 반려동물 비용 관리와 의료 관리 통합 수요를 확인할 수 있었습니다.
+            직접 시니어 반려인 20팀을 인터뷰한 결과, 의료비가 주요 고려사항인 만큼 반려동물 비용 관리와 의료 관리 통합 수요를 확인할 수 있었습니다.
             반려동물 금융상품의 존재를 잘 모르는 고객들을 대상으로 실제 데이터 기반 이점을 제공한다면 반려동물 보험 등 상품 가입 유인이 가능하고, 일상적 기능으로 지속적인 고객 확보가 가능할 것이라 기대했습니다.
             `,
               en: `The senior pet market is worth 8 trillion KRW, and a survey by the Ministry of Agriculture, Food and Rural Affairs projects continued growth.\n
-              In interviews with 20 senior pet owners, medical costs emerged as a key concern, confirming demand for integrated pet expense and health management.\n
+              In interviews with 20 senior pet owner groups, medical costs emerged as a key concern, confirming demand for integrated pet expense and health management.\n
               For customers unaware of pet financial products, offering benefits based on real data could encourage sign-ups for products such as pet insurance, and everyday features were expected to retain customers over time.`,
             },
           },
@@ -451,7 +451,7 @@ export const ALL_PROJECTS: ProjectSource[] = [
     tags: ["Next.js", "PrismaORM", "MySQL", "OpenAI API", "Design System"],
 
     period: "2026.01 - 2026.02",
-    lastModified: "2026-08-31",
+    lastModified: "2026-11-04",
 
     image: "/aiappHero.webp",
 
@@ -743,7 +743,7 @@ export const ALL_PROJECTS: ProjectSource[] = [
     tags: ["Python", "LangGraph", "Streamlit", "Gemini", "BGE-M3", "Imagen"],
 
     period: "2026.06",
-    lastModified: "2026-09-01",
+    lastModified: "2026-11-04",
 
     image: "/finadgenHero.webp",
 
@@ -968,7 +968,7 @@ export const ALL_PROJECTS: ProjectSource[] = [
     tags: ["Swift", "SwiftUI", "SwiftData", "iOS", "App Store"],
 
     period: "2024.05 - 2025.01",
-    lastModified: "2026-09-01",
+    lastModified: "2026-11-04",
 
     image: "/fanbyteHero.webp",
 
@@ -1166,7 +1166,7 @@ export const ALL_PROJECTS: ProjectSource[] = [
     tags: ["Swift", "SwiftUI", "AVFAudio", "iOS", "App Store"],
 
     period: "2024.08 - 2024.12",
-    lastModified: "2026-09-01",
+    lastModified: "2026-11-04",
 
     image: "/peacefullHero.webp",
 

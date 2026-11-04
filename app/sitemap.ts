@@ -14,17 +14,21 @@ type RouteEntry = Omit<MetadataRoute.Sitemap[number], "url" | "alternates"> & {
 
 const toUrl = (path: string) => `${siteConfig.url}${path}`;
 
+/** 홈·프로젝트 목록의 실제 내용 수정일 — 해당 페이지 내용이 바뀔 때만 올린다 */
+const HOME_LAST_MODIFIED = "2026-11-04";
+const PROJECTS_LAST_MODIFIED = "2026-11-04";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: RouteEntry[] = [
     {
       path: "/",
-      lastModified: new Date(),
+      lastModified: new Date(HOME_LAST_MODIFIED),
       changeFrequency: "monthly",
       priority: 1,
     },
     {
       path: "/projects",
-      lastModified: new Date(),
+      lastModified: new Date(PROJECTS_LAST_MODIFIED),
       changeFrequency: "weekly",
       priority: 0.8,
     },
