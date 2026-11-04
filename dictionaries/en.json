@@ -103,11 +103,9 @@
     "nextAriaLabel": "Next project"
   },
   "notFound": {
-    "project": {
-      "eyebrow": "404 · Project Not Found",
-      "title": "Project Not Found",
-      "description": "The project you requested does not exist.",
-      "back": "Back to Projects"
-    }
+    "eyebrow": "404",
+    "title": "Page Not Found",
+    "description": "The page you requested does not exist.",
+    "back": "Back to Home"
   }
 }
