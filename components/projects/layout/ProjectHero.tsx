@@ -1,24 +1,27 @@
 import { ArrowLeft, ArrowUpRight, Calendar, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { format, type Locale } from "@/lib/i18n/config";
 import type { Project } from "@/lib/projects/types";
 
 type Props = {
   projectData: Project;
+  lang: Locale;
+  dict: { viewAllProjects: string; teamSize: string };
 };
 
-export default function ProjectHero({ projectData }: Props) {
+export default function ProjectHero({ projectData, lang, dict }: Props) {
   const links = projectData.links ?? [];
 
   return (
     <>
       {/* Back button — 항상 /projects로 이동 */}
       <Link
-        href="/projects"
+        href={`/${lang}/projects`}
         className="flex items-center gap-2 mb-8 font-pretendard text-sm text-muted-foreground hover:text-primary transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        모든 프로젝트 보기
+        {dict.viewAllProjects}
       </Link>
 
       {/* ── Header ─────────────────────────────────────── */}
@@ -31,13 +34,13 @@ export default function ProjectHero({ projectData }: Props) {
           </span>
           <span className="flex items-center gap-1.5">
             <Users className="w-3.5 h-3.5" />
-            {projectData.teamSize}인 팀
+            {format(dict.teamSize, { count: projectData.teamSize })}
           </span>
         </div>
 
         {/* Title + Summary (가로 배치) */}
         <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12 mb-6">
-          <h1 className="text-3xl md:text-5xl font-pretendard font-black text-foreground leading-tight max-w-xl lg:shrink-0 line-clamp-2 break-keep">
+          <h1 className="text-2xl md:text-4xl font-pretendard font-black text-foreground leading-tight max-w-xl lg:shrink-0 line-clamp-3 break-keep">
             {projectData.title}
           </h1>
           <p className="mt-3 lg:mt-2 text-base font-pretendard text-muted-foreground leading-relaxed max-w-lg break-keep">

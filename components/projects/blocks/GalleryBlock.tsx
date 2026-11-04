@@ -4,11 +4,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import type { GalleryBlock as GalleryBlockData } from "@/lib/content/types";
 import { cn } from "@/lib/utils";
 
 /** 가로 스크롤 이미지 갤러리 — 하단 좌우 핸들 + 이미지별 +/X 디테일 오버레이 */
 export default function GalleryBlock({ images }: GalleryBlockData) {
+  const { projectDetail } = useDictionary();
+  const { blocks } = projectDetail;
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(images.length > 1);
@@ -72,7 +75,11 @@ export default function GalleryBlock({ images }: GalleryBlockData) {
                       "transition-transform duration-200 hover:scale-110",
                       "shadow-lg",
                     )}
-                    aria-label={isOpen ? "설명 닫기" : "설명 보기"}
+                    aria-label={
+                      isOpen
+                        ? blocks.galleryCloseCaption
+                        : blocks.galleryOpenCaption
+                    }
                   >
                     <Plus
                       className={cn(
@@ -120,7 +127,7 @@ export default function GalleryBlock({ images }: GalleryBlockData) {
                 ? "border-foreground/20 text-foreground hover:bg-surface-hover"
                 : "border-border/30 text-muted-foreground/40 cursor-default",
             )}
-            aria-label="이전 이미지"
+            aria-label={blocks.galleryPrev}
           >
             <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
           </button>
@@ -134,7 +141,7 @@ export default function GalleryBlock({ images }: GalleryBlockData) {
                 ? "border-foreground text-foreground bg-foreground/5 hover:bg-surface-hover"
                 : "border-border/30 text-muted-foreground/40 cursor-default",
             )}
-            aria-label="다음 이미지"
+            aria-label={blocks.galleryNext}
           >
             <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
           </button>

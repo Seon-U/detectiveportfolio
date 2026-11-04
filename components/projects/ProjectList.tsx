@@ -5,12 +5,14 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { Project, Contribution } from "@/lib/projects/types";
-import { ROLES } from "@/lib/roles/data";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { format, type Locale } from "@/lib/i18n/config";
+import type { Contribution, Project } from "@/lib/projects/types";
+import { getRoles } from "@/lib/roles/data";
 import type { RoleId } from "@/lib/roles/types";
 import { cn } from "@/lib/utils";
 
-type Props = { projects: Project[] };
+type Props = { projects: Project[]; lang: Locale };
 
 const ROLE_BADGE: Record<string, string> = {
   frontend: "bg-role-frontend-bg text-role-frontend-text",
@@ -19,7 +21,9 @@ const ROLE_BADGE: Record<string, string> = {
   planner: "bg-role-planner-bg text-role-planner-text",
 };
 
-export default function ProjectList({ projects }: Props) {
+export default function ProjectList({ projects, lang }: Props) {
+  const { common, projectList } = useDictionary();
+  const roles = useMemo(() => getRoles(lang), [lang]);
   const [selectedRoles, setSelectedRoles] = useState<Set<RoleId>>(new Set());
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const [filterOpen, setFilterOpen] = useState(true);
@@ -27,10 +31,10 @@ export default function ProjectList({ projects }: Props) {
   /* 프로젝트가 있는 역할만 필터에 표시 */
   const activeRoles = useMemo(
     () =>
-      ROLES.filter((r) =>
+      roles.filter((r) =>
         projects.some((c) => c.contributions.some((ct) => ct.roleId === r.id)),
       ),
-    [projects],
+    [projects, roles],
   );
 
   /* 역할 필터에 연동되는 태그 풀 */
@@ -89,18 +93,16 @@ export default function ProjectList({ projects }: Props) {
   };
 
   const getRoleLabel = (roleId: RoleId) =>
-    ROLES.find((r) => r.id === roleId)?.label ?? roleId;
+    roles.find((r) => r.id === roleId)?.label ?? roleId;
 
   /* 역할 필터 → detail 페이지에 ?role= 전달 (복수 선택 지원) */
   const buildHref = (projectId: string, contributions: Contribution[]) => {
-    const base = `/projects/${projectId}`;
+    const base = `/${lang}/projects/${projectId}`;
     if (selectedRoles.size === 0) return base;
     const matching = contributions
       .map((ct) => ct.roleId)
       .filter((r) => selectedRoles.has(r));
-    return matching.length > 0
-      ? `${base}?role=${matching.join(",")}`
-      : base;
+    return matching.length > 0 ? `${base}?role=${matching.join(",")}` : base;
   };
 
   return (
@@ -109,7 +111,7 @@ export default function ProjectList({ projects }: Props) {
       <div className="px-4 md:px-8 lg:px-12">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-[clamp(28px,4vw,40px)] font-serif font-bold tracking-tight text-foreground pt-2 pb-6">
-            Projects
+            {common.projects}
           </h1>
         </div>
       </div>
@@ -130,7 +132,7 @@ export default function ProjectList({ projects }: Props) {
                   !filterOpen && "-rotate-90",
                 )}
               />
-              Filters
+              {projectList.filters}
               {hasActiveFilters && (
                 <span className="ml-0.5 px-1.5 py-0.5 text-[11px] font-semibold rounded-full bg-accent/15 text-accent tabular-nums">
                   {activeFilterCount}
@@ -144,7 +146,7 @@ export default function ProjectList({ projects }: Props) {
                 onClick={clearFilters}
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
-                초기화
+                {projectList.reset}
               </button>
             )}
           </div>
@@ -163,7 +165,7 @@ export default function ProjectList({ projects }: Props) {
                   {/* Role chips */}
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-xs font-medium text-muted-foreground tracking-[0.08em] uppercase mr-0.5">
-                      Roles
+                      {projectList.roles}
                     </span>
                     {activeRoles.map((r) => (
                       <button
@@ -185,7 +187,7 @@ export default function ProjectList({ projects }: Props) {
                   {/* Skill / tag chips */}
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="text-xs font-medium text-muted-foreground tracking-[0.08em] uppercase mr-0.5">
-                      Skills
+                      {projectList.skills}
                     </span>
                     {availableTags.map((tag) => (
                       <button
@@ -226,7 +228,9 @@ export default function ProjectList({ projects }: Props) {
                 <Link
                   href={buildHref(projectData.id, contributions)}
                   className="absolute inset-0 z-0 rounded-lg focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-                  aria-label={`${projectData.title} 상세 보기`}
+                  aria-label={format(projectList.detailAriaLabel, {
+                    title: projectData.title,
+                  })}
                 />
 
                 <div className="py-5 lg:py-7 px-1 rounded-lg transition-colors group-hover:bg-surface/50">
@@ -258,7 +262,11 @@ export default function ProjectList({ projects }: Props) {
                           {projectData.period}
                         </span>
                         <span className="text-border">|</span>
-                        <span>{projectData.teamSize}인</span>
+                        <span>
+                          {format(common.teamSize, {
+                            count: projectData.teamSize,
+                          })}
+                        </span>
                         {projectData.links?.map((link) => (
                           <span key={link.url} className="contents">
                             <span className="text-border">|</span>
@@ -324,7 +332,7 @@ export default function ProjectList({ projects }: Props) {
             ))
           ) : (
             <p className="py-16 text-center text-muted-foreground text-sm">
-              선택한 조건에 해당하는 프로젝트가 없습니다.
+              {projectList.empty}
             </p>
           )}
         </div>

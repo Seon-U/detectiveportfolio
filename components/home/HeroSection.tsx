@@ -2,12 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import { useMountedTheme } from "@/lib/hooks/useMountedTheme";
 import { cn } from "@/lib/utils";
 import HangingCard from "../ui/HangingCard";
 import ScrollIndicator from "../ui/ScrollIndicator";
 
 export default function HeroSection() {
+  const { hero } = useDictionary();
   const { isDark } = useMountedTheme();
   const [isDragging, setIsDragging] = useState(false);
   const [isInitialEntrance, setIsInitialEntrance] = useState(true);
@@ -38,7 +40,7 @@ export default function HeroSection() {
                 "text-transparent bg-clip-text bg-linear-to-r from-accent to-primary",
             )}
           >
-            Trace. Solve. Refine.
+            {hero.title}
           </h1>
         </motion.div>
 

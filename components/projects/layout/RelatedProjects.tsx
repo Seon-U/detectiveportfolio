@@ -4,11 +4,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
-import type { Project } from "@/lib/projects/types";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import type { Locale } from "@/lib/i18n/config";
+import type { RelatedProject } from "@/lib/projects/types";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  projects: Project[];
+  lang: Locale;
+  projects: RelatedProject[];
   /** 현재 선택된 role — 링크에 ?role= 유지 */
   currentRole?: string;
 };
@@ -17,7 +20,12 @@ type Props = {
  * Webflow "Related articles" 스타일 가로 스크롤 캐러셀.
  * 같은 역할의 다른 프로젝트를 이미지 + 타이틀로 보여줌.
  */
-export default function RelatedProjects({ projects, currentRole }: Props) {
+export default function RelatedProjects({
+  lang,
+  projects,
+  currentRole,
+}: Props) {
+  const { relatedProjects } = useDictionary();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -43,7 +51,7 @@ export default function RelatedProjects({ projects, currentRole }: Props) {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl md:text-3xl font-pretendard font-bold text-foreground">
-          다른 프로젝트 보기
+          {relatedProjects.title}
         </h2>
 
         {/* Arrow controls */}
@@ -58,7 +66,7 @@ export default function RelatedProjects({ projects, currentRole }: Props) {
                 ? "border-foreground/20 text-foreground hover:bg-surface-hover"
                 : "border-border/30 text-muted-foreground/40 cursor-default",
             )}
-            aria-label="이전 프로젝트"
+            aria-label={relatedProjects.prevAriaLabel}
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -72,7 +80,7 @@ export default function RelatedProjects({ projects, currentRole }: Props) {
                 ? "border-foreground text-foreground bg-foreground/5 hover:bg-surface-hover"
                 : "border-border/30 text-muted-foreground/40 cursor-default",
             )}
-            aria-label="다음 프로젝트"
+            aria-label={relatedProjects.nextAriaLabel}
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -87,8 +95,8 @@ export default function RelatedProjects({ projects, currentRole }: Props) {
       >
         {projects.map((project) => {
           const href = currentRole
-            ? `/projects/${project.id}?role=${currentRole}`
-            : `/projects/${project.id}`;
+            ? `/${lang}/projects/${project.id}?role=${currentRole}`
+            : `/${lang}/projects/${project.id}`;
 
           return (
             <Link

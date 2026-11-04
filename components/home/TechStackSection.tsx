@@ -1,40 +1,48 @@
 "use client";
 
 import { Code, Monitor, Server } from "lucide-react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import SectionHeader from "@/components/ui/SectionHeader";
 import StackCard from "./StackCard";
 
 const techHouses = [
   {
-    name: "Web",
+    key: "web" as const,
     icon: Monitor,
     color: "from-blue-500 to-cyan-400",
-    description: "UI / BFF Pattern 활용 가능",
     techs: ["React", "Next.js", "Tailwind", "Framer Motion", "Chart.js"],
   },
   {
-    name: "Mobile",
+    key: "mobile" as const,
     icon: Code,
     color: "from-purple-500 to-pink-400",
-    description: "MVVM, MVC 이해, ScenePhase 활용",
     techs: ["Swift", "SwiftUI", "SwiftData", "AVFAudio"],
   },
   {
-    name: "Backend",
+    key: "backend" as const,
     icon: Server,
     color: "from-green-500 to-emerald-400",
-    description: "ERD 구성, API 설계 및 개발환경 설정 가능",
     techs: ["Node.js", "Spring Boot", "MariaDB", "AWS", "Docker"],
   },
 ];
 
 export default function TechStackSection() {
+  const { techStack } = useDictionary();
   return (
     <section>
-      <SectionHeader sectionTitle={"Tech Stack"} title={"What I can do"} />
+      <SectionHeader
+        sectionTitle={techStack.sectionTitle}
+        title={techStack.title}
+      />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {techHouses.map((house, index) => (
-          <StackCard key={house.name} index={index} {...house} />
+        {techHouses.map(({ key, ...house }, index) => (
+          <StackCard
+            key={key}
+            index={index}
+            name={techStack[key].name}
+            description={techStack[key].description}
+            {...house}
+          />
         ))}
       </div>
     </section>

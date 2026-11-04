@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import ProjectDetail from "@/components/projects/ProjectDetail";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import ProjectHero from "@/components/projects/layout/ProjectHero";
+import ProjectDetail from "@/components/projects/ProjectDetail";
 import JsonLd from "@/components/seo/JsonLd";
-import { getAllProjects, getProjectById } from "@/lib/projects/queries";
+import { hasLocale } from "@/lib/i18n/config";
+import {
+  getProjectById,
+  getProjectIds,
+  getRelatedProjects,
+} from "@/lib/projects/queries";
 import { buildCreativeWorkJsonLd } from "@/lib/seo/jsonld";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -11,20 +17,20 @@ import { buildMetadata } from "@/lib/seo/metadata";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getAllProjects().map((p) => ({ id: p.id }));
+  return getProjectIds().map((id) => ({ id }));
 }
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}): Promise<Metadata> {
-  const { id } = await params;
-  const projectData = getProjectById(id);
+}: PageProps<"/[lang]/projects/[id]">): Promise<Metadata> {
+  const { lang, id } = await params;
+  if (!hasLocale(lang)) notFound();
+  const projectData = getProjectById(id, lang);
 
   if (!projectData) notFound();
 
   return buildMetadata({
+    locale: lang,
     title: projectData.title,
     description: projectData.description,
     path: `/projects/${projectData.id}`,
@@ -36,18 +42,20 @@ export async function generateMetadata({
 
 export default async function ProjectDetailRoute({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const projectData = getProjectById(id);
+}: PageProps<"/[lang]/projects/[id]">) {
+  const { lang, id } = await params;
+  if (!hasLocale(lang)) notFound();
 
+  const projectData = getProjectById(id, lang);
   if (!projectData) notFound();
+
+  const dict = await getDictionary(lang);
 
   return (
     <>
       <JsonLd
         data={buildCreativeWorkJsonLd({
+          locale: lang,
           name: projectData.title,
           description: projectData.description,
           path: `/projects/${projectData.id}`,
@@ -57,8 +65,19 @@ export default async function ProjectDetailRoute({
         })}
       />
       <div className="max-w-6xl mx-auto px-4">
-        <ProjectHero projectData={projectData} />
-        <ProjectDetail projectData={projectData} />
+        <ProjectHero
+          projectData={projectData}
+          lang={lang}
+          dict={{
+            viewAllProjects: dict.common.viewAllProjects,
+            teamSize: dict.projectDetail.teamSize,
+          }}
+        />
+        <ProjectDetail
+          projectData={projectData}
+          relatedProjects={getRelatedProjects(projectData.id, lang)}
+          lang={lang}
+        />
       </div>
     </>
   );

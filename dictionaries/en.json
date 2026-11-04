@@ -1,0 +1,111 @@
+{
+  "common": {
+    "viewAllProjects": "View all projects",
+    "projects": "Projects",
+    "teamSize": "Team of {count}",
+    "toggleTheme": "Toggle theme",
+    "changeLanguage": "Select language",
+    "scrollDown": "Scroll Down"
+  },
+  "metadata": {
+    "home": {
+      "keywords": [
+        "Frontend Developer",
+        "Portfolio",
+        "Seonu Kim",
+        "Next.js",
+        "React",
+        "Spring Boot",
+        "SwiftUI",
+        "Web Developer"
+      ]
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Projects I've built and the problems I've solved along the way."
+    }
+  },
+  "hero": {
+    "title": "Trace. Solve. Refine.",
+    "cardAriaLabel": "Employee ID card - drag to move it",
+    "cardAlt": "Employee ID card"
+  },
+  "intro": {
+    "ariaLabel": "Introduction - user-centered design and constraint-aware development",
+    "design": "user-centered design",
+    "dev": "constraint-aware development",
+    "sentence": "To always build technology for people,\nI practice {design}\nand {dev}."
+  },
+  "roleShowcase": {
+    "ariaLabel": "Projects and blog posts by role",
+    "headline": "when you need me as your\n{role}",
+    "dropdownAriaLabel": "Select role",
+    "projectLabel": "Project",
+    "blogLabel": "Blog",
+    "viewBlog": "Go to blog",
+    "emptyProjects": "Related projects are coming soon.",
+    "blogImageAlt": "Blog cover image",
+    "hoverHint": "Hover over a project"
+  },
+  "learningJourney": {
+    "timelineAriaLabel": "Timeline"
+  },
+  "techStack": {
+    "sectionTitle": "Tech Stack",
+    "title": "What I can do",
+    "web": {
+      "name": "Web",
+      "description": "Experienced with UI and the BFF pattern"
+    },
+    "mobile": {
+      "name": "Mobile",
+      "description": "Understands MVVM and MVC; uses ScenePhase"
+    },
+    "backend": {
+      "name": "Backend",
+      "description": "Can design ERDs and APIs and set up the development environment"
+    }
+  },
+  "closing": {
+    "ariaLabel": "Contact",
+    "title": "The right person in the right place",
+    "ctaAriaLabel": "CTA",
+    "contact": "Contact",
+    "getCv": "Get CV",
+    "backToTopAriaLabel": "Scroll to top",
+    "backToTop": "Back to Top"
+  },
+  "projectList": {
+    "filters": "Filters",
+    "reset": "Reset",
+    "roles": "Roles",
+    "skills": "Skills",
+    "detailAriaLabel": "View details of {title}",
+    "empty": "No projects match the selected filters."
+  },
+  "projectDetail": {
+    "teamSize": "Team of {count}",
+    "sectionNav": {
+      "all": "All"
+    },
+    "blocks": {
+      "erdAlt": "ERD diagram",
+      "youtubeTitle": "YouTube video",
+      "galleryCloseCaption": "Hide caption",
+      "galleryOpenCaption": "Show caption",
+      "galleryPrev": "Previous image",
+      "galleryNext": "Next image"
+    }
+  },
+  "relatedProjects": {
+    "title": "More projects",
+    "prevAriaLabel": "Previous project",
+    "nextAriaLabel": "Next project"
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "Page Not Found",
+    "description": "The page you requested does not exist.",
+    "back": "Back to Home"
+  }
+}

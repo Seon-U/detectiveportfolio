@@ -5,20 +5,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import type { Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
+import LocaleSwitcher from "./LocaleSwitcher";
 
 type HeaderProps = {
   className: string;
+  lang: Locale;
 };
 
-export default function Header({ className }: HeaderProps) {
+export default function Header({ className, lang }: HeaderProps) {
+  const { common } = useDictionary();
   const { theme, setTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
 
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  const isProjects = pathname === "/projects";
+  const isHome = pathname === `/${lang}`;
+  const isProjects = pathname === `/${lang}/projects`;
 
   useEffect(() => {
     setMounted(true);
@@ -37,7 +42,7 @@ export default function Header({ className }: HeaderProps) {
           <div className="flex h-full items-center justify-between">
             {/* LOGO → Home */}
             <Link
-              href="/"
+              href={`/${lang}`}
               className={cn(
                 "flex items-center space-x-2",
                 isHome && "pointer-events-none cursor-default",
@@ -52,7 +57,7 @@ export default function Header({ className }: HeaderProps) {
             <div className="flex items-center gap-5">
               {/* Projects 텍스트 링크 */}
               <Link
-                href="/projects"
+                href={`/${lang}/projects`}
                 className={cn(
                   "text-sm font-semibold font-serif tracking-widest transition-colors duration-300",
                   isProjects
@@ -60,8 +65,11 @@ export default function Header({ className }: HeaderProps) {
                     : "text-nav-text hover:text-nav-text-hover",
                 )}
               >
-                Projects
+                {common.projects}
               </Link>
+
+              {/* LANGUAGE SWITCH — Globe 드롭다운 */}
+              <LocaleSwitcher lang={lang} />
 
               {/* THEME TOGGLE */}
               {mounted && (
@@ -75,7 +83,7 @@ export default function Header({ className }: HeaderProps) {
                     "hover:bg-theme-toggle-hover-background",
                     "hover:shadow-theme-toggle",
                   )}
-                  aria-label="Toggle theme"
+                  aria-label={common.toggleTheme}
                 >
                   {mounted && theme === "dark" ? (
                     <Sun className="h-5 w-5" />

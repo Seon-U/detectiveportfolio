@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 
 /**
  * 마우스 모양 스크롤 유도 인디케이터.
@@ -14,6 +15,7 @@ export default function ScrollIndicator({
   delay?: number;
   className?: string;
 }) {
+  const { common } = useDictionary();
   return (
     <motion.div
       className={`flex flex-col items-center gap-2 ${className ?? ""}`}
@@ -34,7 +36,7 @@ export default function ScrollIndicator({
         />
       </div>
       <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/40 font-medium">
-        Scroll Down
+        {common.scrollDown}
       </span>
     </motion.div>
   );

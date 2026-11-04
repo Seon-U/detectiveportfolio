@@ -1,4 +1,5 @@
-import { siteConfig } from "./config";
+import type { Locale } from "@/lib/i18n/config";
+import { getSiteConfig, localizedPath, siteConfig } from "./config";
 
 /** siteConfig.url 기준으로 상대/절대 경로를 절대 URL로 정규화 */
 function toAbsoluteUrl(pathOrUrl: string): string {
@@ -11,23 +12,25 @@ function toAbsoluteUrl(pathOrUrl: string): string {
  * 사이트 소유자를 나타내는 Person 구조화 데이터.
  * 루트 레이아웃에 한 번만 삽입해 전 페이지에 동일 엔티티로 노출한다.
  */
-export function buildPersonJsonLd() {
+export function buildPersonJsonLd(locale: Locale) {
+  const site = getSiteConfig(locale);
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: siteConfig.name,
-    url: siteConfig.url,
-    image: toAbsoluteUrl(siteConfig.ogImage),
-    jobTitle: "Frontend Developer",
+    name: site.name,
+    url: toAbsoluteUrl(localizedPath(locale, "/")),
+    image: toAbsoluteUrl(site.ogImage),
+    jobTitle: site.jobTitle,
     email: "seonu.kim.kr@gmail.com",
   };
 }
 
 type CreativeWorkJsonLdInput = {
+  locale: Locale;
   /** 작품명 (케이스/아카이브 제목) */
   name: string;
   description: string;
-  /** canonical 경로 (예: "/projects/001") */
+  /** locale 접두사 없는 경로 (예: "/projects/001") */
   path: string;
   image?: string;
   /** ISO 8601 날짜 문자열 */
@@ -40,6 +43,7 @@ type CreativeWorkJsonLdInput = {
  * author는 항상 siteConfig의 Person을 가리켜 Person과 연결된다.
  */
 export function buildCreativeWorkJsonLd({
+  locale,
   name,
   description,
   path,
@@ -47,12 +51,14 @@ export function buildCreativeWorkJsonLd({
   datePublished,
   keywords,
 }: CreativeWorkJsonLdInput) {
+  const site = getSiteConfig(locale);
   return {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name,
     description,
-    url: toAbsoluteUrl(path),
+    url: toAbsoluteUrl(localizedPath(locale, path)),
+    inLanguage: locale,
     ...(image ? { image: toAbsoluteUrl(image) } : {}),
     ...(datePublished ? { datePublished } : {}),
     ...(keywords && keywords.length > 0
@@ -60,8 +66,8 @@ export function buildCreativeWorkJsonLd({
       : {}),
     author: {
       "@type": "Person",
-      name: siteConfig.name,
-      url: siteConfig.url,
+      name: site.name,
+      url: toAbsoluteUrl(localizedPath(locale, "/")),
     },
   };
 }

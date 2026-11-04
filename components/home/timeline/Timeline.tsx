@@ -2,10 +2,12 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useDictionary } from "@/components/i18n/DictionaryProvider";
 import type { TimelineItem } from "@/lib/timeline/types";
 import { dotVariants, itemVariants, lineVariants } from "./variants";
 
 export default function Timeline({ items }: { items: TimelineItem[] }) {
+  const { learningJourney } = useDictionary();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.15 });
 
@@ -24,7 +26,7 @@ export default function Timeline({ items }: { items: TimelineItem[] }) {
       <ul
         className="flex flex-col gap-10 md:gap-12 list-none m-0 p-0"
         role="list"
-        aria-label="타임라인"
+        aria-label={learningJourney.timelineAriaLabel}
       >
         {items.map((item, i) => (
           <li key={item.id} className="relative">
