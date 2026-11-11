@@ -26,7 +26,7 @@ const TIMELINE_TRACKS: TimelineTrackSource[] = [
         period: "2025.10 - 2026.04 (975hr)",
         title: {
           ko: "디지털 하나로 금융 서비스 개발 과정 최우수 수료",
-          en: "Graduated with top honors from the Digital Hanaro Financial Service Development Program",
+          en: "Completed the Digital Hanaro Financial Service Development Program as a top graduate",
         },
         description: {
           ko: "하나은행 실무자 평가 금융 서비스 프로젝트 4건 기획 및 개발",
