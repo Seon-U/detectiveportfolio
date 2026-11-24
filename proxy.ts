@@ -47,6 +47,7 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // _next 내부 경로와 확장자가 있는 정적 파일(public/*, robots.txt, sitemap.xml, favicon.ico 등)은 제외
-  matcher: ["/((?!_next|.*\\..*).*)"],
+  // _next 내부 경로, Umami 프록시(/stats/*), 확장자가 있는 정적 파일(public/*, robots.txt, sitemap.xml, favicon.ico 등)은 제외
+  // /stats/api/send가 여기 걸리면 /ko/stats/...로 리다이렉트되어 rewrite에 도달하지 못함
+  matcher: ["/((?!_next|stats/|.*\\..*).*)"],
 };

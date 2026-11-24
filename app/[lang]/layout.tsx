@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import { DictionaryProvider } from "@/components/i18n/DictionaryProvider";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
@@ -51,6 +52,8 @@ export async function generateMetadata({
   };
 }
 
+const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+
 // ko/en만 정적 생성하고, 그 외 lang 세그먼트는 404 처리
 export const dynamicParams = false;
 
@@ -89,6 +92,16 @@ export default async function RootLayout({
             <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
           </DictionaryProvider>
         </ThemeProvider>
+        {UMAMI_WEBSITE_ID && (
+          // 쿠키 없는 Umami — next.config rewrites로 /stats/* 를 cloud.umami.is로 중계
+          // data-domains: 운영 도메인에서만 집계(localhost·프리뷰 배포 제외)
+          <Script
+            src="/stats/script.js"
+            data-website-id={UMAMI_WEBSITE_ID}
+            data-domains="portfolio.devslab.uk"
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );
