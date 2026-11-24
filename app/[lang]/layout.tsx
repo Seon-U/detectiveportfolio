@@ -53,6 +53,9 @@ export async function generateMetadata({
 }
 
 const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+// 집계 허용 호스트. 로컬 테스트 시에만 .env.local에서 "portfolio.devslab.uk,localhost"로 덮어쓴다.
+const UMAMI_DOMAINS =
+  process.env.NEXT_PUBLIC_UMAMI_DOMAINS ?? "portfolio.devslab.uk";
 
 // ko/en만 정적 생성하고, 그 외 lang 세그먼트는 404 처리
 export const dynamicParams = false;
@@ -93,12 +96,14 @@ export default async function RootLayout({
           </DictionaryProvider>
         </ThemeProvider>
         {UMAMI_WEBSITE_ID && (
-          // 쿠키 없는 Umami — next.config rewrites로 /stats/* 를 cloud.umami.is로 중계
-          // data-domains: 운영 도메인에서만 집계(localhost·프리뷰 배포 제외)
+          // 쿠키 없는 Umami — next.config rewrites로 /stats/* 를 Umami로 중계
+          // data-host-url: 없으면 스크립트가 gateway.umami.is로 직접 전송하므로 반드시 지정
+          // data-domains: 허용 호스트에서만 집계(기본은 운영 도메인만, localhost·프리뷰 제외)
           <Script
             src="/stats/script.js"
             data-website-id={UMAMI_WEBSITE_ID}
-            data-domains="portfolio.devslab.uk"
+            data-host-url="/stats"
+            data-domains={UMAMI_DOMAINS}
             strategy="afterInteractive"
           />
         )}

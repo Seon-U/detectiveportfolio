@@ -31,7 +31,8 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/stats/api/send",
-        destination: "https://cloud.umami.is/api/send",
+        // 스크립트의 기본 수집 endpoint(data-host-url 미지정 시)와 같은 호스트
+        destination: "https://gateway.umami.is/api/send",
       },
     ];
   },
