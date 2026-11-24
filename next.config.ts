@@ -18,6 +18,23 @@ const nextConfig: NextConfig = {
         destination: "/ko/projects/:id",
         permanent: true,
       },
+
+      // 지원처별 단축 링크 — /r/<코드> → UTM이 붙은 홈. 코드마다 규칙을 추가할 필요 없음(배포 불필요).
+      // 코드는 영문 소문자·숫자·하이픈 1~40자만 허용. 그 외는 매칭되지 않아 404로 간다.
+      // permanent: false(307) — 브라우저가 목적지를 영구 캐시하지 않게 해 나중에 규칙을 바꿀 수 있도록 함.
+      // 대응표(코드 ↔ 회사)는 docs/utm-links.md (gitignore)
+      {
+        // locale 지정: /ko/r/toss, /en/r/acme
+        source: "/:lang(ko|en)/r/:code([a-z0-9-]{1,40})",
+        destination: "/:lang?utm_source=:code&utm_medium=link",
+        permanent: false,
+      },
+      {
+        // locale 미지정: proxy가 쿠키·Accept-Language로 ko/en을 고른다(쿼리는 유지됨)
+        source: "/r/:code([a-z0-9-]{1,40})",
+        destination: "/?utm_source=:code&utm_medium=link",
+        permanent: false,
+      },
     ];
   },
 
