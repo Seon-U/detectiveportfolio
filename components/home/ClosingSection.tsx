@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUp, Mail } from "lucide-react";
 import { useDictionary, useLocale } from "@/components/i18n/DictionaryProvider";
+import { trackAttrs } from "@/lib/analytics/track";
 import { resumePaths } from "@/lib/i18n/config";
 
 export default function ClosingSection() {
@@ -27,6 +28,7 @@ export default function ClosingSection() {
       >
         <a
           href="mailto:seonu.kim.kr@gmail.com"
+          {...trackAttrs("email_click", { from: "closing" })}
           className="inline-flex items-center gap-2 px-6 py-3 lg:px-8 lg:py-3.5 text-sm lg:text-base font-medium rounded-lg border border-border text-foreground no-underline transition-all duration-200 hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
         >
           <Mail className="w-4 h-4 lg:w-5 lg:h-5" aria-hidden="true" />
@@ -35,6 +37,7 @@ export default function ClosingSection() {
         <a
           href={resumePaths[locale]}
           download
+          {...trackAttrs("resume_download", { locale })}
           className="inline-flex items-center gap-2 px-6 py-3 lg:px-8 lg:py-3.5 text-sm lg:text-base font-medium rounded-lg text-white no-underline transition-all duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2"
           style={{ backgroundColor: "var(--cta-bg)" }}
         >

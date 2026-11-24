@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import Script from "next/script";
+import ClickTracker from "@/components/analytics/ClickTracker";
 import { DictionaryProvider } from "@/components/i18n/DictionaryProvider";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import JsonLd from "@/components/seo/JsonLd";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { NOTRACK_SCRIPT } from "@/lib/analytics/notrack";
 import { hasLocale, locales } from "@/lib/i18n/config";
 import { getSiteConfig } from "@/lib/seo/config";
 import { buildPersonJsonLd } from "@/lib/seo/jsonld";
@@ -95,6 +97,12 @@ export default async function RootLayout({
             <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
           </DictionaryProvider>
         </ThemeProvider>
+        {UMAMI_WEBSITE_ID && (
+          <Script id="umami-notrack" strategy="beforeInteractive">
+            {NOTRACK_SCRIPT}
+          </Script>
+        )}
+        {UMAMI_WEBSITE_ID && <ClickTracker />}
         {UMAMI_WEBSITE_ID && (
           // 쿠키 없는 Umami — next.config rewrites로 /stats/* 를 Umami로 중계
           // data-host-url: 없으면 스크립트가 gateway.umami.is로 직접 전송하므로 반드시 지정
