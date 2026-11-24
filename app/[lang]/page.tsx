@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import HomeSectionTracker from "@/components/analytics/HomeSectionTracker";
 import ClosingSection from "@/components/home/ClosingSection";
 import HeroSection from "@/components/home/HeroSection";
 import IntroductionSection from "@/components/home/IntroductionSection";
@@ -35,12 +36,24 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   ) as Record<RoleId, RoleProject[]>;
 
   return (
+    // data-home-section: 섹션 도달·체류 측정용 표시 (HomeSectionTracker, lib/analytics/events.ts의 HOME_SECTIONS)
     <div className="space-y-32 pb-20">
-      <HeroSection />
-      <IntroductionSection />
-      <RoleShowcaseSection lang={lang} projectsByRole={projectsByRole} />
-      <LearningJourneySection lang={lang} />
-      <ClosingSection />
+      <div data-home-section="hero">
+        <HeroSection />
+      </div>
+      <div data-home-section="introduction">
+        <IntroductionSection />
+      </div>
+      <div data-home-section="roles">
+        <RoleShowcaseSection lang={lang} projectsByRole={projectsByRole} />
+      </div>
+      <div data-home-section="journey">
+        <LearningJourneySection lang={lang} />
+      </div>
+      <div data-home-section="closing">
+        <ClosingSection />
+      </div>
+      <HomeSectionTracker />
     </div>
   );
 }
