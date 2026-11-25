@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { track } from "@/lib/analytics/track";
 import {
   LOCALE_COOKIE,
   type Locale,
@@ -77,6 +78,7 @@ export default function LocaleSwitcher({ lang }: { lang: Locale }) {
       buttonRef.current?.focus();
       return;
     }
+    track("locale_switch", { from: lang, to: target });
     const secure = window.location.protocol === "https:" ? "; secure" : "";
     // biome-ignore lint/suspicious/noDocumentCookie: 단일 locale 쿠키 저장 — Cookie Store API는 Safari 미지원
     document.cookie = `${LOCALE_COOKIE}=${target}; path=/; max-age=31536000; samesite=lax${secure}`;

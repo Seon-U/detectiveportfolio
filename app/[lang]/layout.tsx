@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import ClickTracker from "@/components/analytics/ClickTracker";
+import PageEngagementTracker from "@/components/analytics/PageEngagementTracker";
 import { DictionaryProvider } from "@/components/i18n/DictionaryProvider";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
@@ -103,6 +104,7 @@ export default async function RootLayout({
           </Script>
         )}
         {UMAMI_WEBSITE_ID && <ClickTracker />}
+        {UMAMI_WEBSITE_ID && <PageEngagementTracker />}
         {UMAMI_WEBSITE_ID && (
           // 쿠키 없는 Umami — next.config rewrites로 /stats/* 를 Umami로 중계
           // data-host-url: 없으면 스크립트가 gateway.umami.is로 직접 전송하므로 반드시 지정

@@ -102,7 +102,7 @@ export const ALL_PROJECTS: ProjectSource[] = [
       },
 
       {
-        id: "fetures",
+        id: "features",
         heading: { ko: "주요 기능", en: "Key Features" },
         layout: "feature",
         features: [

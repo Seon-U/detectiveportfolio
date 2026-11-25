@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { trackAttrs } from "@/lib/analytics/track";
 import type { Locale } from "@/lib/i18n/config";
 import type { RelatedProject } from "@/lib/projects/types";
 import { cn } from "@/lib/utils";
@@ -93,7 +94,7 @@ export default function RelatedProjects({
         onScroll={updateScrollState}
         className="flex gap-4 overflow-x-auto hide-scrollbar -mx-4 px-4 snap-x snap-mandatory"
       >
-        {projects.map((project) => {
+        {projects.map((project, index) => {
           const href = currentRole
             ? `/${lang}/projects/${project.id}?role=${currentRole}`
             : `/${lang}/projects/${project.id}`;
@@ -102,6 +103,11 @@ export default function RelatedProjects({
             <Link
               key={project.id}
               href={href}
+              {...trackAttrs("project_card_click", {
+                projectId: project.id,
+                position: index + 1,
+                from: "related",
+              })}
               className="group shrink-0 w-[280px] md:w-[320px] snap-start no-underline"
             >
               {/* Image */}

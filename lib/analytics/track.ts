@@ -96,6 +96,15 @@ export function track<E extends AnalyticsEventName>(
   }
 }
 
+/**
+ * HTML 속성 이름은 소문자로 바뀌므로(data-track-projectId → data-track-projectid)
+ * camelCase props는 kebab-case로 붙이고, ClickTracker가 읽을 때 되돌린다.
+ */
+export const toAttrKey = (key: string) =>
+  key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
+export const fromAttrKey = (key: string) =>
+  key.replace(/-([a-z0-9])/g, (_, c: string) => c.toUpperCase());
+
 /** 타입 검사를 거친 이벤트·props를 ClickTracker가 읽는 data-* 속성으로 바꾼다 */
 type TrackAttrs = { [TRACK_ATTR]: string } & Record<
   `${typeof TRACK_PROP_PREFIX}${string}`,
@@ -113,7 +122,7 @@ export function trackAttrs<E extends AnalyticsEventName>(
 ): TrackAttrs {
   const attrs: Record<string, string> = { [TRACK_ATTR]: event };
   for (const [key, value] of Object.entries(props)) {
-    attrs[`${TRACK_PROP_PREFIX}${key}`] = String(value);
+    attrs[`${TRACK_PROP_PREFIX}${toAttrKey(key)}`] = String(value);
   }
   return attrs as TrackAttrs;
 }
