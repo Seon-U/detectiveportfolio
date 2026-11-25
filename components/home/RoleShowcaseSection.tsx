@@ -13,6 +13,7 @@ import {
   useState,
 } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { track, trackAttrs } from "@/lib/analytics/track";
 import { format, type Locale } from "@/lib/i18n/config";
 import { FALLBACK_IMAGES } from "@/lib/roles/constants";
 import { getPostsByRole, getRoles } from "@/lib/roles/data";
@@ -74,10 +75,16 @@ export default function RoleShowcaseSection({
   const projects = projectsByRole[selectedRoleId] ?? [];
   const posts = useMemo(() => getPostsByRole(selectedRoleId), [selectedRoleId]);
 
-  const handleSelect = useCallback((roleId: RoleId) => {
-    setSelectedRoleId(roleId);
-    setHoveredPreview(null);
-  }, []);
+  const handleSelect = useCallback(
+    (roleId: RoleId) => {
+      if (roleId !== selectedRoleId) {
+        track("project_filter", { from: "home", type: "role", value: roleId });
+      }
+      setSelectedRoleId(roleId);
+      setHoveredPreview(null);
+    },
+    [selectedRoleId],
+  );
 
   /* 이미지 우선순위: hover → 블로그 끝에 닿으면 OG, 아니면 프로젝트 */
   const blogFallback =
@@ -199,6 +206,11 @@ export default function RoleShowcaseSection({
                       >
                         <Link
                           href={`/${lang}${project.href}`}
+                          {...trackAttrs("project_card_click", {
+                            projectId: project.projectId,
+                            position: index + 1,
+                            from: "home",
+                          })}
                           className="group block py-3.5 no-underline transition-all duration-200 hover:pl-2 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 focus-visible:rounded-sm"
                           onMouseEnter={() =>
                             setHoveredPreview({

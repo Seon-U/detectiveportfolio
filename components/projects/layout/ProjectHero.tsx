@@ -1,6 +1,8 @@
 import { ArrowLeft, ArrowUpRight, Calendar, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { toOutboundType } from "@/lib/analytics/page";
+import { trackAttrs } from "@/lib/analytics/track";
 import { format, type Locale } from "@/lib/i18n/config";
 import type { Project } from "@/lib/projects/types";
 
@@ -57,6 +59,11 @@ export default function ProjectHero({ projectData, lang, dict }: Props) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                {...trackAttrs("outbound_click", {
+                  projectId: projectData.id,
+                  type: toOutboundType(link.url),
+                  from: "detail",
+                })}
                 className="inline-flex items-center gap-1 text-xs font-medium font-pretendard text-accent no-underline transition-all duration-200 hover:gap-1.5"
               >
                 {link.label}

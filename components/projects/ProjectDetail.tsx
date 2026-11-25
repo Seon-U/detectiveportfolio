@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import ProjectDetailTracker from "@/components/analytics/ProjectDetailTracker";
+import { track } from "@/lib/analytics/track";
 import type { Locale } from "@/lib/i18n/config";
 import type {
   Project,
@@ -12,6 +14,7 @@ import type { RoleId } from "@/lib/roles/types";
 import RelatedProjects from "./layout/RelatedProjects";
 import SectionNav from "./layout/SectionNav";
 import SectionRenderer from "./layout/SectionRenderer";
+import { ProjectIdProvider } from "./ProjectIdContext";
 
 export default function ProjectDetail({
   projectData,
@@ -88,52 +91,72 @@ export default function ProjectDetail({
     return () => observer.disconnect();
   }, [filteredSections]);
 
-  const handleSectionSelect = useCallback((id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  const projectId = projectData.id;
 
-  const handleRoleChange = useCallback((role: RoleId | undefined) => {
-    setSelectedRole(role);
-  }, []);
+  const handleSectionSelect = useCallback(
+    (id: string) => {
+      track("section_nav_click", { projectId, sectionId: id });
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    },
+    [projectId],
+  );
+
+  const handleRoleChange = useCallback(
+    (role: RoleId | undefined) => {
+      // "All"은 이미 전체일 때도 호출되므로 실제로 바뀔 때만 기록
+      if (role !== selectedRole) {
+        track("detail_role_change", { projectId, role: role ?? "all" });
+      }
+      setSelectedRole(role);
+    },
+    [projectId, selectedRole],
+  );
 
   return (
-    <div>
-      {/* ── Section Navigation (sticky) ───────────────── */}
-      <div className="sticky top-14 z-10 bg-background/80 backdrop-blur-md border-b border-border mb-12 -mx-4 px-4">
-        <SectionNav
-          sections={filteredSections.map((s) => ({
-            id: s.id,
-            heading: s.heading,
-          }))}
-          activeId={activeSection}
-          onSelect={handleSectionSelect}
-          availableRoles={availableRoles}
-          selectedRole={selectedRole}
-          onRoleChange={handleRoleChange}
+    <ProjectIdProvider value={projectId}>
+      <ProjectDetailTracker
+        projectId={projectId}
+        activeSectionId={activeSection}
+        lastSectionId={filteredSections.at(-1)?.id ?? ""}
+      />
+      <div>
+        {/* ── Section Navigation (sticky) ───────────────── */}
+        <div className="sticky top-14 z-10 bg-background/80 backdrop-blur-md border-b border-border mb-12 -mx-4 px-4">
+          <SectionNav
+            sections={filteredSections.map((s) => ({
+              id: s.id,
+              heading: s.heading,
+            }))}
+            activeId={activeSection}
+            onSelect={handleSectionSelect}
+            availableRoles={availableRoles}
+            selectedRole={selectedRole}
+            onRoleChange={handleRoleChange}
+          />
+        </div>
+
+        {/* ── Sections ──────────────────────────────────── */}
+        <article className="space-y-20">
+          {filteredSections.map((section) => (
+            <section
+              key={section.id}
+              id={section.id}
+              ref={(el) => {
+                sectionRefs.current[section.id] = el;
+              }}
+            >
+              <SectionRenderer section={section} />
+            </section>
+          ))}
+        </article>
+
+        {/* ── Related Projects ──────────────────────────── */}
+        <RelatedProjects
+          lang={lang}
+          projects={relatedProjects}
+          currentRole={selectedRole}
         />
       </div>
-
-      {/* ── Sections ──────────────────────────────────── */}
-      <article className="space-y-20">
-        {filteredSections.map((section) => (
-          <section
-            key={section.id}
-            id={section.id}
-            ref={(el) => {
-              sectionRefs.current[section.id] = el;
-            }}
-          >
-            <SectionRenderer section={section} />
-          </section>
-        ))}
-      </article>
-
-      {/* ── Related Projects ──────────────────────────── */}
-      <RelatedProjects
-        lang={lang}
-        projects={relatedProjects}
-        currentRole={selectedRole}
-      />
-    </div>
+    </ProjectIdProvider>
   );
 }

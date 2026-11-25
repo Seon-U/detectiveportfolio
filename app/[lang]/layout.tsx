@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
+import Script from "next/script";
+import ClickTracker from "@/components/analytics/ClickTracker";
+import PageEngagementTracker from "@/components/analytics/PageEngagementTracker";
 import { DictionaryProvider } from "@/components/i18n/DictionaryProvider";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import JsonLd from "@/components/seo/JsonLd";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { NOTRACK_SCRIPT } from "@/lib/analytics/notrack";
 import { hasLocale, locales } from "@/lib/i18n/config";
 import { getSiteConfig } from "@/lib/seo/config";
 import { buildPersonJsonLd } from "@/lib/seo/jsonld";
@@ -51,6 +55,11 @@ export async function generateMetadata({
   };
 }
 
+const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+// 집계 허용 호스트. 로컬 테스트 시에만 .env.local에서 "portfolio.devslab.uk,localhost"로 덮어쓴다.
+const UMAMI_DOMAINS =
+  process.env.NEXT_PUBLIC_UMAMI_DOMAINS ?? "portfolio.devslab.uk";
+
 // ko/en만 정적 생성하고, 그 외 lang 세그먼트는 404 처리
 export const dynamicParams = false;
 
@@ -89,6 +98,25 @@ export default async function RootLayout({
             <Footer className="fixed bottom-0 left-0 right-0 h-16 z-50" />
           </DictionaryProvider>
         </ThemeProvider>
+        {UMAMI_WEBSITE_ID && (
+          <Script id="umami-notrack" strategy="beforeInteractive">
+            {NOTRACK_SCRIPT}
+          </Script>
+        )}
+        {UMAMI_WEBSITE_ID && <ClickTracker />}
+        {UMAMI_WEBSITE_ID && <PageEngagementTracker />}
+        {UMAMI_WEBSITE_ID && (
+          // 쿠키 없는 Umami — next.config rewrites로 /stats/* 를 Umami로 중계
+          // data-host-url: 없으면 스크립트가 gateway.umami.is로 직접 전송하므로 반드시 지정
+          // data-domains: 허용 호스트에서만 집계(기본은 운영 도메인만, localhost·프리뷰 제외)
+          <Script
+            src="/stats/script.js"
+            data-website-id={UMAMI_WEBSITE_ID}
+            data-host-url="/stats"
+            data-domains={UMAMI_DOMAINS}
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );

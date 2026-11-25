@@ -1,5 +1,6 @@
-import type { SVGProps } from "react";
 import { Mail } from "lucide-react";
+import type { SVGProps } from "react";
+import { trackAttrs } from "@/lib/analytics/track";
 
 type IconComponent = React.ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -9,6 +10,8 @@ type SocialItem = {
   Icon: IconComponent;
   /** true면 새 탭에서 열림 (mailto 등은 false) */
   external?: boolean;
+  /** 클릭 시 보낼 분석 이벤트 속성 (lib/analytics) */
+  track: ReturnType<typeof trackAttrs>;
 };
 
 function GithubIcon(props: SVGProps<SVGSVGElement>) {
@@ -38,28 +41,32 @@ const SOCIAL_ITEMS: SocialItem[] = [
     href: "https://github.com/Seon-U",
     Icon: GithubIcon,
     external: true,
+    track: trackAttrs("social_click", { type: "github" }),
   },
   {
     label: "Email",
     href: "mailto:seonu.kim.kr@gmail.com",
     Icon: Mail,
+    track: trackAttrs("email_click", { from: "footer" }),
   },
   {
     label: "Tistory",
     href: "https://brandofme.tistory.com",
     Icon: TistoryIcon,
     external: true,
+    track: trackAttrs("social_click", { type: "tistory" }),
   },
 ];
 
 export default function SocialLinks() {
   return (
     <div className="flex items-center gap-1.5">
-      {SOCIAL_ITEMS.map(({ label, href, Icon, external }) => (
+      {SOCIAL_ITEMS.map(({ label, href, Icon, external, track }) => (
         <a
           key={label}
           href={href}
           aria-label={label}
+          {...track}
           className="inline-flex items-center justify-center rounded-full p-2 transition-all duration-300 hover:scale-110 focus:outline-none bg-theme-toggle-background text-theme-toggle-foreground hover:bg-theme-toggle-hover-background hover:shadow-theme-toggle"
           {...(external && {
             target: "_blank",

@@ -5,13 +5,16 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { track } from "@/lib/analytics/track";
 import type { GalleryBlock as GalleryBlockData } from "@/lib/content/types";
 import { cn } from "@/lib/utils";
+import { useProjectId } from "../ProjectIdContext";
 
 /** 가로 스크롤 이미지 갤러리 — 하단 좌우 핸들 + 이미지별 +/X 디테일 오버레이 */
 export default function GalleryBlock({ images }: GalleryBlockData) {
   const { projectDetail } = useDictionary();
   const { blocks } = projectDetail;
+  const projectId = useProjectId();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(images.length > 1);
@@ -32,9 +35,16 @@ export default function GalleryBlock({ images }: GalleryBlockData) {
     el.scrollBy({ left: dir * (cardWidth + 16), behavior: "smooth" });
   }, []);
 
-  const toggleDetail = useCallback((index: number) => {
-    setExpandedIndex((prev) => (prev === index ? null : index));
-  }, []);
+  const toggleDetail = useCallback(
+    (index: number) => {
+      // 열 때만 기록 (닫기는 제외)
+      if (expandedIndex !== index) {
+        track("gallery_caption_open", { projectId, index: index + 1 });
+      }
+      setExpandedIndex((prev) => (prev === index ? null : index));
+    },
+    [expandedIndex, projectId],
+  );
 
   return (
     <div>

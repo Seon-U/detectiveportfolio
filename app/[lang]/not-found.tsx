@@ -1,14 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { useDictionary, useLocale } from "@/components/i18n/DictionaryProvider";
+import { track } from "@/lib/analytics/track";
 
 export default function NotFound() {
   const { notFound } = useDictionary();
   const lang = useLocale();
 
+  useEffect(() => {
+    track("not_found", { path: location.pathname });
+  }, []);
+
   return (
-    <div className="max-w-2xl mx-auto px-4 py-24 text-center space-y-6">
+    // data-not-found: PageEngagementTracker가 이 화면을 404로 분류하는 표시
+    <div
+      data-not-found
+      className="max-w-2xl mx-auto px-4 py-24 text-center space-y-6"
+    >
       <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
         {notFound.eyebrow}
       </p>

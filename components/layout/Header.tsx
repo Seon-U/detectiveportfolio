@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { track } from "@/lib/analytics/track";
 import type { Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from "./LocaleSwitcher";
@@ -18,6 +19,11 @@ type HeaderProps = {
 export default function Header({ className, lang }: HeaderProps) {
   const { common } = useDictionary();
   const { theme, setTheme } = useTheme();
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    track("theme_toggle", { to: next });
+    setTheme(next);
+  };
 
   const [mounted, setMounted] = useState(false);
 
@@ -75,7 +81,7 @@ export default function Header({ className, lang }: HeaderProps) {
               {mounted && (
                 <button
                   type="button"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  onClick={toggleTheme}
                   className={cn(
                     "rounded-full p-2 transition-all duration-300",
                     "hover:scale-110 focus:outline-none",

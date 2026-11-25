@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useDictionary } from "@/components/i18n/DictionaryProvider";
+import { toOutboundType } from "@/lib/analytics/page";
+import { track, trackAttrs } from "@/lib/analytics/track";
 import { format, type Locale } from "@/lib/i18n/config";
 import type { Contribution, Project } from "@/lib/projects/types";
 import { getRoles } from "@/lib/roles/data";
@@ -72,6 +74,9 @@ export default function ProjectList({ projects, lang }: Props) {
   const activeFilterCount = selectedRoles.size + selectedTags.size;
 
   const toggleRole = (id: RoleId) => {
+    if (!selectedRoles.has(id)) {
+      track("project_filter", { from: "list", type: "role", value: id });
+    }
     setSelectedRoles((prev) => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
@@ -80,6 +85,9 @@ export default function ProjectList({ projects, lang }: Props) {
   };
 
   const toggleTag = (tag: string) => {
+    if (!selectedTags.has(tag)) {
+      track("project_filter", { from: "list", type: "tag", value: tag });
+    }
     setSelectedTags((prev) => {
       const next = new Set(prev);
       next.has(tag) ? next.delete(tag) : next.add(tag);
@@ -227,6 +235,11 @@ export default function ProjectList({ projects, lang }: Props) {
                 {/* Card-level overlay link */}
                 <Link
                   href={buildHref(projectData.id, contributions)}
+                  {...trackAttrs("project_card_click", {
+                    projectId: projectData.id,
+                    position: index + 1,
+                    from: "list",
+                  })}
                   className="absolute inset-0 z-0 rounded-lg focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
                   aria-label={format(projectList.detailAriaLabel, {
                     title: projectData.title,
@@ -274,6 +287,11 @@ export default function ProjectList({ projects, lang }: Props) {
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
+                              {...trackAttrs("outbound_click", {
+                                projectId: projectData.id,
+                                type: toOutboundType(link.url),
+                                from: "list",
+                              })}
                               className="relative z-10 inline-flex items-center gap-0.5 font-medium text-accent hover:underline"
                               onClick={(e) => e.stopPropagation()}
                             >
